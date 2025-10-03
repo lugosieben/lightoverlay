@@ -6,12 +6,11 @@ import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayManager;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 public class KeyBindings {
 
-    private static final KeyBinding.Category CATEGORY = KeyBinding.Category.create(Identifier.of(LightOverlay.MOD_ID));
+    private static final String CATEGORY = "key.categories." + LightOverlay.MOD_ID;
     private static final String BASE_KEY = "key." + LightOverlay.MOD_ID;
 
     public static void registerKeybinds() {
