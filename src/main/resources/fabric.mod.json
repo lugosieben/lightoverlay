@@ -1,0 +1,39 @@
+{
+	"schemaVersion": 1,
+	"id": "light-overlay",
+	"version": "${version}",
+	"name": "Light Overlay",
+	"description": "A Light Overlay Mod that's efficient and simple.",
+	"authors": [
+		"Lugo_Sieben"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/lightoverlay",
+		"issues": "https://github.com/lugosieben/lightoverlay/issues",
+        "sources": "https://github.com/lugosieben/lightoverlay"
+	},
+	"license": "CC BY-NC-SA 4.0",
+	"icon": "assets/light-overlay/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"net.lugo.lightoverlay.LightOverlay"
+		],
+        "modmenu": [
+          "net.lugo.lightoverlay.config.ModMenuIntegration"
+        ]
+	},
+	"mixins": [
+      "light-overlay.mixins.json"
+	],
+	"depends": {
+        "fabricloader": ">=${loader_version}",
+        "minecraft": "${minecraft_version_compatible}",
+        "java": ">=${java_version}",
+        "fabric-api": ">=${fabric_version}",
+        "cloth-config": ">=${cloth_version}"
+	},
+	"suggests": {
+		"modmenu": ">=${modmenu_version}"
+	}
+}

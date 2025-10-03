@@ -1,0 +1,12 @@
+{
+  "text.autoconfig.light-overlay.title": "Light Overlay Config",
+  "key.category.minecraft.light-overlay": "Light Overlay",
+  "key.light-overlay.toggle": "Toggle Light Overlay",
+
+  "text.autoconfig.light-overlay.option.lightLevelThreshold": "Light Level Threshold",
+  "text.autoconfig.light-overlay.option.lightLevelThreshold.@Tooltip": "The light level at which the overlay turns green.",
+  "text.autoconfig.light-overlay.option.scanRadius": "Scan Radius",
+
+  "text.light-overlay.message.toggle.on": "Light Overlay toggled on",
+  "text.light-overlay.message.toggle.off": "Light Overlay toggled off"
+}
