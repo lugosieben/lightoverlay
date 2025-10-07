@@ -14,4 +14,7 @@ public class ModConfig  implements ConfigData {
 
     @ConfigEntry.BoundedDiscrete(min = 5, max = 100)
     public int scanRadius = 20;
+
+    public boolean hideGreenCrosses = false;
+    public boolean hideWaterCrosses = true;
 }

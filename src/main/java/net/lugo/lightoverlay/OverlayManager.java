@@ -36,10 +36,19 @@ public class OverlayManager {
                     Vec3d relativePos = new Vec3d(x,y,z);
                     Vec3d pos = playerPos.add(relativePos);
                     BlockPos blockPos = new BlockPos((int)pos.x, (int)pos.y, (int)pos.z);
-                    if (MC.world.isTopSolid(blockPos, MC.player) && !MC.world.isTopSolid(blockPos.up(), MC.player)) {
+                    if (
+                            MC.world.isTopSolid(blockPos, MC.player) &&
+                                    !(
+                                            MC.world.isTopSolid(blockPos.up(), MC.player) ||
+                                                    (LightOverlay.getConfig().hideWaterCrosses && MC.world.isWater(blockPos.up()))
+                                    )
+                    ) {
                         Color color = Color.RED;
                         int blockLightLevel = MC.world.getLightLevel(LightType.BLOCK, blockPos.up());
-                        if (blockLightLevel >= config.lightLevelThreshold) color = Color.GREEN;
+                        if (blockLightLevel >= config.lightLevelThreshold) {
+                            if (LightOverlay.getConfig().hideGreenCrosses) continue;
+                            color = Color.GREEN;
+                        }
                         OverlayRenderer.addBlock(MC.gameRenderer.getCamera(), Vec3d.of(blockPos), color.getRed(), color.getGreen(), color.getBlue(), 0.01F);
                     }
                 }
