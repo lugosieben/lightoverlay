@@ -7,6 +7,7 @@
   "text.autoconfig.light-overlay.option.lightLevelThreshold.@Tooltip": "The light level at which the overlay turns green.",
   "text.autoconfig.light-overlay.option.scanRadius": "Scan Radius",
   "text.autoconfig.light-overlay.option.hideGreenCrosses": "Hide Green Crosses",
+  "text.autoconfig.light-overlay.option.hideTransparentBlockCrosses": "Hide Overlay on Transparent Blocks",
   "text.autoconfig.light-overlay.option.hideWaterCrosses": "Hide Overlay in Water",
 
   "text.light-overlay.message.toggle.on": "Light Overlay toggled on",

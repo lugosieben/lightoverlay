@@ -16,5 +16,6 @@ public class ModConfig  implements ConfigData {
     public int scanRadius = 20;
 
     public boolean hideGreenCrosses = false;
+    public boolean hideTransparentBlockCrosses = true;
     public boolean hideWaterCrosses = true;
 }
