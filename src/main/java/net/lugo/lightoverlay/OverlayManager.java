@@ -38,10 +38,10 @@ public class OverlayManager {
                     BlockPos blockPos = new BlockPos((int)pos.x, (int)pos.y, (int)pos.z);
                     if (
                             MC.world.isTopSolid(blockPos, MC.player) &&
-                            (LightOverlay.getConfig().hideTransparentBlockCrosses && MC.world.getBlockState(blockPos).isOpaque()) &&
                             !(
                                     MC.world.isTopSolid(blockPos.up(), MC.player) ||
-                                    (LightOverlay.getConfig().hideWaterCrosses && MC.world.isWater(blockPos.up()))
+                                    (LightOverlay.getConfig().hideWaterCrosses && MC.world.isWater(blockPos.up())) ||
+                                    (LightOverlay.getConfig().hideTransparentBlockCrosses && !MC.world.getBlockState(blockPos).isOpaque())
                             )
                     ) {
                         Color color = Color.RED;
