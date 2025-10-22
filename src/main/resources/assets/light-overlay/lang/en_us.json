@@ -1,18 +1,30 @@
 {
-  "text.autoconfig.light-overlay.title": "Light Overlay Config",
+  "text.light-overlay.config.title": "Light Overlay Config",
+
   "key.category.minecraft.light-overlay": "Light Overlay",
   "key.light-overlay.toggle": "Toggle Light Overlay",
 
-  "text.autoconfig.light-overlay.option.lightLevelThreshold": "Light Level Threshold",
-  "text.autoconfig.light-overlay.option.lightLevelThreshold.@Tooltip": "The light level at which the overlay turns green.",
-  "text.autoconfig.light-overlay.option.scanRadius": "Scan Radius",
-  "text.autoconfig.light-overlay.option.carpetMode":  "Render with Carpet Overlay Mode",
-  "text.autoconfig.light-overlay.option.hideGreenCrosses": "Hide Green Crosses",
-  "text.autoconfig.light-overlay.option.hideTransparentBlockCrosses": "Hide Overlay on Transparent Blocks",
-  "text.autoconfig.light-overlay.option.hideWaterCrosses": "Hide Overlay in Water",
-  "text.autoconfig.light-overlay.option.showSpecialSpawningConditionBlocks": "Show Overlay on Special Spawning Condition Blocks",
-  "text.autoconfig.light-overlay.option.showSpecialSpawningConditionBlocks.@Tooltip": "Blocks which only allow for certain mobs to spawn (e.g. wither roses for wither skeletons)",
-
   "text.light-overlay.message.toggle.on": "Light Overlay toggled on",
-  "text.light-overlay.message.toggle.off": "Light Overlay toggled off"
+  "text.light-overlay.message.toggle.off": "Light Overlay toggled off",
+
+  "text.light-overlay.config.category.main": "Light Overlay Config",
+  "text.light-overlay.config.group.general": "General",
+  "text.light-overlay.config.option.light_level_threshold.name": "Light Level Threshold",
+  "text.light-overlay.config.option.light_level_threshold.description": "At what block light should the overlay turn green? Default is 1 for spawn-proofing against most mobs in the overworld and end.",
+  "text.light-overlay.config.option.scan_radius.name": "Scan Radius",
+  "text.light-overlay.config.option.scan_radius.description": "The size of the square around you to display the Light Overlay. A value of 20 means rendering the light level 20 blocks in each direction, except upwards.",
+  "text.light-overlay.config.option.carpet_mode.name": "Carpet Rendering Mode",
+  "text.light-overlay.config.option.carpet_mode.description": "Instead of crosses, render transparent carpets",
+  "text.light-overlay.config.group.overlay_hiding": "Show & Hide Overlay",
+  "text.light-overlay.config.option.hide_green.name": "Hide Valid/Green Spots",
+  "text.light-overlay.config.option.hide_green.description": "Disables rendering for spots that would normally render green",
+  "text.light-overlay.config.option.hide_transparent.name": "Hide Overlay on Transparent Blocks",
+  "text.light-overlay.config.option.hide_transparent.description": "Disables rendering on transparent blocks. This only includes transparent blocks on which mobs cannot spawn.",
+  "text.light-overlay.config.option.hide_water.name": "Hide Overlay in Water",
+  "text.light-overlay.config.option.hide_water.description": "Hide the Overlay inside Water",
+  "text.light-overlay.config.option.show_special_spawning_condition_blocks.name": "Show Overlay on Blocks with Special Spawning Conditions",
+  "text.light-overlay.config.option.show_special_spawning_condition_blocks.description": "Enables rendering on blocks with special spawning conditions (e.g. Wither Roses which only allow Wither Skeletons to spawn, nothing else)",
+  "text.light-overlay.config.category.report": "Report Issues",
+  "text.light-overlay.config.button.report": "Click Here to Report",
+  "text.light-overlay.config.button.report.description": "Opens the GitHub Issues page of this mod"
 }

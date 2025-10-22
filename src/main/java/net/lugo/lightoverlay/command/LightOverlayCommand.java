@@ -1,7 +1,6 @@
 package net.lugo.lightoverlay.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.lugo.lightoverlay.OverlayManager;
@@ -16,7 +15,7 @@ public class LightOverlayCommand {
         dispatcher.register(ClientCommandManager.literal("lightoverlay")
                 .then(ClientCommandManager.literal("config")
                         .executes(context -> {
-                            MC.send(() -> MC.setScreen(AutoConfig.getConfigScreen(ModConfig.class, MC.currentScreen).get()));
+                            MC.send(() -> MC.setScreen(ModConfig.makeScreen(MC.currentScreen)));
                             return 1;
                         })
                 )
