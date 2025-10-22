@@ -10,6 +10,8 @@
   "text.autoconfig.light-overlay.option.hideGreenCrosses": "Hide Green Crosses",
   "text.autoconfig.light-overlay.option.hideTransparentBlockCrosses": "Hide Overlay on Transparent Blocks",
   "text.autoconfig.light-overlay.option.hideWaterCrosses": "Hide Overlay in Water",
+  "text.autoconfig.light-overlay.option.showSpecialSpawningConditionBlocks": "Show Overlay on Special Spawning Condition Blocks",
+  "text.autoconfig.light-overlay.option.showSpecialSpawningConditionBlocks.@Tooltip": "Blocks which only allow for certain mobs to spawn (e.g. wither roses for wither skeletons)",
 
   "text.light-overlay.message.toggle.on": "Light Overlay toggled on",
   "text.light-overlay.message.toggle.off": "Light Overlay toggled off"

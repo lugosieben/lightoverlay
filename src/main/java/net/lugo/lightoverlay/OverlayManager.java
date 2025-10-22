@@ -2,6 +2,7 @@ package net.lugo.lightoverlay;
 
 import net.lugo.lightoverlay.config.ModConfig;
 import net.lugo.lightoverlay.util.HudMessage;
+import net.lugo.lightoverlay.util.OverlayChecker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -37,14 +38,7 @@ public class OverlayManager {
                     Vec3d relativePos = new Vec3d(x,y,z);
                     Vec3d pos = playerPos.add(relativePos);
                     BlockPos blockPos = BlockPos.ofFloored(pos.x, pos.y, pos.z);
-                    if (
-                            MC.world.isTopSolid(blockPos, MC.player) &&
-                            !(
-                                    MC.world.isTopSolid(blockPos.up(), MC.player) ||
-                                    (LightOverlay.getConfig().hideWaterCrosses && MC.world.isWater(blockPos.up())) ||
-                                    (LightOverlay.getConfig().hideTransparentBlockCrosses && !MC.world.getBlockState(blockPos).isOpaque())
-                            )
-                    ) {
+                    if (OverlayChecker.shouldRenderOverlay(blockPos)) {
                         Color color = Color.RED;
                         int blockLightLevel = MC.world.getLightLevel(LightType.BLOCK, blockPos.up());
                         if (blockLightLevel >= config.lightLevelThreshold) {
