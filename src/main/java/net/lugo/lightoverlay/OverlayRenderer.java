@@ -1,84 +1,87 @@
 package net.lugo.lightoverlay;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.Camera;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.RotationAxis;
 import org.joml.Matrix4f;
 
-public class OverlayRenderer {
-    private static final RenderPipeline LIGHT_OVERLAY_PIPELINE = RenderPipelines.register(
-        RenderPipeline.builder(RenderPipelines.POSITION_TEX_COLOR_SNIPPET)
-            .withLocation(Identifier.of(LightOverlay.MOD_ID, "pipeline/light_overlay"))
-            .withCull(true)
-            .withDepthTestFunction(DepthTestFunction.LEQUAL_DEPTH_TEST)
-            .withDepthWrite(true)
-            .build()
-    );
+public abstract class OverlayRenderer {
+    private final RenderLayer renderLayer;
+    private final Identifier textureId;
 
-    private static final RenderLayer LIGHT_OVERLAY_RENDERLAYER = RenderLayer.of(
-        LightOverlay.MOD_ID + "/light_overlay",
-        1024,
-        false,
-        true,
-        LIGHT_OVERLAY_PIPELINE,
-        RenderLayer.MultiPhaseParameters.builder()
-            .build(false)
-    );
+    private final VertexConsumerProvider.Immediate vcp = VertexConsumerProvider.immediate(new BufferAllocator(8192));
+    private final MatrixStack matrixStack = new MatrixStack();
 
-    private static final GpuTextureView shaderTexture = MinecraftClient.getInstance().getTextureManager().getTexture(Identifier.of(LightOverlay.MOD_ID, "textures/cross.png")).getGlTextureView();
-    private static final VertexConsumerProvider.Immediate vcp = VertexConsumerProvider.immediate(new BufferAllocator(8192));
-    private static final MatrixStack matrixStack = new MatrixStack();
-    private static VertexConsumer vertexConsumer;
-    private static boolean batchStarted = false;
+    protected VertexConsumer vertexConsumer;
+    private boolean batchStarted = false;
 
-    public static void startBatch() {
-        if (batchStarted) return;
-
-        vertexConsumer = vcp.getBuffer(LIGHT_OVERLAY_RENDERLAYER);
-        RenderSystem.setShaderTexture(0, shaderTexture);
-        batchStarted = true;
+    protected OverlayRenderer(RenderLayer renderLayer, Identifier textureId) {
+        this.renderLayer = renderLayer;
+        this.textureId = textureId;
     }
 
-    public static void addBlock(Camera camera, Vec3d pos, int r, int g, int b, float offsetY) {
+    public final void startBatch() {
+        if (batchStarted) return;
+
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if (mc == null || mc.getTextureManager() == null) {
+            return;
+        }
+        GpuTextureView shaderTexture = mc.getTextureManager().getTexture(textureId).getGlTextureView();
+
+        vertexConsumer = vcp.getBuffer(renderLayer);
+        if (shaderTexture != null) {
+            RenderSystem.setShaderTexture(0, shaderTexture);
+        }
+
+        batchStarted = true;
+        onStartBatch();
+    }
+
+    public final void addBlock(Camera camera, BlockPos pos, int r, int g, int b) {
         if (!batchStarted) return;
 
-        Vec3d transformedPos = pos.subtract(camera.getPos());
+        getMatrixStack().push();
+        getMatrixStack().multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
+        getMatrixStack().multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180F));
+        Vec3d transformedPos = Vec3d.of(pos).subtract(camera.getPos());
+        getMatrixStack().translate(transformedPos.x, transformedPos.y, transformedPos.z);
 
-        matrixStack.push();
-        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180F));
-        matrixStack.translate(transformedPos.x, transformedPos.y + offsetY, transformedPos.z);
-
-        Matrix4f positionMatrix = matrixStack.peek().getPositionMatrix();
+        Matrix4f positionMatrix = getMatrixStack().peek().getPositionMatrix();
 
         float rf = r / 255f;
         float gf = g / 255f;
         float bf = b / 255f;
 
-        vertexConsumer.vertex(positionMatrix, 0, 1, 0).color(rf, gf, bf, 1f).texture(0f, 0f).light(0, 0);
-        vertexConsumer.vertex(positionMatrix, 0, 1, 1).color(rf, gf, bf, 1f).texture(0f, 1f).light(0, 0);
-        vertexConsumer.vertex(positionMatrix, 1, 1, 1).color(rf, gf, bf, 1f).texture(1f, 1f).light(0, 0);
-        vertexConsumer.vertex(positionMatrix, 1, 1, 0).color(rf, gf, bf, 1f).texture(1f, 0f).light(0, 0);
+        onAddBlock(positionMatrix, rf, gf, bf, pos);
 
-        matrixStack.pop();
+        getMatrixStack().pop();
     }
 
-    public static void endBatch() {
+    public final void endBatch() {
         if (!batchStarted) return;
-
+        onEndBatch();
         vcp.draw();
         batchStarted = false;
+    }
+
+    protected void onStartBatch() {}
+
+    protected abstract void onAddBlock(Matrix4f positionMatrix, float r, float g, float b, BlockPos pos);
+
+    protected void onEndBatch() {}
+
+    protected MatrixStack getMatrixStack() {
+        return matrixStack;
     }
 }
