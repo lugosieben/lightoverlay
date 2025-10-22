@@ -38,6 +38,7 @@ public class OverlayChecker {
         if (isTopSolidException) isTopSolid = true;
         BlockPos above = pos.up();
         boolean aboveTopSolid = MC.world.isTopSolid(above, MC.player);
+        if (Arrays.asList(topSolidExceptions).contains(MC.world.getBlockState(pos.up()).getBlock())) aboveTopSolid = true;
         if (!isTopSolid || aboveTopSolid) return false;
 
         boolean isForbiddenBlock = Arrays.asList(forbiddenBlocks).contains(MC.world.getBlockState(pos).getBlock());
