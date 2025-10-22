@@ -18,4 +18,6 @@ public class ModConfig  implements ConfigData {
     public boolean hideGreenCrosses = false;
     public boolean hideTransparentBlockCrosses = true;
     public boolean hideWaterCrosses = true;
+    @ConfigEntry.Gui.Tooltip
+    public boolean showSpecialSpawningConditionBlocks = false;
 }
