@@ -1,10 +1,12 @@
 package net.lugo.lightoverlay.config;
 
 import dev.isxander.yacl3.api.*;
+import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lugo.lightoverlay.LightOverlay;
+import net.lugo.lightoverlay.OverlayManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
@@ -15,7 +17,7 @@ public class ModConfig {
 
     public static int scanRadius = 20;
 
-    public static boolean carpetMode = false;
+    public static OverlayManager.OverlayRendererType rendererType = OverlayManager.OverlayRendererType.CROSS;
 
     public static boolean hideGreen = false;
     public static boolean hideTransparent = true;
@@ -51,14 +53,14 @@ public class ModConfig {
                                                 .range(1, 50)
                                                 .step(1))
                                         .build())
-                                .option(Option.<Boolean>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.carpet_mode.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.carpet_mode.description")))
+                                .option(Option.<OverlayManager.OverlayRendererType>createBuilder()
+                                        .name(Text.translatable("text.light-overlay.config.option.overlay_mode.name"))
+                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.overlay_mode.description")))
                                         .binding(
-                                                false,
-                                                () -> carpetMode,
-                                                newVal -> carpetMode = newVal)
-                                        .controller(TickBoxControllerBuilder::create)
+                                                OverlayManager.OverlayRendererType.CROSS,
+                                                () -> rendererType,
+                                                newVal -> rendererType = newVal)
+                                        .controller(opt -> EnumControllerBuilder.create(opt).enumClass(OverlayManager.OverlayRendererType.class))
                                         .build())
                                 .build())
                         .group(OptionGroup.createBuilder()

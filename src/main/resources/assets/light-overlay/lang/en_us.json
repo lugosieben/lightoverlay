@@ -26,5 +26,7 @@
   "text.light-overlay.config.option.show_special_spawning_condition_blocks.description": "Enables rendering on blocks with special spawning conditions (e.g. Wither Roses which only allow Wither Skeletons to spawn, nothing else)",
   "text.light-overlay.config.category.report": "Report Issues",
   "text.light-overlay.config.button.report": "Click Here to Report",
-  "text.light-overlay.config.button.report.description": "Opens the GitHub Issues page of this mod"
+  "text.light-overlay.config.button.report.description": "Opens the GitHub Issues page of this mod",
+  "text.light-overlay.config.option.overlay_mode.name": "Overlay Mode",
+  "text.light-overlay.config.option.overlay_mode.description": "Changes the way in which the Light Overlay gets presented"
 }

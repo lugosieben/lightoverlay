@@ -1,6 +1,8 @@
 package net.lugo.lightoverlay;
 
 import net.lugo.lightoverlay.config.ModConfig;
+import net.lugo.lightoverlay.renderers.CarpetOverlayRenderer;
+import net.lugo.lightoverlay.renderers.CrossOverlayRenderer;
 import net.lugo.lightoverlay.util.HudMessage;
 import net.lugo.lightoverlay.util.OverlayChecker;
 import net.minecraft.client.MinecraftClient;
@@ -17,6 +19,21 @@ public class OverlayManager {
     private static boolean activated = false;
     private static final MinecraftClient MC = MinecraftClient.getInstance();
 
+    public enum OverlayRendererType {
+        CARPET(new CarpetOverlayRenderer()),
+        CROSS(new CrossOverlayRenderer());
+
+        private final OverlayRenderer renderer;
+
+        OverlayRendererType(OverlayRenderer renderer) {
+            this.renderer = renderer;
+        }
+
+        public OverlayRenderer getRenderer() {
+            return renderer;
+        }
+    }
+
     public static void toggle() {
         activated = !activated;
         MutableText message = Text.translatable("text.light-overlay.message.toggle.on");
@@ -26,9 +43,8 @@ public class OverlayManager {
 
     public static void renderEnd() {
         if (MC.player == null || MC.world == null || MC.isPaused() || !activated) return;
-        OverlayRenderer activeRenderer = LightOverlay.getCurrentRenderer();
         Vec3d playerPos = new Vec3d(MC.player.getX(), MC.player.getY(), MC.player.getZ());
-
+        OverlayRenderer activeRenderer = ModConfig.rendererType.getRenderer();
         activeRenderer.startBatch();
 
         for (int x = -ModConfig.scanRadius; x <= ModConfig.scanRadius; x++) {

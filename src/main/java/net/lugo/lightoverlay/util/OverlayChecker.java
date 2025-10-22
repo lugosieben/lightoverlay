@@ -47,7 +47,6 @@ public class OverlayChecker {
         if (isTopSolidException) hideBecauseTransparent = false;
         boolean hideBecauseSpecialSpawnCondition = !ModConfig.showSpecialSpawningConditionBlocks &&
                 Arrays.asList(specialSpawnConditionBlocks).contains(MC.world.getBlockState(above).getBlock());
-
         return !(isForbiddenBlock || hideBecauseWater || hideBecauseTransparent || hideBecauseSpecialSpawnCondition);
     }
 }
