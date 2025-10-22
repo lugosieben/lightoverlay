@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 import java.util.Arrays;
 
@@ -37,8 +38,7 @@ public class OverlayChecker {
         boolean isTopSolidException = Arrays.asList(topSolidExceptions).contains(MC.world.getBlockState(pos).getBlock());
         if (isTopSolidException) isTopSolid = true;
         BlockPos above = pos.up();
-        boolean aboveTopSolid = MC.world.isTopSolid(above, MC.player);
-        if (Arrays.asList(topSolidExceptions).contains(MC.world.getBlockState(pos.up()).getBlock())) aboveTopSolid = true;
+        boolean aboveTopSolid = MC.world.isDirectionSolid(above, MC.player, Direction.DOWN);
         if (!isTopSolid || aboveTopSolid) return false;
 
         boolean isForbiddenBlock = Arrays.asList(forbiddenBlocks).contains(MC.world.getBlockState(pos).getBlock());
