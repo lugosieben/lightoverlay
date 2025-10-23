@@ -39,6 +39,8 @@ public class ModConfig {
     public static boolean hideWater = true;
     @SerialEntry
     public static boolean showSpecialSpawningConditionBlocks = false;
+    @SerialEntry
+    public static boolean showWhenPaused = true;
 
     @SerialEntry
     public static Color validColor = new Color(0, 255, 0, 255);
@@ -158,6 +160,18 @@ public class ModConfig {
                                         .controller(opt -> ColorControllerBuilder.create(opt)
                                                 .allowAlpha(true))
                                         .build())
+                                .build())
+                        .build())
+                .category(ConfigCategory.createBuilder()
+                        .name(Text.translatable("text.light-overlay.config.category.misc"))
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Text.translatable("text.light-overlay.config.option.show_when_paused.name"))
+                                .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.show_when_paused.description")))
+                                .binding(
+                                        true,
+                                        () -> showWhenPaused,
+                                        newVal -> showWhenPaused = newVal)
+                                .controller(TickBoxControllerBuilder::create)
                                 .build())
                         .build())
                 .category(ConfigCategory.createBuilder()

@@ -35,5 +35,8 @@
   "text.light-overlay.config.option.invalid_color.name": "Invalid Color",
   "text.light-overlay.config.option.invalid_color.description": "The Overlay Color when the Light Level is less than the Threshold. Defaults to red",
   "text.light-overlay.config.option.scan_radius_y.name": "Scan Height",
-  "text.light-overlay.config.option.scan_radius_y.description": "The size of the Light Overlay above and below you to display the Light Overlay."
+  "text.light-overlay.config.option.scan_radius_y.description": "The size of the Light Overlay above and below you to display the Light Overlay.",
+  "text.light-overlay.config.category.misc": "Miscellaneous",
+  "text.light-overlay.config.option.show_when_paused.name": "Show When Paused",
+  "text.light-overlay.config.option.show_when_paused.description": "Whether to show the overlay when the game is paused."
 }

@@ -42,7 +42,7 @@ public class OverlayManager {
     }
 
     public static void renderEnd() {
-        if (MC.player == null || MC.world == null || MC.isPaused() || !activated) return;
+        if (MC.player == null || MC.world == null || (!ModConfig.showWhenPaused && MC.isPaused()) || !activated) return;
         Vec3d playerPos = new Vec3d(MC.player.getX(), MC.player.getY(), MC.player.getZ());
         OverlayRenderer activeRenderer = ModConfig.rendererType.getRenderer();
         activeRenderer.startBatch();
