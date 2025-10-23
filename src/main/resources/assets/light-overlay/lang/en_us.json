@@ -12,7 +12,7 @@
   "text.light-overlay.config.option.light_level_threshold.name": "Light Level Threshold",
   "text.light-overlay.config.option.light_level_threshold.description": "At what block light should the overlay turn green? Default is 1 for spawn-proofing against most mobs in the overworld and end.",
   "text.light-overlay.config.option.scan_radius.name": "Scan Radius",
-  "text.light-overlay.config.option.scan_radius.description": "The size of the square around you to display the Light Overlay. A value of 20 means rendering the light level 20 blocks in each direction, except upwards.",
+  "text.light-overlay.config.option.scan_radius.description": "The size of the square around you to display the Light Overlay. A value of 20 means rendering the light level 20 blocks in each direction horizontally.",
   "text.light-overlay.config.group.overlay_hiding": "Show & Hide Overlay",
   "text.light-overlay.config.option.hide_green.name": "Hide Valid/Green Spots",
   "text.light-overlay.config.option.hide_green.description": "Disables rendering for spots that would normally render green",
@@ -28,5 +28,12 @@
   "text.light-overlay.config.option.overlay_mode.name": "Overlay Mode",
   "text.light-overlay.config.option.overlay_mode.description": "Changes the way in which the Light Overlay gets presented",
   "text.light-overlay.config.option.overlay_mode.cross": "Cross Mode",
-  "text.light-overlay.config.option.overlay_mode.carpet": "Carpet Mode"
+  "text.light-overlay.config.option.overlay_mode.carpet": "Carpet Mode",
+  "text.light-overlay.config.group.customize": "Customize",
+  "text.light-overlay.config.option.valid_color.name": "Valid Color",
+  "text.light-overlay.config.option.valid_color.description": "The Overlay Color when the Light Level is equal or higher than the Threshold. Defaults to green",
+  "text.light-overlay.config.option.invalid_color.name": "Invalid Color",
+  "text.light-overlay.config.option.invalid_color.description": "The Overlay Color when the Light Level is less than the Threshold. Defaults to red",
+  "text.light-overlay.config.option.scan_radius_y.name": "Scan Height",
+  "text.light-overlay.config.option.scan_radius_y.description": "The size of the Light Overlay above and below you to display the Light Overlay."
 }

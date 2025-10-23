@@ -48,17 +48,17 @@ public class OverlayManager {
         activeRenderer.startBatch();
 
         for (int x = -ModConfig.scanRadius; x <= ModConfig.scanRadius; x++) {
-            for (int y = -ModConfig.scanRadius; y <= 5; y++) {
+            for (int y = -ModConfig.scanRadiusY; y <= ModConfig.scanRadiusY; y++) {
                 for (int z = -ModConfig.scanRadius; z <= ModConfig.scanRadius; z++) {
                     Vec3d relativePos = new Vec3d(x,y,z);
                     Vec3d pos = playerPos.add(relativePos);
                     BlockPos blockPos = BlockPos.ofFloored(pos.x, pos.y, pos.z);
                     if (OverlayChecker.shouldRenderOverlay(blockPos)) {
-                        Color color = Color.RED;
+                        Color color = ModConfig.invalidColor;
                         int blockLightLevel = MC.world.getLightLevel(LightType.BLOCK, blockPos.up());
                         if (blockLightLevel >= ModConfig.lightLevelThreshold) {
                             if (ModConfig.hideGreen) continue;
-                            color = Color.GREEN;
+                            color = ModConfig.validColor;
                         }
                         activeRenderer.addBlock(MC.gameRenderer.getCamera(), blockPos, color.getRed(), color.getGreen(), color.getBlue());
                     }
