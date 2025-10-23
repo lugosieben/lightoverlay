@@ -144,7 +144,7 @@ public class ModConfig {
                                         .name(Text.translatable("text.light-overlay.config.option.valid_color.name"))
                                         .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.valid_color.description")))
                                         .binding(
-                                                new Color(0, 255, 0),
+                                                new Color(0, 255, 0, 255),
                                                 () -> validColor,
                                                 newVal -> validColor = newVal)
                                         .controller(opt -> ColorControllerBuilder.create(opt)
