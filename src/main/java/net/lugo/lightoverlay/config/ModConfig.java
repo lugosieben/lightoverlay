@@ -60,7 +60,9 @@ public class ModConfig {
                                                 OverlayManager.OverlayRendererType.CROSS,
                                                 () -> rendererType,
                                                 newVal -> rendererType = newVal)
-                                        .controller(opt -> EnumControllerBuilder.create(opt).enumClass(OverlayManager.OverlayRendererType.class))
+                                        .controller(opt -> EnumControllerBuilder.create(opt)
+                                                .enumClass(OverlayManager.OverlayRendererType.class)
+                                                .formatValue(v -> Text.translatable("text.light-overlay.config.option.overlay_mode." + v.name().toLowerCase())))
                                         .build())
                                 .build())
                         .group(OptionGroup.createBuilder()
