@@ -1,6 +1,6 @@
 package net.lugo.lightoverlay.util;
 
-import net.lugo.lightoverlay.LightOverlay;
+import net.lugo.lightoverlay.config.ModConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -42,12 +42,11 @@ public class OverlayChecker {
         if (!isTopSolid || aboveTopSolid) return false;
 
         boolean isForbiddenBlock = Arrays.asList(forbiddenBlocks).contains(MC.world.getBlockState(pos).getBlock());
-        boolean hideBecauseWater = LightOverlay.getConfig().hideWaterCrosses && MC.world.isWater(above);
-        boolean hideBecauseTransparent = LightOverlay.getConfig().hideTransparentBlockCrosses && !MC.world.getBlockState(pos).isOpaque();
+        boolean hideBecauseWater = ModConfig.hideWater && MC.world.isWater(above);
+        boolean hideBecauseTransparent = ModConfig.hideTransparent && !MC.world.getBlockState(pos).isOpaque();
         if (isTopSolidException) hideBecauseTransparent = false;
-        boolean hideBecauseSpecialSpawnCondition = !LightOverlay.getConfig().showSpecialSpawningConditionBlocks &&
+        boolean hideBecauseSpecialSpawnCondition = !ModConfig.showSpecialSpawningConditionBlocks &&
                 Arrays.asList(specialSpawnConditionBlocks).contains(MC.world.getBlockState(above).getBlock());
-
         return !(isForbiddenBlock || hideBecauseWater || hideBecauseTransparent || hideBecauseSpecialSpawnCondition);
     }
 }

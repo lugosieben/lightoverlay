@@ -9,7 +9,7 @@
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/lightoverlay",
-		"issues": "https://github.com/lugosieben/lightoverlay/issues",
+		"issues": "https://github.com/lugosieben/lightoverlay/issues/new",
         "sources": "https://github.com/lugosieben/lightoverlay"
 	},
 	"license": "CC BY-NC-SA 4.0",
@@ -31,7 +31,7 @@
         "minecraft": "${minecraft_version_compatible}",
         "java": ">=${java_version}",
         "fabric-api": ">=${fabric_version}",
-        "cloth-config": ">=${cloth_version}"
+        "yet_another_config_lib_v3": ">=${yacl_version}"
 	},
 	"suggests": {
 		"modmenu": ">=${modmenu_version}"
