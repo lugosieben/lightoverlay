@@ -38,5 +38,7 @@
   "text.light-overlay.config.option.scan_radius_y.description": "The size of the Light Overlay above and below you to display the Light Overlay.",
   "text.light-overlay.config.category.misc": "Miscellaneous",
   "text.light-overlay.config.option.show_when_paused.name": "Show When Paused",
-  "text.light-overlay.config.option.show_when_paused.description": "Whether to show the overlay when the game is paused."
+  "text.light-overlay.config.option.show_when_paused.description": "Whether to show the overlay when the game is paused.",
+  "text.light-overlay.config.option.cylinder_mode.name": "Cylinder Mode",
+  "text.light-overlay.config.option.cylinder_mode.description": "Render the Overlay in a Cylinder shape instead of a cube (Depending on use case, this could improve performance)"
 }

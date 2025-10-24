@@ -41,6 +41,8 @@ public class ModConfig {
     public static boolean showSpecialSpawningConditionBlocks = false;
     @SerialEntry
     public static boolean showWhenPaused = true;
+    @SerialEntry
+    public static boolean cylinderMode = false;
 
     @SerialEntry
     public static Color validColor = new Color(0, 255, 0, 255);
@@ -171,6 +173,15 @@ public class ModConfig {
                                         true,
                                         () -> showWhenPaused,
                                         newVal -> showWhenPaused = newVal)
+                                .controller(TickBoxControllerBuilder::create)
+                                .build())
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Text.translatable("text.light-overlay.config.option.cylinder_mode.name"))
+                                .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.cylinder_mode.description")))
+                                .binding(
+                                        false,
+                                        () -> cylinderMode,
+                                        newVal -> cylinderMode = newVal)
                                 .controller(TickBoxControllerBuilder::create)
                                 .build())
                         .build())

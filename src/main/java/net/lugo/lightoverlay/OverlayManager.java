@@ -48,8 +48,9 @@ public class OverlayManager {
         activeRenderer.startBatch();
 
         for (int x = -ModConfig.scanRadius; x <= ModConfig.scanRadius; x++) {
-            for (int y = -ModConfig.scanRadiusY; y <= ModConfig.scanRadiusY; y++) {
-                for (int z = -ModConfig.scanRadius; z <= ModConfig.scanRadius; z++) {
+            for (int z = -ModConfig.scanRadius; z <= ModConfig.scanRadius; z++) {
+                if (ModConfig.cylinderMode && x * x + z * z > ModConfig.scanRadius * ModConfig.scanRadius) continue;
+                for (int y = -ModConfig.scanRadiusY; y <= ModConfig.scanRadiusY; y++) {
                     Vec3d relativePos = new Vec3d(x,y,z);
                     Vec3d pos = playerPos.add(relativePos);
                     BlockPos blockPos = BlockPos.ofFloored(pos.x, pos.y, pos.z);
