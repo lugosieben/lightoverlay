@@ -3,6 +3,7 @@ package net.lugo.lightoverlay;
 import net.lugo.lightoverlay.config.ModConfig;
 import net.lugo.lightoverlay.renderers.CarpetOverlayRenderer;
 import net.lugo.lightoverlay.renderers.CrossOverlayRenderer;
+import net.lugo.lightoverlay.renderers.MarkerOverlayRenderer;
 import net.lugo.lightoverlay.util.HudMessage;
 import net.lugo.lightoverlay.util.OverlayChecker;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +22,8 @@ public class OverlayManager {
 
     public enum OverlayRendererType {
         CARPET(new CarpetOverlayRenderer()),
-        CROSS(new CrossOverlayRenderer());
+        CROSS(new CrossOverlayRenderer()),
+        MARKER(new MarkerOverlayRenderer());
 
         private final OverlayRenderer renderer;
 

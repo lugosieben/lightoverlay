@@ -13,13 +13,13 @@ import net.minecraft.util.math.Direction;
 import org.joml.Matrix4f;
 
 public class CarpetOverlayRenderer extends OverlayRenderer {
-    private static final Identifier CROSS_TEXTURE = Identifier.of(LightOverlay.MOD_ID, "textures/wool.png");
+    private static final Identifier CARPET_TEXTURE = Identifier.of(LightOverlay.MOD_ID, "textures/wool.png");
     private static final float CARPET_HEIGHT_BASE = 1f / 16f;
     private static final float CARPET_HEIGHT = CARPET_HEIGHT_BASE + 1E-3f;
     private static final MinecraftClient MC = MinecraftClient.getInstance();
 
     public CarpetOverlayRenderer() {
-        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER, CROSS_TEXTURE);
+        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER, CARPET_TEXTURE);
     }
 
     @Override
