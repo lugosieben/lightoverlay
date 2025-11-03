@@ -16,7 +16,7 @@ public class CrossOverlayRenderer extends OverlayRenderer {
     }
 
     @Override
-    protected void onAddBlock(Matrix4f positionMatrix, float rf, float gf, float bf, BlockPos pos) {
+    protected void onAddBlock(Matrix4f positionMatrix, float rf, float gf, float bf, int lightLevel, BlockPos pos) {
         getMatrixStack().translate(0, 1E-3, 0);
 
         VertexConsumer vc = this.vertexConsumer;

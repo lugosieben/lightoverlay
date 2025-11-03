@@ -23,7 +23,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
     }
 
     @Override
-    protected void onAddBlock(Matrix4f positionMatrix, float rf, float gf, float bf, BlockPos pos) {
+    protected void onAddBlock(Matrix4f positionMatrix, float rf, float gf, float bf, int lightLevel, BlockPos pos) {
         if (MC.world == null) return;
 
         VertexConsumer vc = this.vertexConsumer;

@@ -2,6 +2,7 @@ package net.lugo.lightoverlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.GpuTextureView;
+import net.lugo.lightoverlay.util.ColorHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -13,9 +14,13 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.RotationAxis;
+import net.lugo.lightoverlay.config.ModConfig;
+import net.minecraft.world.LightType;
 import org.joml.Matrix4f;
 
 public abstract class OverlayRenderer {
+    private static final MinecraftClient MC = MinecraftClient.getInstance();
+
     private final RenderLayer renderLayer;
     private final Identifier textureId;
 
@@ -48,8 +53,12 @@ public abstract class OverlayRenderer {
         onStartBatch();
     }
 
-    public final void addBlock(Camera camera, BlockPos pos, int r, int g, int b) {
+    @SuppressWarnings("DataFlowIssue")
+    public final void addBlock(Camera camera, BlockPos pos) {
         if (!batchStarted) return;
+
+        int lightLevel = MC.world.getLightLevel(LightType.BLOCK, pos.up());
+        if (ModConfig.hideGreen && lightLevel >= ModConfig.lightLevelThreshold) return;
 
         getMatrixStack().push();
         getMatrixStack().multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
@@ -59,11 +68,12 @@ public abstract class OverlayRenderer {
 
         Matrix4f positionMatrix = getMatrixStack().peek().getPositionMatrix();
 
-        float rf = r / 255f;
-        float gf = g / 255f;
-        float bf = b / 255f;
+        float[] colorFloats = ColorHelper.getOverlayColorFloats(lightLevel);
+        float rf = colorFloats[0];
+        float gf = colorFloats[1];
+        float bf = colorFloats[2];
 
-        onAddBlock(positionMatrix, rf, gf, bf, pos);
+        onAddBlock(positionMatrix, rf, gf, bf, lightLevel, pos);
 
         getMatrixStack().pop();
     }
@@ -77,7 +87,7 @@ public abstract class OverlayRenderer {
 
     protected void onStartBatch() {}
 
-    protected abstract void onAddBlock(Matrix4f positionMatrix, float r, float g, float b, BlockPos pos);
+    protected abstract void onAddBlock(Matrix4f positionMatrix, float rf, float gf, float bf, int lightLevel, BlockPos pos);
 
     protected void onEndBatch() {}
 

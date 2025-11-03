@@ -200,12 +200,12 @@ public class ModConfig {
                                 })
                                 .build())
                         .build())
-                .save(() -> HANDLER.save())
+                .save(HANDLER::save)
                 .build()
                 .generateScreen(parent);
     }
 
-    public static ConfigClassHandler<ModConfig> HANDLER = ConfigClassHandler.createBuilder(ModConfig.class)
+    public static final ConfigClassHandler<ModConfig> HANDLER = ConfigClassHandler.createBuilder(ModConfig.class)
             .id(Identifier.of(LightOverlay.MOD_ID, "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve("light-overlay.json5"))

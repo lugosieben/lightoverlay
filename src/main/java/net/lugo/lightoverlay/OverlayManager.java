@@ -4,6 +4,7 @@ import net.lugo.lightoverlay.config.ModConfig;
 import net.lugo.lightoverlay.renderers.CarpetOverlayRenderer;
 import net.lugo.lightoverlay.renderers.CrossOverlayRenderer;
 import net.lugo.lightoverlay.renderers.MarkerOverlayRenderer;
+import net.lugo.lightoverlay.renderers.NumberOverlayRenderer;
 import net.lugo.lightoverlay.util.HudMessage;
 import net.lugo.lightoverlay.util.OverlayChecker;
 import net.minecraft.client.MinecraftClient;
@@ -12,9 +13,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.LightType;
-
-import java.awt.*;
 
 public class OverlayManager {
     private static boolean activated = false;
@@ -23,6 +21,7 @@ public class OverlayManager {
     public enum OverlayRendererType {
         CARPET(new CarpetOverlayRenderer()),
         CROSS(new CrossOverlayRenderer()),
+        NUMBER(new NumberOverlayRenderer()),
         MARKER(new MarkerOverlayRenderer());
 
         private final OverlayRenderer renderer;
@@ -57,13 +56,7 @@ public class OverlayManager {
                     Vec3d pos = playerPos.add(relativePos);
                     BlockPos blockPos = BlockPos.ofFloored(pos.x, pos.y, pos.z);
                     if (OverlayChecker.shouldRenderOverlay(blockPos)) {
-                        Color color = ModConfig.invalidColor;
-                        int blockLightLevel = MC.world.getLightLevel(LightType.BLOCK, blockPos.up());
-                        if (blockLightLevel >= ModConfig.lightLevelThreshold) {
-                            if (ModConfig.hideGreen) continue;
-                            color = ModConfig.validColor;
-                        }
-                        activeRenderer.addBlock(MC.gameRenderer.getCamera(), blockPos, color.getRed(), color.getGreen(), color.getBlue());
+                        activeRenderer.addBlock(MC.gameRenderer.getCamera(), blockPos);
                     }
                 }
             }
