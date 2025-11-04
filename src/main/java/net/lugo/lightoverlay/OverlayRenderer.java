@@ -15,12 +15,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.RotationAxis;
 import net.lugo.lightoverlay.config.ModConfig;
-import net.minecraft.world.LightType;
 import org.joml.Matrix4f;
 
 public abstract class OverlayRenderer {
-    private static final MinecraftClient MC = MinecraftClient.getInstance();
-
     private final RenderLayer renderLayer;
     private final Identifier textureId;
 
@@ -53,11 +50,9 @@ public abstract class OverlayRenderer {
         onStartBatch();
     }
 
-    @SuppressWarnings("DataFlowIssue")
-    public final void addBlock(Camera camera, BlockPos pos) {
+    public final void addBlock(Camera camera, BlockPos pos, int lightLevel) {
         if (!batchStarted) return;
 
-        int lightLevel = MC.world.getLightLevel(LightType.BLOCK, pos.up());
         if (ModConfig.hideGreen && lightLevel >= ModConfig.lightLevelThreshold) return;
 
         getMatrixStack().push();
