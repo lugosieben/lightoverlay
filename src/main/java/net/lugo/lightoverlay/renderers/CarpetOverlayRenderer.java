@@ -26,6 +26,8 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
     protected void onAddBlock(Matrix4f positionMatrix, float rf, float gf, float bf, int lightLevel, BlockPos pos) {
         if (MC.world == null) return;
 
+        BlockPos abovePos = pos.up();
+
         VertexConsumer vc = this.vertexConsumer;
         // Top face
         vc.vertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 0).color(rf, gf, bf, 1f).texture(0f, 0f).light(0, 0);
@@ -34,7 +36,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         vc.vertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 0).color(rf, gf, bf, 1f).texture(1f, 0f).light(0, 0);
 
         // West face
-        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(pos.west()), Direction.WEST)) {
+        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(abovePos.west()), Direction.WEST)) {
             vc.vertex(positionMatrix, 0, 1,                 0).color(rf, gf, bf, 1f).texture(0f, 0f).light(0, 0);
             vc.vertex(positionMatrix, 0, 1,                 1).color(rf, gf, bf, 1f).texture(1f, 0f).light(0, 0);
             vc.vertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 1).color(rf, gf, bf, 1f).texture(1f, CARPET_HEIGHT_BASE).light(0, 0);
@@ -42,7 +44,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         }
 
         // East face
-        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(pos.east()), Direction.EAST)) {
+        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(abovePos.east()), Direction.EAST)) {
             vc.vertex(positionMatrix, 1, 1,                 0).color(rf, gf, bf, 1f).texture(0f, 0f).light(0, 0);
             vc.vertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 0).color(rf, gf, bf, 1f).texture(0f, CARPET_HEIGHT_BASE).light(0, 0);
             vc.vertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 1).color(rf, gf, bf, 1f).texture(1f, CARPET_HEIGHT_BASE).light(0, 0);
@@ -50,7 +52,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         }
 
         // North face
-        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(pos.north()), Direction.NORTH)) {
+        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(abovePos.north()), Direction.NORTH)) {
             vc.vertex(positionMatrix, 0, 1,                 0).color(rf, gf, bf, 1f).texture(0f, 0f).light(0, 0);
             vc.vertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 0).color(rf, gf, bf, 1f).texture(0f, CARPET_HEIGHT_BASE).light(0, 0);
             vc.vertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 0).color(rf, gf, bf, 1f).texture(1f, CARPET_HEIGHT_BASE).light(0, 0);
@@ -58,7 +60,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         }
 
         // South face
-        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(pos.south()), Direction.SOUTH)) {
+        if(Block.shouldDrawSide(Blocks.WHITE_CARPET.getDefaultState(), MC.world.getBlockState(abovePos.south()), Direction.SOUTH)) {
             vc.vertex(positionMatrix, 0, 1,                 1).color(rf, gf, bf, 1f).texture(0f, 0f).light(0, 0);
             vc.vertex(positionMatrix, 1, 1,                 1).color(rf, gf, bf, 1f).texture(1f, 0f).light(0, 0);
             vc.vertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 1).color(rf, gf, bf, 1f).texture(1f, CARPET_HEIGHT).light(0, 0);
