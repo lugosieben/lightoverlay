@@ -69,9 +69,11 @@ public class OverlayManager {
         List<ChunkSectionPos> sectionsToRender = new ArrayList<>();
         BlockPos playerPos = MC.player.getBlockPos();
 
-        for (int dx = -ModConfig.chunkScanRange; dx <= ModConfig.chunkScanRange; dx++) {
-            for (int dz = -ModConfig.chunkScanRange; dz <= ModConfig.chunkScanRange; dz++) {
-                if (dx * dx + dz * dz > ModConfig.chunkScanRange * ModConfig.chunkScanRange) continue;
+        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getClampedViewDistance());
+
+        for (int dx = -effectiveChunkScanRange; dx <= effectiveChunkScanRange; dx++) {
+            for (int dz = -effectiveChunkScanRange; dz <= effectiveChunkScanRange; dz++) {
+                if (dx * dx + dz * dz > effectiveChunkScanRange * effectiveChunkScanRange) continue;
                 int chunkX = playerChunkX + dx;
                 int chunkZ = playerChunkZ + dz;
                 for (int sectionY = MC.world.getBottomSectionCoord(); sectionY <= MC.world.getTopSectionCoord(); sectionY++) {
@@ -116,8 +118,10 @@ public class OverlayManager {
         int playerChunkX = (int) Math.floor(MC.player.getX() / 16.0);
         int playerChunkZ = (int) Math.floor(MC.player.getZ() / 16.0);
 
-        for (int dx = -ModConfig.chunkScanRange; dx <= ModConfig.chunkScanRange; dx++) {
-            for (int dz = -ModConfig.chunkScanRange; dz <= ModConfig.chunkScanRange; dz++) {
+        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getClampedViewDistance());
+
+        for (int dx = -effectiveChunkScanRange; dx <= effectiveChunkScanRange; dx++) {
+            for (int dz = -effectiveChunkScanRange; dz <= effectiveChunkScanRange; dz++) {
                 if (dx * dx + dz * dz > ModConfig.chunkScanRange * ModConfig.chunkScanRange) continue;
                 int chunkX = playerChunkX + dx;
                 int chunkZ = playerChunkZ + dz;
