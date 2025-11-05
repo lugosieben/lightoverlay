@@ -12,7 +12,7 @@
   },
   "client": [
     "WorldRendererMixin",
-    "cacheupdaters.ClientWorldMixin",
+    "cacheupdaters.ClientChunkCacheMixin",
     "cacheupdaters.WorldRendererMixin"
   ]
 }
