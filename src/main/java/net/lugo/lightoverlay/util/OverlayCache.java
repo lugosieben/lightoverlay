@@ -14,7 +14,6 @@ public class OverlayCache {
     private static final MinecraftClient MC = MinecraftClient.getInstance();
     private static final ConcurrentHashMap<ChunkSectionPos, CacheSectionPosEntry> cache = new ConcurrentHashMap<>();
     private static int MAX_CACHE_SIZE = 1000;
-    private static final int MAX_COMPUTATIONS_PER_TICK = 4;
 
     private static final Queue<ChunkSectionPos> computeQueue = new ConcurrentLinkedQueue<>();
     private static final Set<ChunkSectionPos> queuedSections = ConcurrentHashMap.newKeySet();
@@ -69,12 +68,12 @@ public class OverlayCache {
 
         updateMaxCacheSize();
 
-        if (computeQueue.size() > MAX_COMPUTATIONS_PER_TICK * 2) {
+        if (computeQueue.size() > ModConfig.maxComputationsPerTick * 2) {
             reprioritizeQueue();
         }
 
         int processed = 0;
-        while (processed < MAX_COMPUTATIONS_PER_TICK && !computeQueue.isEmpty()) {
+        while (processed < ModConfig.maxComputationsPerTick && !computeQueue.isEmpty()) {
             ChunkSectionPos sectionPos = computeQueue.poll();
             if (sectionPos != null) {
                 queuedSections.remove(sectionPos);
