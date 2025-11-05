@@ -2,11 +2,9 @@ package net.lugo.lightoverlay.util;
 
 import net.lugo.lightoverlay.config.ModConfig;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.LightType;
-import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +15,6 @@ public class OverlayCache {
     private static final ConcurrentHashMap<ChunkSectionPos, CacheSectionPosEntry> cache = new ConcurrentHashMap<>();
     private static int MAX_CACHE_SIZE = 1000;
     private static final int MAX_COMPUTATIONS_PER_TICK = 4;
-    private static RegistryKey<World> lastDimension = null;
 
     private static final Queue<ChunkSectionPos> computeQueue = new ConcurrentLinkedQueue<>();
     private static final Set<ChunkSectionPos> queuedSections = ConcurrentHashMap.newKeySet();
@@ -35,16 +32,6 @@ public class OverlayCache {
     }
 
     public record CacheBlockPosEntry(BlockPos pos, int lightLevel) { }
-
-    private static void checkDimensionChange() {
-        if (MC.world != null) {
-            RegistryKey<World> currentDimension = MC.world.getRegistryKey();
-            if (lastDimension != currentDimension) {
-                clearAll();
-                lastDimension = currentDimension;
-            }
-        }
-    }
 
     private static void updateMaxCacheSize() {
         if (MC.world == null) return;
@@ -80,7 +67,6 @@ public class OverlayCache {
     public static void processQueue() {
         if (MC.world == null || MC.player == null) return;
 
-        checkDimensionChange();
         updateMaxCacheSize();
 
         if (computeQueue.size() > MAX_COMPUTATIONS_PER_TICK * 2) {
@@ -144,8 +130,6 @@ public class OverlayCache {
     public static void compute(ChunkSectionPos sectionPos) {
         if (MC.world == null) return;
 
-        checkDimensionChange();
-
         List<CacheBlockPosEntry> renderableBlocks = new ArrayList<>();
 
         int minX = ChunkSectionPos.getBlockCoord(sectionPos.getX());
@@ -173,7 +157,6 @@ public class OverlayCache {
     }
 
     public static CacheSectionPosEntry get(ChunkSectionPos sectionPos) {
-        checkDimensionChange();
         CacheSectionPosEntry entry = cache.get(sectionPos);
         if (entry != null) {
             entry.lastAccessTime = System.currentTimeMillis();
