@@ -1,8 +1,7 @@
 package net.lugo.lightoverlay.util;
 
 import net.lugo.lightoverlay.config.ModConfig;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -30,6 +29,16 @@ public class OverlayChecker {
             Blocks.WITHER_ROSE,         // Only wither skeletons
             Blocks.SWEET_BERRY_BUSH    // Only foxes
     );
+    private static boolean isRedstonePowerComponent(Block block) {
+        return  block instanceof ButtonBlock ||
+                block instanceof PressurePlateBlock ||
+                block instanceof LeverBlock ||
+                block instanceof RedstoneTorchBlock ||
+                block instanceof SculkSensorBlock ||
+                block instanceof DaylightDetectorBlock ||
+                block instanceof PoweredRailBlock ||
+                block instanceof LightningRodBlock;
+    }
 
 
     public static boolean shouldRenderOverlay(BlockPos pos) {
@@ -40,6 +49,8 @@ public class OverlayChecker {
         BlockPos above = pos.up();
         boolean aboveTopSolid = MC.world.isDirectionSolid(above, MC.player, Direction.DOWN);
         if (!isTopSolid || aboveTopSolid) return false;
+
+        if (isRedstonePowerComponent(MC.world.getBlockState(above).getBlock())) return false;
 
         boolean isForbiddenBlock = forbiddenBlocks.contains(MC.world.getBlockState(pos).getBlock());
         boolean hideBecauseWater = ModConfig.hideWater && MC.world.isWater(above);
