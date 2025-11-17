@@ -113,6 +113,7 @@ public class OverlayCache {
 
     public static void clearFromBlockPos(BlockPos blockPos) {
         ChunkSectionPos sectionPos = ChunkSectionPos.from(blockPos);
+        if (sectionPos.getMinY() == blockPos.getY()) clear(sectionPos.add(0, -1, 0));
         clear(sectionPos);
     }
 
