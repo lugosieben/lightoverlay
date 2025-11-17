@@ -11,8 +11,6 @@
   "text.light-overlay.config.group.general": "General",
   "text.light-overlay.config.option.light_level_threshold.name": "Light Level Threshold",
   "text.light-overlay.config.option.light_level_threshold.description": "At what block light should the overlay turn green? Default is 1 for spawn-proofing against most mobs in the overworld and end.",
-  "text.light-overlay.config.option.scan_radius.name": "Scan Radius",
-  "text.light-overlay.config.option.scan_radius.description": "The size of the square around you to display the Light Overlay. A value of 20 means rendering the light level 20 blocks in each direction horizontally.",
   "text.light-overlay.config.group.overlay_hiding": "Show & Hide Overlay",
   "text.light-overlay.config.option.hide_green.name": "Hide Valid/Green Spots",
   "text.light-overlay.config.option.hide_green.description": "Disables rendering for spots that would normally render green",
@@ -42,5 +40,12 @@
   "text.light-overlay.config.option.show_when_paused.name": "Show When Paused",
   "text.light-overlay.config.option.show_when_paused.description": "Whether to show the overlay when the game is paused.",
   "text.light-overlay.config.option.cylinder_mode.name": "Cylinder Mode",
-  "text.light-overlay.config.option.cylinder_mode.description": "Render the Overlay in a Cylinder shape instead of a cube (Depending on use case, this could improve performance)"
+  "text.light-overlay.config.option.cylinder_mode.description": "Render the Overlay in a Cylinder shape instead of a cube (Depending on use case, this could improve performance)",
+  "text.light-overlay.config.option.enable_cache.name": "Enable Cache",
+  "text.light-overlay.config.option.enable_cache.description": "Enables caching of overlay data for hugely improved performance. Disable if you experience issues.",
+  "text.light-overlay.config.group.experimental": "Experimental (Don't change unless you know what you're doing!)",
+  "text.light-overlay.config.option.chunk_scan_range.name": "Scan Range",
+    "text.light-overlay.config.option.chunk_scan_range.description": "How many chunks around the player to render the Light Level. Higher values increase the scanned area but may decrease performance.",
+  "text.light-overlay.config.option.max_computations_per_tick.name": "Max Chunk Computations per Tick",
+  "text.light-overlay.config.option.max_computations_per_tick.description": "The maximum amount of chunks being computed in a single tick. Lower this if experiencing lags."
 }

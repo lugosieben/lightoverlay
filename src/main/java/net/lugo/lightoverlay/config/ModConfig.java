@@ -24,9 +24,7 @@ public class ModConfig {
     public static int lightLevelThreshold = 1;
 
     @SerialEntry
-    public static int scanRadius = 20;
-    @SerialEntry
-    public static int scanRadiusY = 5;
+    public static int chunkScanRange = 4;
 
     @SerialEntry
     public static OverlayManager.OverlayRendererType rendererType = OverlayManager.OverlayRendererType.CROSS;
@@ -42,12 +40,14 @@ public class ModConfig {
     @SerialEntry
     public static boolean showWhenPaused = true;
     @SerialEntry
-    public static boolean cylinderMode = false;
+    public static boolean enableCache = true;
 
     @SerialEntry
     public static Color validColor = new Color(0, 255, 0, 255);
     @SerialEntry
     public static Color invalidColor = new Color(255, 0, 0, 255);
+    @SerialEntry
+    public static int maxComputationsPerTick = 8;
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
@@ -68,25 +68,14 @@ public class ModConfig {
                                                 .step(1))
                                         .build())
                                 .option(Option.<Integer>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.scan_radius.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.scan_radius.description")))
+                                        .name(Text.translatable("text.light-overlay.config.option.chunk_scan_range.name"))
+                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.chunk_scan_range.description")))
                                         .binding(
-                                                20,
-                                                () -> scanRadius,
-                                                newVal -> scanRadius = newVal)
+                                                4,
+                                                () -> chunkScanRange,
+                                                newVal -> chunkScanRange = newVal)
                                         .controller(opt -> IntegerSliderControllerBuilder.create(opt)
-                                                .range(1, 50)
-                                                .step(1))
-                                        .build())
-                                .option(Option.<Integer>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.scan_radius_y.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.scan_radius_y.description")))
-                                        .binding(
-                                                5,
-                                                () -> scanRadiusY,
-                                                newVal -> scanRadiusY = newVal)
-                                        .controller(opt -> IntegerSliderControllerBuilder.create(opt)
-                                                .range(1, 50)
+                                                .range(1, 24)
                                                 .step(1))
                                         .build())
                                 .option(Option.<OverlayManager.OverlayRendererType>createBuilder()
@@ -175,14 +164,28 @@ public class ModConfig {
                                         newVal -> showWhenPaused = newVal)
                                 .controller(TickBoxControllerBuilder::create)
                                 .build())
-                        .option(Option.<Boolean>createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.option.cylinder_mode.name"))
-                                .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.cylinder_mode.description")))
+                        .option(Option.<Integer>createBuilder()
+                                .name(Text.translatable("text.light-overlay.config.option.max_computations_per_tick.name"))
+                                .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.max_computations_per_tick.description")))
                                 .binding(
-                                        false,
-                                        () -> cylinderMode,
-                                        newVal -> cylinderMode = newVal)
-                                .controller(TickBoxControllerBuilder::create)
+                                        8,
+                                        () -> maxComputationsPerTick,
+                                        newVal -> maxComputationsPerTick = newVal)
+                                .controller(opt -> IntegerSliderControllerBuilder.create(opt)
+                                        .range(1, 32)
+                                        .step(1))
+                                .build())
+                        .group(OptionGroup.createBuilder()
+                                .name(Text.translatable("text.light-overlay.config.group.experimental"))
+                                .option(Option.<Boolean>createBuilder()
+                                        .name(Text.translatable("text.light-overlay.config.option.enable_cache.name"))
+                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.enable_cache.description")))
+                                        .binding(
+                                                true,
+                                                () -> enableCache,
+                                                newVal -> enableCache = newVal)
+                                        .controller(TickBoxControllerBuilder::create)
+                                        .build())
                                 .build())
                         .build())
                 .category(ConfigCategory.createBuilder()
