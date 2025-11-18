@@ -1,5 +1,6 @@
 package net.lugo.lightoverlay.util;
 
+import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.config.ModConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.BlockPos;
@@ -47,9 +48,11 @@ public class OverlayCache {
         int verticalSections = MC.world.getTopSectionCoord() - MC.world.getBottomSectionCoord() + 1;
         int totalSections = horizontalChunks * verticalSections;
 
-        int requiredCacheSize = totalSections * 2;
-
-        MAX_CACHE_SIZE = Math.max(MAX_CACHE_SIZE, Math.max(requiredCacheSize, 1000));
+        int requiredSections = totalSections * 2;
+        if (requiredSections > MAX_CACHE_SIZE) {
+            LightOverlay.LOGGER.info("Resizing MAX_CACHE_SIZE, total sections * 2 ({}) is higher than current limit {}. New size is {}", requiredSections, MAX_CACHE_SIZE, requiredSections);
+            MAX_CACHE_SIZE = requiredSections;
+        }
     }
 
     public static void queueForCompute(ChunkSectionPos sectionPos) {
