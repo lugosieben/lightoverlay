@@ -12,7 +12,7 @@ public class CrossOverlayRenderer extends OverlayRenderer {
     private static final Identifier CROSS_TEXTURE = Identifier.of(LightOverlay.MOD_ID, "textures/cross.png");
 
     public CrossOverlayRenderer() {
-        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER, CROSS_TEXTURE);
+        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER.apply(CROSS_TEXTURE));
     }
 
     @Override
