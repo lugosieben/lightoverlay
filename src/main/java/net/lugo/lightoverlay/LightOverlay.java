@@ -14,13 +14,13 @@ public class LightOverlay implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-        LOGGER.info("Light OverlayRendererType (" + MOD_ID + ") initializing.");
+        LOGGER.info("Light Overlay (" + MOD_ID + ") initializing.");
 
         KeyBindings.registerKeybinds();
         Commands.registerCommands();
 
         ModConfig.HANDLER.load();
 
-        LOGGER.info("Light OverlayRendererType (" + MOD_ID + ") initialized.");
+        LOGGER.info("Light Overlay (" + MOD_ID + ") initialized.");
 	}
 }
