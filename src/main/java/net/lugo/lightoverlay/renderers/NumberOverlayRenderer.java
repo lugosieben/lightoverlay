@@ -1,15 +1,15 @@
 package net.lugo.lightoverlay.renderers;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayRenderer;
 import net.lugo.lightoverlay.util.RenderLayers;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import org.joml.Matrix4f;
 
 public class NumberOverlayRenderer extends OverlayRenderer {
-    private static final Identifier NUMBERS_TEXTURE = Identifier.of(LightOverlay.MOD_ID, "textures/numbers.png");
+    private static final Identifier NUMBERS_TEXTURE = Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "textures/numbers.png");
 
     private static final float TILE_SIZE = 1f / 16f;
 
@@ -26,9 +26,9 @@ public class NumberOverlayRenderer extends OverlayRenderer {
         float uEnd = uStart + TILE_SIZE;
 
         VertexConsumer vc = this.vertexConsumer;
-        vc.vertex(positionMatrix, 0, 1, 0).color(rf, gf, bf, 1f).texture(uStart, 0f).light(0, 0);
-        vc.vertex(positionMatrix, 0, 1, 1).color(rf, gf, bf, 1f).texture(uStart, 1f).light(0, 0);
-        vc.vertex(positionMatrix, 1, 1, 1).color(rf, gf, bf, 1f).texture(uEnd, 1f).light(0, 0);
-        vc.vertex(positionMatrix, 1, 1, 0).color(rf, gf, bf, 1f).texture(uEnd, 0f).light(0, 0);
+        vc.addVertex(positionMatrix, 0, 1, 0).setColor(rf, gf, bf, 1f).setUv(uStart, 0f).setUv2(0, 0);
+        vc.addVertex(positionMatrix, 0, 1, 1).setColor(rf, gf, bf, 1f).setUv(uStart, 1f).setUv2(0, 0);
+        vc.addVertex(positionMatrix, 1, 1, 1).setColor(rf, gf, bf, 1f).setUv(uEnd, 1f).setUv2(0, 0);
+        vc.addVertex(positionMatrix, 1, 1, 0).setColor(rf, gf, bf, 1f).setUv(uEnd, 0f).setUv2(0, 0);
     }
 }

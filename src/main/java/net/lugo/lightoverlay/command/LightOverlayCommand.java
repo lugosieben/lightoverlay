@@ -5,17 +5,17 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.lugo.lightoverlay.OverlayManager;
 import net.lugo.lightoverlay.config.ModConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandBuildContext;
 
 public class LightOverlayCommand {
-    final static MinecraftClient MC = MinecraftClient.getInstance();
+    final static Minecraft MC = Minecraft.getInstance();
 
-    public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess ignoredCommandRegistryAccess) {
+    public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandBuildContext ignoredCommandRegistryAccess) {
         dispatcher.register(ClientCommandManager.literal("lightoverlay")
                 .then(ClientCommandManager.literal("config")
                         .executes(context -> {
-                            MC.send(() -> MC.setScreen(ModConfig.makeScreen(MC.currentScreen)));
+                            MC.schedule(() -> MC.setScreen(ModConfig.makeScreen(MC.screen)));
                             return 1;
                         })
                 )
