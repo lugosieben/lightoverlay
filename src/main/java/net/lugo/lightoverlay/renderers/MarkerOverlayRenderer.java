@@ -14,7 +14,7 @@ public class MarkerOverlayRenderer extends OverlayRenderer {
     private static final MinecraftClient MC = MinecraftClient.getInstance();
 
     public MarkerOverlayRenderer() {
-        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER, CROSS_TEXTURE);
+        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER.apply(CROSS_TEXTURE));
     }
 
     @SuppressWarnings("DuplicatedCode")

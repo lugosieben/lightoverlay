@@ -14,7 +14,7 @@ public class NumberOverlayRenderer extends OverlayRenderer {
     private static final float TILE_SIZE = 1f / 16f;
 
     public NumberOverlayRenderer() {
-        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER, NUMBERS_TEXTURE);
+        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER.apply(NUMBERS_TEXTURE));
     }
 
     @Override

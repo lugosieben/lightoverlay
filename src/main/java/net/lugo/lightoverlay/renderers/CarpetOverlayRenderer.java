@@ -19,7 +19,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
     private static final MinecraftClient MC = MinecraftClient.getInstance();
 
     public CarpetOverlayRenderer() {
-        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER, CARPET_TEXTURE);
+        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER.apply(CARPET_TEXTURE));
     }
 
     @Override

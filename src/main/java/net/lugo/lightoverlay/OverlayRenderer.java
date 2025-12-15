@@ -1,14 +1,11 @@
 package net.lugo.lightoverlay;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.GpuTextureView;
 import net.lugo.lightoverlay.util.ColorHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +16,6 @@ import org.joml.Matrix4f;
 
 public abstract class OverlayRenderer {
     private final RenderLayer renderLayer;
-    private final Identifier textureId;
 
     private final VertexConsumerProvider.Immediate vcp = VertexConsumerProvider.immediate(new BufferAllocator(8192));
     private final MatrixStack matrixStack = new MatrixStack();
@@ -27,9 +23,8 @@ public abstract class OverlayRenderer {
     protected VertexConsumer vertexConsumer;
     private boolean batchStarted = false;
 
-    protected OverlayRenderer(RenderLayer renderLayer, Identifier textureId) {
+    protected OverlayRenderer(RenderLayer renderLayer) {
         this.renderLayer = renderLayer;
-        this.textureId = textureId;
     }
 
     public final void startBatch() {
@@ -39,12 +34,8 @@ public abstract class OverlayRenderer {
         if (mc == null || mc.getTextureManager() == null) {
             return;
         }
-        GpuTextureView shaderTexture = mc.getTextureManager().getTexture(textureId).getGlTextureView();
 
         vertexConsumer = vcp.getBuffer(renderLayer);
-        if (shaderTexture != null) {
-            RenderSystem.setShaderTexture(0, shaderTexture);
-        }
 
         batchStarted = true;
         onStartBatch();
@@ -58,7 +49,7 @@ public abstract class OverlayRenderer {
         getMatrixStack().push();
         getMatrixStack().multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
         getMatrixStack().multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180F));
-        Vec3d transformedPos = Vec3d.of(pos).subtract(camera.getPos());
+        Vec3d transformedPos = Vec3d.of(pos).subtract(camera.getCameraPos());
         getMatrixStack().translate(transformedPos.x, transformedPos.y, transformedPos.z);
 
         Matrix4f positionMatrix = getMatrixStack().peek().getPositionMatrix();
