@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelRenderer.class)
-public class WorldRendererMixin {
+public class LevelRendererMixin {
     @Inject(method = "blockChanged", at = @At("HEAD"))
-    private void onUpdateBlock(BlockGetter world, BlockPos pos, BlockState oldState, BlockState newState, int flags, CallbackInfo ci) {
+    private void onBlockChanged(BlockGetter world, BlockPos pos, BlockState oldState, BlockState newState, int flags, CallbackInfo ci) {
         OverlayCache.clearFromBlockPos(pos);
     }
 }

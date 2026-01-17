@@ -3,7 +3,7 @@ package net.lugo.lightoverlay.renderers;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayRenderer;
-import net.lugo.lightoverlay.util.RenderLayers;
+import net.lugo.lightoverlay.util.RenderTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import org.joml.Matrix4f;
@@ -14,7 +14,7 @@ public class NumberOverlayRenderer extends OverlayRenderer {
     private static final float TILE_SIZE = 1f / 16f;
 
     public NumberOverlayRenderer() {
-        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER.apply(NUMBERS_TEXTURE));
+        super(RenderTypes.LIGHT_OVERLAY_RENDERTYPE.apply(NUMBERS_TEXTURE));
     }
 
     @Override

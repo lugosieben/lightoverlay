@@ -11,7 +11,7 @@ import net.minecraft.util.Util;
 
 import java.util.function.Function;
 
-public final class RenderLayers {
+public final class RenderTypes {
     public static final RenderPipeline LIGHT_OVERLAY_PIPELINE = RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
                     .withLocation(Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "pipeline/light_overlay"))
                     .withCull(true)
@@ -19,7 +19,7 @@ public final class RenderLayers {
                     .withDepthWrite(true)
                     .build();
 
-    public static final Function<Identifier, RenderType> LIGHT_OVERLAY_RENDERLAYER = Util.memoize((Identifier texture) -> RenderType.create(
+    public static final Function<Identifier, RenderType> LIGHT_OVERLAY_RENDERTYPE = Util.memoize((Identifier texture) -> RenderType.create(
         LightOverlay.MOD_ID + "/light_overlay",
         RenderSetup.builder(
                 LIGHT_OVERLAY_PIPELINE)

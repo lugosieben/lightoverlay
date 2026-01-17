@@ -12,12 +12,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientChunkCache.class)
 public class ClientChunkCacheMixin {
     @Inject(method = "updateViewRadius", at = @At("HEAD"))
-    private void onUpdateLoadDistance(int distance, CallbackInfo ci) {
+    private void onUpdateViewRadius(int distance, CallbackInfo ci) {
         OverlayCache.clearAll();
     }
 
     @Inject(method = "onLightUpdate", at = @At("HEAD"))
-    private void onLightUpdate(LightLayer type, SectionPos pos, CallbackInfo ci) {
+    private void onLightUpdate(LightLayer layer, SectionPos pos, CallbackInfo ci) {
         OverlayCache.clear(pos);
     }
 }

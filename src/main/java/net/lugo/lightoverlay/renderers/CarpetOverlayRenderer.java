@@ -3,7 +3,7 @@ package net.lugo.lightoverlay.renderers;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayRenderer;
-import net.lugo.lightoverlay.util.RenderLayers;
+import net.lugo.lightoverlay.util.RenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,7 +19,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
     private static final Minecraft MC = Minecraft.getInstance();
 
     public CarpetOverlayRenderer() {
-        super(RenderLayers.LIGHT_OVERLAY_RENDERLAYER.apply(CARPET_TEXTURE));
+        super(RenderTypes.LIGHT_OVERLAY_RENDERTYPE.apply(CARPET_TEXTURE));
     }
 
     @Override

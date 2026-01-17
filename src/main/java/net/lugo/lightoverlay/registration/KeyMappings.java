@@ -9,16 +9,16 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
-public class KeyBindings {
+public class KeyMappings {
 
     private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.parse(LightOverlay.MOD_ID));
     private static final String BASE_KEY = "key." + LightOverlay.MOD_ID;
 
-    public static void registerKeybinds() {
-        registerLightOverlayKey();
+    public static void registerKeyMappings() {
+        registerLightOverlayKeyMapping();
     }
 
-    private static void registerLightOverlayKey() {
+    private static void registerLightOverlayKeyMapping() {
         KeyMapping lightOverlayKey = new KeyMapping(BASE_KEY + ".toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F9, CATEGORY);
         KeyBindingHelper.registerKeyBinding(lightOverlayKey);
 
