@@ -1,39 +1,33 @@
 package net.lugo.lightoverlay;
 
 import net.lugo.lightoverlay.util.ColorHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.util.BufferAllocator;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.Camera;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.lugo.lightoverlay.config.ModConfig;
 import org.joml.Matrix4f;
 
 public abstract class OverlayRenderer {
-    private final RenderLayer renderLayer;
+    private final RenderType renderLayer;
 
-    private final VertexConsumerProvider.Immediate vcp = VertexConsumerProvider.immediate(new BufferAllocator(8192));
-    private final MatrixStack matrixStack = new MatrixStack();
+    private final MultiBufferSource.BufferSource vcp = MultiBufferSource.immediate(new ByteBufferBuilder(8192));
+    private final PoseStack matrixStack = new PoseStack();
 
     protected VertexConsumer vertexConsumer;
     private boolean batchStarted = false;
 
-    protected OverlayRenderer(RenderLayer renderLayer) {
+    protected OverlayRenderer(RenderType renderLayer) {
         this.renderLayer = renderLayer;
     }
 
     public final void startBatch() {
         if (batchStarted) return;
-
-        MinecraftClient mc = MinecraftClient.getInstance();
-        if (mc == null || mc.getTextureManager() == null) {
-            return;
-        }
 
         vertexConsumer = vcp.getBuffer(renderLayer);
 
@@ -46,13 +40,13 @@ public abstract class OverlayRenderer {
 
         if (ModConfig.hideGreen && lightLevel >= ModConfig.lightLevelThreshold) return;
 
-        getMatrixStack().push();
-        getMatrixStack().multiply(RotationAxis.POSITIVE_X.rotationDegrees(camera.getPitch()));
-        getMatrixStack().multiply(RotationAxis.POSITIVE_Y.rotationDegrees(camera.getYaw() + 180F));
-        Vec3d transformedPos = Vec3d.of(pos).subtract(camera.getCameraPos());
+        getMatrixStack().pushPose();
+        getMatrixStack().mulPose(Axis.XP.rotationDegrees(camera.xRot()));
+        getMatrixStack().mulPose(Axis.YP.rotationDegrees(camera.yRot() + 180F));
+        Vec3 transformedPos = Vec3.atLowerCornerOf(pos).subtract(camera.position());
         getMatrixStack().translate(transformedPos.x, transformedPos.y, transformedPos.z);
 
-        Matrix4f positionMatrix = getMatrixStack().peek().getPositionMatrix();
+        Matrix4f positionMatrix = getMatrixStack().last().pose();
 
         float[] colorFloats = ColorHelper.getOverlayColorFloats(lightLevel);
         float rf = colorFloats[0];
@@ -61,13 +55,13 @@ public abstract class OverlayRenderer {
 
         onAddBlock(positionMatrix, rf, gf, bf, lightLevel, pos);
 
-        getMatrixStack().pop();
+        getMatrixStack().popPose();
     }
 
     public final void endBatch() {
         if (!batchStarted) return;
         onEndBatch();
-        vcp.draw();
+        vcp.endBatch();
         batchStarted = false;
     }
 
@@ -77,7 +71,7 @@ public abstract class OverlayRenderer {
 
     protected void onEndBatch() {}
 
-    protected MatrixStack getMatrixStack() {
+    protected PoseStack getMatrixStack() {
         return matrixStack;
     }
 }

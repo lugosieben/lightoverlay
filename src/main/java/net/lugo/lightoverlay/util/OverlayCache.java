@@ -2,29 +2,28 @@ package net.lugo.lightoverlay.util;
 
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.config.ModConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
-import net.minecraft.world.LightType;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.world.level.LightLayer;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class OverlayCache {
-    private static final MinecraftClient MC = MinecraftClient.getInstance();
-    private static final ConcurrentHashMap<ChunkSectionPos, CacheSectionPosEntry> cache = new ConcurrentHashMap<>();
+    private static final Minecraft MC = Minecraft.getInstance();
+    private static final ConcurrentHashMap<SectionPos, CacheSectionPosEntry> cache = new ConcurrentHashMap<>();
     private static int MAX_CACHE_SIZE = 1000;
 
-    private static final Queue<ChunkSectionPos> computeQueue = new ConcurrentLinkedQueue<>();
-    private static final Set<ChunkSectionPos> queuedSections = ConcurrentHashMap.newKeySet();
+    private static final Queue<SectionPos> computeQueue = new ConcurrentLinkedQueue<>();
+    private static final Set<SectionPos> queuedSections = ConcurrentHashMap.newKeySet();
 
     public static class CacheSectionPosEntry {
-        public final ChunkSectionPos pos;
+        public final SectionPos pos;
         public final CacheBlockPosEntry[] blocks;
         public long lastAccessTime;
 
-        public CacheSectionPosEntry(ChunkSectionPos pos, CacheBlockPosEntry[] blocks) {
+        public CacheSectionPosEntry(SectionPos pos, CacheBlockPosEntry[] blocks) {
             this.pos = pos;
             this.blocks = blocks;
             this.lastAccessTime = System.currentTimeMillis();
@@ -34,7 +33,7 @@ public class OverlayCache {
     public record CacheBlockPosEntry(BlockPos pos, int lightLevel) { }
 
     private static void updateMaxCacheSize() {
-        if (MC.world == null) return;
+        if (MC.level == null) return;
 
         int chunkScanRange = ModConfig.chunkScanRange;
         int horizontalChunks = 0;
@@ -45,7 +44,7 @@ public class OverlayCache {
                 }
             }
         }
-        int verticalSections = MC.world.getTopSectionCoord() - MC.world.getBottomSectionCoord() + 1;
+        int verticalSections = MC.level.getMaxSectionY() - MC.level.getMinSectionY() + 1;
         int totalSections = horizontalChunks * verticalSections;
 
         int requiredSections = totalSections * 2;
@@ -55,7 +54,7 @@ public class OverlayCache {
         }
     }
 
-    public static void queueForCompute(ChunkSectionPos sectionPos) {
+    public static void queueForCompute(SectionPos sectionPos) {
         if (cache.containsKey(sectionPos)) {
             return;
         }
@@ -67,7 +66,7 @@ public class OverlayCache {
     }
 
     public static void processQueue() {
-        if (MC.world == null || MC.player == null) return;
+        if (MC.level == null || MC.player == null) return;
 
         updateMaxCacheSize();
 
@@ -77,7 +76,7 @@ public class OverlayCache {
 
         int processed = 0;
         while (processed < ModConfig.maxComputationsPerTick && !computeQueue.isEmpty()) {
-            ChunkSectionPos sectionPos = computeQueue.poll();
+            SectionPos sectionPos = computeQueue.poll();
             if (sectionPos != null) {
                 queuedSections.remove(sectionPos);
 
@@ -92,10 +91,10 @@ public class OverlayCache {
     private static void reprioritizeQueue() {
         if (MC.player == null) return;
 
-        BlockPos playerPos = MC.player.getBlockPos();
-        List<ChunkSectionPos> sections = new ArrayList<>();
+        BlockPos playerPos = MC.player.blockPosition();
+        List<SectionPos> sections = new ArrayList<>();
 
-        ChunkSectionPos pos;
+        SectionPos pos;
         while ((pos = computeQueue.poll()) != null) {
             sections.add(pos);
         }
@@ -109,14 +108,14 @@ public class OverlayCache {
         computeQueue.addAll(sections);
     }
 
-    public static void clear(ChunkSectionPos sectionPos) {
+    public static void clear(SectionPos sectionPos) {
         cache.remove(sectionPos);
         queuedSections.remove(sectionPos);
     }
 
     public static void clearFromBlockPos(BlockPos blockPos) {
-        ChunkSectionPos sectionPos = ChunkSectionPos.from(blockPos);
-        if (sectionPos.getMinY() == blockPos.getY()) clear(sectionPos.add(0, -1, 0));
+        SectionPos sectionPos = SectionPos.of(blockPos);
+        if (sectionPos.minBlockY() == blockPos.getY()) clear(sectionPos.offset(0, -1, 0));
         clear(sectionPos);
     }
 
@@ -130,14 +129,14 @@ public class OverlayCache {
         }
     }
 
-    public static void compute(ChunkSectionPos sectionPos) {
-        if (MC.world == null) return;
+    public static void compute(SectionPos sectionPos) {
+        if (MC.level == null) return;
 
         List<CacheBlockPosEntry> renderableBlocks = new ArrayList<>();
 
-        int minX = ChunkSectionPos.getBlockCoord(sectionPos.getX());
-        int minY = ChunkSectionPos.getBlockCoord(sectionPos.getY());
-        int minZ = ChunkSectionPos.getBlockCoord(sectionPos.getZ());
+        int minX = SectionPos.sectionToBlockCoord(sectionPos.getX());
+        int minY = SectionPos.sectionToBlockCoord(sectionPos.getY());
+        int minZ = SectionPos.sectionToBlockCoord(sectionPos.getZ());
 
         for (int x = 0; x < 16; x++) {
             for (int y = 0; y < 16; y++) {
@@ -146,7 +145,7 @@ public class OverlayCache {
                     boolean shouldRender = OverlayChecker.shouldRenderOverlay(blockPos);
 
                     if (shouldRender) {
-                        int lightLevel = MC.world.getLightLevel(LightType.BLOCK, blockPos.up());
+                        int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
                         renderableBlocks.add(new CacheBlockPosEntry(blockPos, lightLevel));
                     }
                 }
@@ -159,7 +158,7 @@ public class OverlayCache {
         removeOldEntries();
     }
 
-    public static CacheSectionPosEntry get(ChunkSectionPos sectionPos) {
+    public static CacheSectionPosEntry get(SectionPos sectionPos) {
         CacheSectionPosEntry entry = cache.get(sectionPos);
         if (entry != null) {
             entry.lastAccessTime = System.currentTimeMillis();

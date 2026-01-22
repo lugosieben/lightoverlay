@@ -4,7 +4,7 @@ import net.fabricmc.api.ModInitializer;
 
 import net.lugo.lightoverlay.config.ModConfig;
 import net.lugo.lightoverlay.registration.Commands;
-import net.lugo.lightoverlay.registration.KeyBindings;
+import net.lugo.lightoverlay.registration.KeyMappings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,7 @@ public class LightOverlay implements ModInitializer {
 	public void onInitialize() {
         LOGGER.info("Light Overlay (" + MOD_ID + ") initializing.");
 
-        KeyBindings.registerKeybinds();
+        KeyMappings.registerKeyMappings();
         Commands.registerCommands();
 
         ModConfig.HANDLER.load();

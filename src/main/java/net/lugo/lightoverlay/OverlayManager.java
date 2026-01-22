@@ -9,20 +9,19 @@ import net.lugo.lightoverlay.util.DistanceUtil;
 import net.lugo.lightoverlay.util.HudMessage;
 import net.lugo.lightoverlay.util.OverlayCache;
 import net.lugo.lightoverlay.util.OverlayChecker;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
-import net.minecraft.world.LightType;
-
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.level.LightLayer;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OverlayManager {
     private static boolean activated = false;
-    private static final MinecraftClient MC = MinecraftClient.getInstance();
+    private static final Minecraft MC = Minecraft.getInstance();
 
     public enum OverlayRendererType {
         CARPET(new CarpetOverlayRenderer()),
@@ -43,13 +42,13 @@ public class OverlayManager {
 
     public static void toggle() {
         activated = !activated;
-        MutableText message = Text.translatable("text.light-overlay.message.toggle.on");
-        if (!activated) message = Text.translatable("text.light-overlay.message.toggle.off");
-        HudMessage.show(message, Formatting.DARK_AQUA);
+        MutableComponent message = Component.translatable("text.light-overlay.message.toggle.on");
+        if (!activated) message = Component.translatable("text.light-overlay.message.toggle.off");
+        HudMessage.show(message, ChatFormatting.DARK_AQUA);
     }
 
     public static void renderEnd() {
-        if (MC.player == null || MC.world == null || (!ModConfig.showWhenPaused && MC.isPaused()) || !activated) return;
+        if (MC.player == null || MC.level == null || (!ModConfig.showWhenPaused && MC.isPaused()) || !activated) return;
 
         if (ModConfig.enableCache) {
             renderWithCache();
@@ -66,18 +65,18 @@ public class OverlayManager {
         int playerChunkX = (int) Math.floor(MC.player.getX() / 16.0);
         int playerChunkZ = (int) Math.floor(MC.player.getZ() / 16.0);
 
-        List<ChunkSectionPos> sectionsToRender = new ArrayList<>();
-        BlockPos playerPos = MC.player.getBlockPos();
+        List<SectionPos> sectionsToRender = new ArrayList<>();
+        BlockPos playerPos = MC.player.blockPosition();
 
-        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getClampedViewDistance());
+        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getEffectiveRenderDistance());
 
         for (int dx = -effectiveChunkScanRange; dx <= effectiveChunkScanRange; dx++) {
             for (int dz = -effectiveChunkScanRange; dz <= effectiveChunkScanRange; dz++) {
                 if (dx * dx + dz * dz > effectiveChunkScanRange * effectiveChunkScanRange) continue;
                 int chunkX = playerChunkX + dx;
                 int chunkZ = playerChunkZ + dz;
-                for (int sectionY = MC.world.getBottomSectionCoord(); sectionY <= MC.world.getTopSectionCoord(); sectionY++) {
-                    sectionsToRender.add(ChunkSectionPos.from(chunkX, sectionY, chunkZ));
+                for (int sectionY = MC.level.getMinSectionY(); sectionY <= MC.level.getMaxSectionY(); sectionY++) {
+                    sectionsToRender.add(SectionPos.of(chunkX, sectionY, chunkZ));
                 }
             }
         }
@@ -88,20 +87,20 @@ public class OverlayManager {
             return Double.compare(distA, distB);
         });
 
-        for (ChunkSectionPos sectionPos : sectionsToRender) {
+        for (SectionPos sectionPos : sectionsToRender) {
             OverlayCache.queueForCompute(sectionPos);
         }
 
         OverlayCache.processQueue();
 
-        for (ChunkSectionPos sectionPos : sectionsToRender) {
+        for (SectionPos sectionPos : sectionsToRender) {
             OverlayCache.CacheSectionPosEntry entry = OverlayCache.get(sectionPos);
             if (entry == null || entry.blocks == null) continue;
 
             for (OverlayCache.CacheBlockPosEntry blockEntry : entry.blocks) {
                 BlockPos blockPos = blockEntry.pos();
                 int lightLevel = blockEntry.lightLevel();
-                activeRenderer.addBlock(MC.gameRenderer.getCamera(), blockPos, lightLevel);
+                activeRenderer.addBlock(MC.gameRenderer.getMainCamera(), blockPos, lightLevel);
             }
         }
 
@@ -118,14 +117,14 @@ public class OverlayManager {
         int playerChunkX = (int) Math.floor(MC.player.getX() / 16.0);
         int playerChunkZ = (int) Math.floor(MC.player.getZ() / 16.0);
 
-        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getClampedViewDistance());
+        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getEffectiveRenderDistance());
 
         for (int dx = -effectiveChunkScanRange; dx <= effectiveChunkScanRange; dx++) {
             for (int dz = -effectiveChunkScanRange; dz <= effectiveChunkScanRange; dz++) {
                 if (dx * dx + dz * dz > ModConfig.chunkScanRange * ModConfig.chunkScanRange) continue;
                 int chunkX = playerChunkX + dx;
                 int chunkZ = playerChunkZ + dz;
-                for (int sectionY = MC.world.getBottomSectionCoord(); sectionY <= MC.world.getTopSectionCoord(); sectionY++) {
+                for (int sectionY = MC.level.getMinSectionY(); sectionY <= MC.level.getMaxSectionY(); sectionY++) {
                     for (int x = 0; x < 16; x++) {
                         for (int y = 0; y < 16; y++) {
                             for (int z = 0; z < 16; z++) {
@@ -134,8 +133,8 @@ public class OverlayManager {
                                 int blockZ = chunkZ * 16 + z;
                                 BlockPos blockPos = new BlockPos(blockX, blockY, blockZ);
                                 if (OverlayChecker.shouldRenderOverlay(blockPos)) {
-                                    int lightLevel = MC.world.getLightLevel(LightType.BLOCK, blockPos.up());
-                                    activeRenderer.addBlock(MC.gameRenderer.getCamera(), blockPos, lightLevel);
+                                    int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
+                                    activeRenderer.addBlock(MC.gameRenderer.getMainCamera(), blockPos, lightLevel);
                                 }
                             }
                         }

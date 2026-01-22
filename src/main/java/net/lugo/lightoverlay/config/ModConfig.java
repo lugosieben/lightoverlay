@@ -11,9 +11,9 @@ import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayManager;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 
 import java.awt.*;
@@ -51,14 +51,14 @@ public class ModConfig {
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
-                .title(Text.translatable("text.light-overlay.config.title"))
+                .title(Component.translatable("text.light-overlay.config.title"))
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("text.light-overlay.config.category.main"))
+                        .name(Component.translatable("text.light-overlay.config.category.main"))
                         .group(OptionGroup.createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.group.general"))
+                                .name(Component.translatable("text.light-overlay.config.group.general"))
                                 .option(Option.<Integer>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.light_level_threshold.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.light_level_threshold.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.light_level_threshold.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold.description")))
                                         .binding(
                                                 1,
                                                 () -> lightLevelThreshold,
@@ -68,8 +68,8 @@ public class ModConfig {
                                                 .step(1))
                                         .build())
                                 .option(Option.<Integer>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.chunk_scan_range.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.chunk_scan_range.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.chunk_scan_range.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.chunk_scan_range.description")))
                                         .binding(
                                                 4,
                                                 () -> chunkScanRange,
@@ -79,22 +79,22 @@ public class ModConfig {
                                                 .step(1))
                                         .build())
                                 .option(Option.<OverlayManager.OverlayRendererType>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.overlay_mode.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.overlay_mode.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.overlay_mode.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.overlay_mode.description")))
                                         .binding(
                                                 OverlayManager.OverlayRendererType.CROSS,
                                                 () -> rendererType,
                                                 newVal -> rendererType = newVal)
                                         .controller(opt -> EnumControllerBuilder.create(opt)
                                                 .enumClass(OverlayManager.OverlayRendererType.class)
-                                                .formatValue(v -> Text.translatable("text.light-overlay.config.option.overlay_mode." + v.name().toLowerCase())))
+                                                .formatValue(v -> Component.translatable("text.light-overlay.config.option.overlay_mode." + v.name().toLowerCase())))
                                         .build())
                                 .build())
                         .group(OptionGroup.createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.group.overlay_hiding"))
+                                .name(Component.translatable("text.light-overlay.config.group.overlay_hiding"))
                                 .option(Option.<Boolean>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.hide_green.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.hide_green.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.hide_green.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.hide_green.description")))
                                         .binding(
                                                 false,
                                                 () -> hideGreen,
@@ -102,8 +102,8 @@ public class ModConfig {
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.hide_transparent.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.hide_transparent.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.hide_transparent.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.hide_transparent.description")))
                                         .binding(
                                                 true,
                                                 () -> hideTransparent,
@@ -111,8 +111,8 @@ public class ModConfig {
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.hide_water.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.hide_water.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.hide_water.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.hide_water.description")))
                                         .binding(
                                                 true,
                                                 () -> hideWater,
@@ -120,8 +120,8 @@ public class ModConfig {
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.show_special_spawning_condition_blocks.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.show_special_spawning_condition_blocks.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.show_special_spawning_condition_blocks.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.show_special_spawning_condition_blocks.description")))
                                         .binding(
                                                 false,
                                                 () -> showSpecialSpawningConditionBlocks,
@@ -130,10 +130,10 @@ public class ModConfig {
                                         .build())
                                 .build())
                         .group(OptionGroup.createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.group.customize"))
+                                .name(Component.translatable("text.light-overlay.config.group.customize"))
                                 .option(Option.<Color>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.valid_color.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.valid_color.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.valid_color.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.valid_color.description")))
                                         .binding(
                                                 new Color(0, 255, 0, 255),
                                                 () -> validColor,
@@ -142,8 +142,8 @@ public class ModConfig {
                                                 .allowAlpha(true))
                                         .build())
                                 .option(Option.<Color>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.invalid_color.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.invalid_color.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.invalid_color.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.invalid_color.description")))
                                         .binding(
                                                 new Color(255, 0, 0, 255),
                                                 () -> invalidColor,
@@ -154,10 +154,10 @@ public class ModConfig {
                                 .build())
                         .build())
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("text.light-overlay.config.category.misc"))
+                        .name(Component.translatable("text.light-overlay.config.category.misc"))
                         .option(Option.<Boolean>createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.option.show_when_paused.name"))
-                                .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.show_when_paused.description")))
+                                .name(Component.translatable("text.light-overlay.config.option.show_when_paused.name"))
+                                .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.show_when_paused.description")))
                                 .binding(
                                         true,
                                         () -> showWhenPaused,
@@ -165,8 +165,8 @@ public class ModConfig {
                                 .controller(TickBoxControllerBuilder::create)
                                 .build())
                         .option(Option.<Integer>createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.option.max_computations_per_tick.name"))
-                                .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.max_computations_per_tick.description")))
+                                .name(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.name"))
+                                .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.description")))
                                 .binding(
                                         8,
                                         () -> maxComputationsPerTick,
@@ -176,10 +176,10 @@ public class ModConfig {
                                         .step(1))
                                 .build())
                         .group(OptionGroup.createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.group.experimental"))
+                                .name(Component.translatable("text.light-overlay.config.group.experimental"))
                                 .option(Option.<Boolean>createBuilder()
-                                        .name(Text.translatable("text.light-overlay.config.option.enable_cache.name"))
-                                        .description(OptionDescription.of(Text.translatable("text.light-overlay.config.option.enable_cache.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.enable_cache.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.enable_cache.description")))
                                         .binding(
                                                 true,
                                                 () -> enableCache,
@@ -189,16 +189,16 @@ public class ModConfig {
                                 .build())
                         .build())
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("text.light-overlay.config.category.report"))
+                        .name(Component.translatable("text.light-overlay.config.category.report"))
                         .option(ButtonOption.createBuilder()
-                                .name(Text.translatable("text.light-overlay.config.button.report"))
-                                .description(OptionDescription.of(Text.translatable("text.light-overlay.config.button.report.description")))
-                                .text(Text.literal(""))
+                                .name(Component.translatable("text.light-overlay.config.button.report"))
+                                .description(OptionDescription.of(Component.translatable("text.light-overlay.config.button.report.description")))
+                                .text(Component.literal(""))
                                 .action((yaclScreen, buttonOption) -> {
                                     var modContainerOpt = FabricLoader.getInstance().getModContainer(LightOverlay.MOD_ID);
                                     modContainerOpt.ifPresent(modContainer -> {
                                         var issuesUrlOpt = modContainer.getMetadata().getContact().get("issues");
-                                        issuesUrlOpt.ifPresent(url -> Util.getOperatingSystem().open(url));
+                                        issuesUrlOpt.ifPresent(url -> Util.getPlatform().openUri(url));
                                     });
                                 })
                                 .build())
@@ -209,7 +209,7 @@ public class ModConfig {
     }
 
     public static final ConfigClassHandler<ModConfig> HANDLER = ConfigClassHandler.createBuilder(ModConfig.class)
-            .id(Identifier.of(LightOverlay.MOD_ID, "config"))
+            .id(Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve("light-overlay.json5"))
                     .setJson5(true)

@@ -11,8 +11,8 @@
     "requireAnnotations": true
   },
   "client": [
-    "WorldRendererMixin",
+    "LevelRendererMixin",
     "cacheupdaters.ClientChunkCacheMixin",
-    "cacheupdaters.WorldRendererMixin"
+    "cacheupdaters.LevelRendererMixin"
   ]
 }
