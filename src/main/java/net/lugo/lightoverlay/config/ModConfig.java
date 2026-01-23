@@ -1,10 +1,7 @@
 package net.lugo.lightoverlay.config;
 
 import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.ColorControllerBuilder;
-import dev.isxander.yacl3.api.controller.EnumControllerBuilder;
-import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
@@ -40,7 +37,9 @@ public class ModConfig {
     @SerialEntry
     public static boolean showWhenPaused = true;
     @SerialEntry
-    public static boolean enableCache = true;
+    public static boolean enableIrisFlickerFix = true;
+    @SerialEntry
+    public static Integer nearbyCheckDistanceSquared = 16 * 16;
 
     @SerialEntry
     public static Color validColor = new Color(0, 255, 0, 255);
@@ -178,13 +177,20 @@ public class ModConfig {
                         .group(OptionGroup.createBuilder()
                                 .name(Component.translatable("text.light-overlay.config.group.experimental"))
                                 .option(Option.<Boolean>createBuilder()
-                                        .name(Component.translatable("text.light-overlay.config.option.enable_cache.name"))
-                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.enable_cache.description")))
+                                        .name(Component.translatable("text.light-overlay.config.option.enable_iris_flicker_fix.name"))
                                         .binding(
                                                 true,
-                                                () -> enableCache,
-                                                newVal -> enableCache = newVal)
+                                                () -> enableIrisFlickerFix,
+                                                newVal -> enableIrisFlickerFix = newVal)
                                         .controller(TickBoxControllerBuilder::create)
+                                        .build())
+                                .option(Option.<Integer>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.nearby_check_distance.name"))
+                                        .binding(
+                                                16 * 16,
+                                                () -> nearbyCheckDistanceSquared,
+                                                newVal -> nearbyCheckDistanceSquared = newVal)
+                                        .controller(IntegerFieldControllerBuilder::create)
                                         .build())
                                 .build())
                         .build())

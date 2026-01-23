@@ -41,11 +41,11 @@
   "text.light-overlay.config.option.show_when_paused.description": "Whether to show the overlay when the game is paused.",
   "text.light-overlay.config.option.cylinder_mode.name": "Cylinder Mode",
   "text.light-overlay.config.option.cylinder_mode.description": "Render the Overlay in a Cylinder shape instead of a cube (Depending on use case, this could improve performance)",
-  "text.light-overlay.config.option.enable_cache.name": "Enable Cache",
-  "text.light-overlay.config.option.enable_cache.description": "Enables caching of overlay data for hugely improved performance. Disable if you experience issues.",
   "text.light-overlay.config.group.experimental": "Experimental (Don't change unless you know what you're doing!)",
   "text.light-overlay.config.option.chunk_scan_range.name": "Scan Range",
     "text.light-overlay.config.option.chunk_scan_range.description": "How many chunks around the player to render the Light Level. Higher values increase the scanned area but may decrease performance.",
   "text.light-overlay.config.option.max_computations_per_tick.name": "Max Chunk Computations per Tick",
-  "text.light-overlay.config.option.max_computations_per_tick.description": "The maximum amount of chunks being computed in a single tick. Lower this if experiencing lags."
+  "text.light-overlay.config.option.max_computations_per_tick.description": "The maximum amount of chunks being computed in a single tick. Lower this if experiencing lags.",
+  "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris Flicker Fix",
+  "text.light-overlay.config.option.nearby_check_distance.name": "Nearby Check Distance Squared"
 }

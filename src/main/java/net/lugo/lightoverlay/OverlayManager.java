@@ -1,5 +1,6 @@
 package net.lugo.lightoverlay;
 
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
 import net.lugo.lightoverlay.config.ModConfig;
 import net.lugo.lightoverlay.renderers.CarpetOverlayRenderer;
 import net.lugo.lightoverlay.renderers.CrossOverlayRenderer;
@@ -8,14 +9,13 @@ import net.lugo.lightoverlay.renderers.NumberOverlayRenderer;
 import net.lugo.lightoverlay.util.DistanceUtil;
 import net.lugo.lightoverlay.util.HudMessage;
 import net.lugo.lightoverlay.util.OverlayCache;
-import net.lugo.lightoverlay.util.OverlayChecker;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.level.LightLayer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,21 +47,18 @@ public class OverlayManager {
         HudMessage.show(message, ChatFormatting.DARK_AQUA);
     }
 
-    public static void renderEnd() {
+    public static void render(WorldRenderContext context) {
         if (MC.player == null || MC.level == null || (!ModConfig.showWhenPaused && MC.isPaused()) || !activated) return;
 
-        if (ModConfig.enableCache) {
-            renderWithCache();
-        } else {
-            renderWithoutCache();
-        }
+        renderWithCache(context);
     }
 
     @SuppressWarnings("DataFlowIssue")
-    private static void renderWithCache() {
+    private static void renderWithCache(WorldRenderContext context) {
         OverlayRenderer activeRenderer = ModConfig.rendererType.getRenderer();
-        activeRenderer.startBatch();
+        activeRenderer.startBatch(context);
 
+        int nearbySectionCount = 0;
         int playerChunkX = (int) Math.floor(MC.player.getX() / 16.0);
         int playerChunkZ = (int) Math.floor(MC.player.getZ() / 16.0);
 
@@ -77,6 +74,9 @@ public class OverlayManager {
                 int chunkZ = playerChunkZ + dz;
                 for (int sectionY = MC.level.getMinSectionY(); sectionY <= MC.level.getMaxSectionY(); sectionY++) {
                     sectionsToRender.add(SectionPos.of(chunkX, sectionY, chunkZ));
+                    if (DistanceUtil.getDistanceSquared(SectionPos.of(chunkX, sectionY, chunkZ), playerPos) < ModConfig.nearbyCheckDistanceSquared) {
+                        nearbySectionCount++;
+                    }
                 }
             }
         }
@@ -100,49 +100,17 @@ public class OverlayManager {
             for (OverlayCache.CacheBlockPosEntry blockEntry : entry.blocks) {
                 BlockPos blockPos = blockEntry.pos();
                 int lightLevel = blockEntry.lightLevel();
-                activeRenderer.addBlock(MC.gameRenderer.getMainCamera(), blockPos, lightLevel);
+                boolean isNearby = nearbySectionCount > 0;
+                activeRenderer.addBlock(blockPos, lightLevel, isNearby);
             }
+            nearbySectionCount--;
         }
 
         activeRenderer.endBatch();
     }
 
-
-    @SuppressWarnings("DataFlowIssue")
-    @Deprecated
-    private static void renderWithoutCache() {
+    public static void draw() {
         OverlayRenderer activeRenderer = ModConfig.rendererType.getRenderer();
-        activeRenderer.startBatch();
-
-        int playerChunkX = (int) Math.floor(MC.player.getX() / 16.0);
-        int playerChunkZ = (int) Math.floor(MC.player.getZ() / 16.0);
-
-        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getEffectiveRenderDistance());
-
-        for (int dx = -effectiveChunkScanRange; dx <= effectiveChunkScanRange; dx++) {
-            for (int dz = -effectiveChunkScanRange; dz <= effectiveChunkScanRange; dz++) {
-                if (dx * dx + dz * dz > ModConfig.chunkScanRange * ModConfig.chunkScanRange) continue;
-                int chunkX = playerChunkX + dx;
-                int chunkZ = playerChunkZ + dz;
-                for (int sectionY = MC.level.getMinSectionY(); sectionY <= MC.level.getMaxSectionY(); sectionY++) {
-                    for (int x = 0; x < 16; x++) {
-                        for (int y = 0; y < 16; y++) {
-                            for (int z = 0; z < 16; z++) {
-                                int blockX = chunkX * 16 + x;
-                                int blockY = sectionY * 16 + y;
-                                int blockZ = chunkZ * 16 + z;
-                                BlockPos blockPos = new BlockPos(blockX, blockY, blockZ);
-                                if (OverlayChecker.shouldRenderOverlay(blockPos)) {
-                                    int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
-                                    activeRenderer.addBlock(MC.gameRenderer.getMainCamera(), blockPos, lightLevel);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        activeRenderer.endBatch();
+        activeRenderer.uploadThenDraw();
     }
 }
