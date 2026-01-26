@@ -7,7 +7,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 public class RenderingEvents {
     public static void register() {
-        WorldRenderEvents.BEFORE_TRANSLUCENT.register(context -> {
+        WorldRenderEvents.END_MAIN.register(context -> {
             final ProfilerFiller profilerFiller = Profiler.get();
             profilerFiller.push("lightoverlay");
             profilerFiller.push("render");
