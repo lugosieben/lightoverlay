@@ -65,7 +65,7 @@ public class OverlayManager {
         List<SectionPos> sectionsToRender = new ArrayList<>();
         BlockPos playerPos = MC.player.blockPosition();
 
-        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getEffectiveRenderDistance());
+        int effectiveChunkScanRange = Math.min(ModConfig.chunkScanRange, MC.options.getEffectiveRenderDistance() + 1);
 
         for (int dx = -effectiveChunkScanRange; dx <= effectiveChunkScanRange; dx++) {
             for (int dz = -effectiveChunkScanRange; dz <= effectiveChunkScanRange; dz++) {

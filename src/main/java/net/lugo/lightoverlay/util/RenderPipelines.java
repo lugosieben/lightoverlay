@@ -11,8 +11,8 @@ import net.minecraft.resources.Identifier;
 public final class RenderPipelines {
     public static final RenderPipeline LIGHT_OVERLAY_PIPELINE = RenderPipeline.builder(net.minecraft.client.renderer.RenderPipelines.MATRICES_FOG_SNIPPET)
             .withLocation(Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "pipeline/light_overlay"))
-            .withVertexShader("core/position_tex_color")
-            .withFragmentShader("core/position_tex_color")
+            .withVertexShader(ShaderHelper.LIGHTOVERLAY_VERTEX_SHADER)
+            .withFragmentShader(ShaderHelper.LIGHTOVERLAY_FRAGMENT_SHADER)
             .withSampler("Sampler0")
             .withBlend(BlendFunction.TRANSLUCENT)
             .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
