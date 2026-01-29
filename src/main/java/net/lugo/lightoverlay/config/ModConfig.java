@@ -7,7 +7,7 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lugo.lightoverlay.LightOverlay;
-import net.lugo.lightoverlay.OverlayManager;
+import net.lugo.lightoverlay.OverlayHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -24,7 +24,7 @@ public class ModConfig {
     public static int chunkScanRange = 4;
 
     @SerialEntry
-    public static OverlayManager.OverlayRendererType rendererType = OverlayManager.OverlayRendererType.CROSS;
+    public static OverlayHandler.Mode rendererMode = OverlayHandler.Mode.CROSS;
 
     @SerialEntry
     public static boolean hideGreen = false;
@@ -72,20 +72,26 @@ public class ModConfig {
                                         .binding(
                                                 4,
                                                 () -> chunkScanRange,
-                                                newVal -> chunkScanRange = newVal)
+                                                newVal -> {
+                                                    chunkScanRange = newVal;
+                                                    OverlayHandler.setChunkScanRadius(newVal);
+                                                })
                                         .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                                 .range(1, 24)
                                                 .step(1))
                                         .build())
-                                .option(Option.<OverlayManager.OverlayRendererType>createBuilder()
+                                .option(Option.<OverlayHandler.Mode>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.overlay_mode.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.overlay_mode.description")))
                                         .binding(
-                                                OverlayManager.OverlayRendererType.CROSS,
-                                                () -> rendererType,
-                                                newVal -> rendererType = newVal)
+                                                OverlayHandler.Mode.CROSS,
+                                                () -> rendererMode,
+                                                newVal -> {
+                                                    rendererMode = newVal;
+                                                    OverlayHandler.switchMode(newVal);
+                                                })
                                         .controller(opt -> EnumControllerBuilder.create(opt)
-                                                .enumClass(OverlayManager.OverlayRendererType.class)
+                                                .enumClass(OverlayHandler.Mode.class)
                                                 .formatValue(v -> Component.translatable("text.light-overlay.config.option.overlay_mode." + v.name().toLowerCase())))
                                         .build())
                                 .build())
@@ -169,7 +175,10 @@ public class ModConfig {
                                 .binding(
                                         8,
                                         () -> maxComputationsPerTick,
-                                        newVal -> maxComputationsPerTick = newVal)
+                                        newVal -> {
+                                            maxComputationsPerTick = newVal;
+                                            OverlayHandler.setMaxComputationsPerTick(newVal);
+                                        })
                                 .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                         .range(1, 32)
                                         .step(1))

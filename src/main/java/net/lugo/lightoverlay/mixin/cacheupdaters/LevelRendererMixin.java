@@ -1,6 +1,6 @@
 package net.lugo.lightoverlay.mixin.cacheupdaters;
 
-import net.lugo.lightoverlay.util.OverlayCache;
+import net.lugo.lightoverlay.OverlayHandler;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -14,6 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LevelRendererMixin {
     @Inject(method = "blockChanged", at = @At("HEAD"))
     private void onBlockChanged(BlockGetter world, BlockPos pos, BlockState oldState, BlockState newState, int flags, CallbackInfo ci) {
-        OverlayCache.clearFromBlockPos(pos);
+        OverlayHandler.clear(pos);
     }
 }
