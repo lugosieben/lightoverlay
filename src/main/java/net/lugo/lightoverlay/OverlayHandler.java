@@ -6,15 +6,18 @@ import net.lugo.lightoverlay.renderers.CrossOverlayRenderer;
 import net.lugo.lightoverlay.renderers.MarkerOverlayRenderer;
 import net.lugo.lightoverlay.renderers.NumberOverlayRenderer;
 import net.lugo.lightoverlay.util.ColorHelper;
+import net.lugo.lightoverlay.util.HudMessage;
 import net.lugo.lightoverlay.util.OverlayChecker;
 import net.lugo.overlaylib.Overlay;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.managers.CachedOverlayManager;
 import net.lugo.overlaylib.util.OverlayRendererBlockData;
 import net.lugo.overlaylib.util.TextureSection;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.LightLayer;
 
 import java.util.Optional;
@@ -59,6 +62,12 @@ public class OverlayHandler {
     public static void toggle() {
         isActive = !isActive;
         overlay.setActive(isActive);
+
+        if (isActive) {
+            HudMessage.show(Component.translatable("text.light-overlay.message.toggle.on"), ChatFormatting.GREEN);
+            return;
+        }
+        HudMessage.show(Component.translatable("text.light-overlay.message.toggle.off"), ChatFormatting.RED);
     }
 
     public static void switchMode(Mode mode) {

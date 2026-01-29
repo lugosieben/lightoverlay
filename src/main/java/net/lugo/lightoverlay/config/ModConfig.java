@@ -61,7 +61,10 @@ public class ModConfig {
                                         .binding(
                                                 1,
                                                 () -> lightLevelThreshold,
-                                                newVal -> lightLevelThreshold = newVal)
+                                                newVal -> {
+                                                    lightLevelThreshold = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                                 .range(1, 15)
                                                 .step(1))
@@ -103,7 +106,10 @@ public class ModConfig {
                                         .binding(
                                                 false,
                                                 () -> hideGreen,
-                                                newVal -> hideGreen = newVal)
+                                                newVal -> {
+                                                    hideGreen = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
@@ -112,7 +118,10 @@ public class ModConfig {
                                         .binding(
                                                 true,
                                                 () -> hideTransparent,
-                                                newVal -> hideTransparent = newVal)
+                                                newVal -> {
+                                                    hideTransparent = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
@@ -121,7 +130,10 @@ public class ModConfig {
                                         .binding(
                                                 true,
                                                 () -> hideWater,
-                                                newVal -> hideWater = newVal)
+                                                newVal -> {
+                                                    hideWater = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
@@ -130,7 +142,10 @@ public class ModConfig {
                                         .binding(
                                                 false,
                                                 () -> showSpecialSpawningConditionBlocks,
-                                                newVal -> showSpecialSpawningConditionBlocks = newVal)
+                                                newVal -> {
+                                                    showSpecialSpawningConditionBlocks = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .build())
@@ -142,7 +157,10 @@ public class ModConfig {
                                         .binding(
                                                 new Color(0, 255, 0, 255),
                                                 () -> validColor,
-                                                newVal -> validColor = newVal)
+                                                newVal -> {
+                                                    validColor = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(opt -> ColorControllerBuilder.create(opt)
                                                 .allowAlpha(true))
                                         .build())
@@ -152,7 +170,10 @@ public class ModConfig {
                                         .binding(
                                                 new Color(255, 0, 0, 255),
                                                 () -> invalidColor,
-                                                newVal -> invalidColor = newVal)
+                                                newVal -> {
+                                                    invalidColor = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(opt -> ColorControllerBuilder.create(opt)
                                                 .allowAlpha(true))
                                         .build())
