@@ -40,7 +40,7 @@
   "text.light-overlay.config.option.show_when_paused.name": "Anzeigen, während das Spiel pausiert ist.",
   "text.light-overlay.config.option.show_when_paused.description": "Ob die Lichtlevel-Anzeige angezeigt werden soll, während das Spiel pausiert ist.",
   "text.light-overlay.config.option.cylinder_mode.name": "Zylindermodus",
-  "text.light-overlay.config.option.cylinder_mode.description": "Rendert die Lichtlevel-Anzeige in einer Zylinderform anstelle eines Würfels (je nach Anwendungsfall kann dies die Leistung verbessern)",
+  "text.light-overlay.config.option.cylinder_mode.description": "Rendert die Lichtlevel-Anzeige in Form eines Zylinders statt als Würfel (je nach Anwendungsfall kann dies die Leistung verbessern)",
   "text.light-overlay.config.group.experimental": "Experimentell (Ändere nichts, wenn du nicht weißt, was du tust!)",
   "text.light-overlay.config.option.chunk_scan_range.name": "Scannbereich",
     "text.light-overlay.config.option.chunk_scan_range.description": "Wie viele Chunks um den Spieler herum Makierungen angezeigt werden sollen. Höhere Werte vergrößern den Scannbereich, können jedoch die Leistung beeinträchtigen.",
