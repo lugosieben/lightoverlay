@@ -46,7 +46,7 @@ public class ModConfig {
     @SerialEntry
     public static Color invalidColor = new Color(255, 0, 0, 255);
     @SerialEntry
-    public static int maxComputationsPerTick = 8;
+    public static int maxComputationsPerTick = 32;
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
@@ -194,14 +194,14 @@ public class ModConfig {
                                 .name(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.name"))
                                 .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.description")))
                                 .binding(
-                                        8,
+                                        32,
                                         () -> maxComputationsPerTick,
                                         newVal -> {
                                             maxComputationsPerTick = newVal;
                                             OverlayHandler.setMaxComputationsPerTick(newVal);
                                         })
                                 .controller(opt -> IntegerSliderControllerBuilder.create(opt)
-                                        .range(1, 32)
+                                        .range(1, 128)
                                         .step(1))
                                 .build())
                         .group(OptionGroup.createBuilder()
