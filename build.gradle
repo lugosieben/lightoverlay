@@ -24,7 +24,7 @@ dependencies {
 	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modApi "maven.modrinth:overlaylib:${project.overlaylib_version}"
     modApi "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-    modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modApi "maven.modrinth:modmenu:${project.modmenu_version}"
 	
 }
 
