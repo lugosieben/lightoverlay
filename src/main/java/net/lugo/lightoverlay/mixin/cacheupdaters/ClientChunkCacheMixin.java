@@ -1,6 +1,6 @@
 package net.lugo.lightoverlay.mixin.cacheupdaters;
 
-import net.lugo.lightoverlay.util.OverlayCache;
+import net.lugo.lightoverlay.OverlayHandler;
 import net.minecraft.client.multiplayer.ClientChunkCache;
 import net.minecraft.core.SectionPos;
 import net.minecraft.world.level.LightLayer;
@@ -13,11 +13,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientChunkCacheMixin {
     @Inject(method = "updateViewRadius", at = @At("HEAD"))
     private void onUpdateViewRadius(int distance, CallbackInfo ci) {
-        OverlayCache.clearAll();
+        OverlayHandler.clearAll();
     }
 
     @Inject(method = "onLightUpdate", at = @At("HEAD"))
     private void onLightUpdate(LightLayer layer, SectionPos pos, CallbackInfo ci) {
-        OverlayCache.clear(pos);
+        OverlayHandler.clear(pos);
     }
 }

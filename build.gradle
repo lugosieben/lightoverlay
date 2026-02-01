@@ -13,6 +13,7 @@ base {
 repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
     maven { url "https://maven.isxander.dev/releases" }
+    maven { url "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -20,10 +21,9 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-
+	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modApi "maven.modrinth:overlaylib:${project.overlaylib_version}"
+    modApi "dev.isxander:yet-another-config-lib:${project.yacl_version}"
     modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
 	
 }
@@ -35,6 +35,7 @@ def replaceProperties = [
         minecraft_version: minecraft_version,
         minecraft_version_compatible: minecraft_version_compatible,
         fabric_version: fabric_version,
+        overlaylib_version: overlaylib_version,
         modmenu_version: modmenu_version,
         yacl_version: yacl_version
 ]

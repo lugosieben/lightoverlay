@@ -7,7 +7,7 @@ import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lugo.lightoverlay.LightOverlay;
-import net.lugo.lightoverlay.OverlayManager;
+import net.lugo.lightoverlay.OverlayHandler;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -24,7 +24,7 @@ public class ModConfig {
     public static int chunkScanRange = 4;
 
     @SerialEntry
-    public static OverlayManager.OverlayRendererType rendererType = OverlayManager.OverlayRendererType.CROSS;
+    public static OverlayHandler.Mode rendererMode = OverlayHandler.Mode.CROSS;
 
     @SerialEntry
     public static boolean hideGreen = false;
@@ -46,7 +46,7 @@ public class ModConfig {
     @SerialEntry
     public static Color invalidColor = new Color(255, 0, 0, 255);
     @SerialEntry
-    public static int maxComputationsPerTick = 8;
+    public static int maxComputationsPerTick = 32;
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
@@ -61,7 +61,10 @@ public class ModConfig {
                                         .binding(
                                                 1,
                                                 () -> lightLevelThreshold,
-                                                newVal -> lightLevelThreshold = newVal)
+                                                newVal -> {
+                                                    lightLevelThreshold = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                                 .range(1, 15)
                                                 .step(1))
@@ -72,20 +75,26 @@ public class ModConfig {
                                         .binding(
                                                 4,
                                                 () -> chunkScanRange,
-                                                newVal -> chunkScanRange = newVal)
+                                                newVal -> {
+                                                    chunkScanRange = newVal;
+                                                    OverlayHandler.setChunkScanRadius(newVal);
+                                                })
                                         .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                                 .range(1, 24)
                                                 .step(1))
                                         .build())
-                                .option(Option.<OverlayManager.OverlayRendererType>createBuilder()
+                                .option(Option.<OverlayHandler.Mode>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.overlay_mode.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.overlay_mode.description")))
                                         .binding(
-                                                OverlayManager.OverlayRendererType.CROSS,
-                                                () -> rendererType,
-                                                newVal -> rendererType = newVal)
+                                                OverlayHandler.Mode.CROSS,
+                                                () -> rendererMode,
+                                                newVal -> {
+                                                    rendererMode = newVal;
+                                                    OverlayHandler.switchMode(newVal);
+                                                })
                                         .controller(opt -> EnumControllerBuilder.create(opt)
-                                                .enumClass(OverlayManager.OverlayRendererType.class)
+                                                .enumClass(OverlayHandler.Mode.class)
                                                 .formatValue(v -> Component.translatable("text.light-overlay.config.option.overlay_mode." + v.name().toLowerCase())))
                                         .build())
                                 .build())
@@ -97,7 +106,10 @@ public class ModConfig {
                                         .binding(
                                                 false,
                                                 () -> hideGreen,
-                                                newVal -> hideGreen = newVal)
+                                                newVal -> {
+                                                    hideGreen = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
@@ -106,7 +118,10 @@ public class ModConfig {
                                         .binding(
                                                 true,
                                                 () -> hideTransparent,
-                                                newVal -> hideTransparent = newVal)
+                                                newVal -> {
+                                                    hideTransparent = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
@@ -115,7 +130,10 @@ public class ModConfig {
                                         .binding(
                                                 true,
                                                 () -> hideWater,
-                                                newVal -> hideWater = newVal)
+                                                newVal -> {
+                                                    hideWater = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .option(Option.<Boolean>createBuilder()
@@ -124,7 +142,10 @@ public class ModConfig {
                                         .binding(
                                                 false,
                                                 () -> showSpecialSpawningConditionBlocks,
-                                                newVal -> showSpecialSpawningConditionBlocks = newVal)
+                                                newVal -> {
+                                                    showSpecialSpawningConditionBlocks = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .build())
@@ -136,7 +157,10 @@ public class ModConfig {
                                         .binding(
                                                 new Color(0, 255, 0, 255),
                                                 () -> validColor,
-                                                newVal -> validColor = newVal)
+                                                newVal -> {
+                                                    validColor = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(opt -> ColorControllerBuilder.create(opt)
                                                 .allowAlpha(true))
                                         .build())
@@ -146,7 +170,10 @@ public class ModConfig {
                                         .binding(
                                                 new Color(255, 0, 0, 255),
                                                 () -> invalidColor,
-                                                newVal -> invalidColor = newVal)
+                                                newVal -> {
+                                                    invalidColor = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
                                         .controller(opt -> ColorControllerBuilder.create(opt)
                                                 .allowAlpha(true))
                                         .build())
@@ -167,11 +194,14 @@ public class ModConfig {
                                 .name(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.name"))
                                 .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.description")))
                                 .binding(
-                                        8,
+                                        32,
                                         () -> maxComputationsPerTick,
-                                        newVal -> maxComputationsPerTick = newVal)
+                                        newVal -> {
+                                            maxComputationsPerTick = newVal;
+                                            OverlayHandler.setMaxComputationsPerTick(newVal);
+                                        })
                                 .controller(opt -> IntegerSliderControllerBuilder.create(opt)
-                                        .range(1, 32)
+                                        .range(1, 128)
                                         .step(1))
                                 .build())
                         .group(OptionGroup.createBuilder()

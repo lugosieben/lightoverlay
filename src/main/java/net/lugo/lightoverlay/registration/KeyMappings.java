@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.lugo.lightoverlay.LightOverlay;
-import net.lugo.lightoverlay.OverlayManager;
+import net.lugo.lightoverlay.OverlayHandler;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -23,8 +23,8 @@ public class KeyMappings {
         KeyBindingHelper.registerKeyBinding(lightOverlayKey);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (lightOverlayKey.consumeClick()) {
-                OverlayManager.toggle();
+            if (lightOverlayKey.consumeClick() && lightOverlayKey.isDown()) {
+                OverlayHandler.toggle();
             }
         });
     }
