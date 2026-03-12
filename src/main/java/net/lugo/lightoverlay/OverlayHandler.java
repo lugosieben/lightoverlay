@@ -46,13 +46,14 @@ public class OverlayHandler {
     private static final TextureSection.TextureSectionData lightLevelSpecificTextureSectionData = new TextureSection.TextureSectionData(16, 1);
 
     private static final CachedOverlayManager overlayManager = new CachedOverlayManager((blockPos -> {
-        if (!OverlayChecker.shouldRenderOverlay(blockPos)) return OverlayRendererBlockData.NO_RENDER;
+        OverlayChecker.CheckerResult checkerResult = OverlayChecker.shouldRenderOverlay(blockPos);
+        if (!checkerResult.shouldRender()) return OverlayRendererBlockData.NO_RENDER;
         //noinspection DataFlowIssue
         int lightLevel = Minecraft.getInstance().level.getBrightness(LightLayer.BLOCK, blockPos.above());
         if (lightLevel >= ModConfig.lightLevelThreshold && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
         float[] colors = ColorHelper.getOverlayColorFloats(lightLevel);
-        if (!activeMode.lightLevelSpecificTextureSection) return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], Optional.empty());
-        return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], Optional.of(new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0)));
+        if (!activeMode.lightLevelSpecificTextureSection) return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), Optional.empty());
+        return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), Optional.of(new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0)));
     }));
 
 
