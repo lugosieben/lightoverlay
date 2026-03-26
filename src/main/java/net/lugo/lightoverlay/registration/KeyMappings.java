@@ -2,7 +2,7 @@ package net.lugo.lightoverlay.registration;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayHandler;
 import net.minecraft.client.KeyMapping;
@@ -20,7 +20,7 @@ public class KeyMappings {
 
     private static void registerLightOverlayKeyMapping() {
         KeyMapping lightOverlayKey = new KeyMapping(BASE_KEY + ".toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F9, CATEGORY);
-        KeyBindingHelper.registerKeyBinding(lightOverlayKey);
+        KeyMappingHelper.registerKeyMapping(lightOverlayKey);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (lightOverlayKey.consumeClick() && lightOverlayKey.isDown()) {

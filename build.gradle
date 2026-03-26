@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -12,19 +12,17 @@ base {
 
 repositories {
     maven { url "https://maven.terraformersmc.com/releases/" }
-    maven { url "https://maven.isxander.dev/releases" }
     maven { url "https://api.modrinth.com/maven" }
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modApi "maven.modrinth:overlaylib:${project.overlaylib_version}"
-    modApi "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-    modApi "maven.modrinth:modmenu:${project.modmenu_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation "maven.modrinth:overlaylib:${project.overlaylib_version}"
+    implementation "maven.modrinth:yacl:${project.yacl_version}"
+    implementation "maven.modrinth:modmenu:${project.modmenu_version}"
 	
 }
 
