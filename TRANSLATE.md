@@ -5,7 +5,7 @@ If you'd like to help, you can follow these steps:
 
 ### Step 1: Fork the repository on GitHub.
 
-You can [click this link](https://github.com/lugosieben/lightoverlay/fork), leave the default settings, and click "Create fork".
+You can [click this link](https://github.com/lugosieben/lightoverlay/fork), leave the default settings, and click "Create fork". While you're at it, why not give the project a **star** aswell?
 
 ### Step 2: Check the language files.
 
