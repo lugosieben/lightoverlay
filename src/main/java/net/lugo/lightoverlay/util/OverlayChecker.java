@@ -45,8 +45,10 @@ public class OverlayChecker {
     }
 
 
-    @SuppressWarnings("DataFlowIssue")
     public static CheckerResult shouldRenderOverlay(BlockPos pos) {
+        if (MC.level == null || MC.player == null) {
+            return NO_RENDER_RESULT;
+        }
         BlockState blockState = MC.level.getBlockState(pos);
         Block block = blockState.getBlock();
         BlockPos above = pos.above();
