@@ -50,7 +50,7 @@ public class OverlayChecker {
         BlockState blockState = MC.level.getBlockState(pos);
         Block block = blockState.getBlock();
         BlockPos above = pos.above();
-        BlockState aboveBlockState = MC.level.getBlockState(pos.above());
+        BlockState aboveBlockState = MC.level.getBlockState(above);
         Block aboveBlock = aboveBlockState.getBlock();
         boolean isTopSolid = MC.level.loadedAndEntityCanStandOn(pos, MC.player);
         boolean isTopSolidException = topSolidExceptions.contains(block);

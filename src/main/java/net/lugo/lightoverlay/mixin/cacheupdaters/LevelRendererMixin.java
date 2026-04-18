@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
     @Inject(method = "blockChanged", at = @At("HEAD"))
-    private void onBlockChanged(BlockGetter world, BlockPos pos, BlockState oldState, BlockState newState, int flags, CallbackInfo ci) {
-        OverlayHandler.clear(pos);
+    private void onBlockChanged(BlockGetter level, BlockPos pos, BlockState old, BlockState current, int updateFlags, CallbackInfo ci) {
+        OverlayHandler.refresh(pos);
     }
 }

@@ -1,74 +1,103 @@
 package net.lugo.lightoverlay.renderers;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.util.OverlayRendererBlockData;
+import net.lugo.overlaylib.util.OverlayVertexHelper;
 import net.lugo.overlaylib.util.RenderPipelines;
+import net.lugo.overlaylib.util.TextureSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import org.joml.Matrix4f;
 
 public class CarpetOverlayRenderer extends OverlayRenderer {
     private static final Identifier CARPET_TEXTURE = Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "textures/wool.png");
+    private static final float EPSILON = 1E-3f;
     private static final float CARPET_HEIGHT_BASE = 1f / 16f;
-    private static final float CARPET_HEIGHT = CARPET_HEIGHT_BASE + 1E-3f;
+    private static final float CARPET_HEIGHT = CARPET_HEIGHT_BASE + EPSILON;
     private static final Minecraft MC = Minecraft.getInstance();
 
     public CarpetOverlayRenderer() {
-        super(RenderPipelines.POSITION_TEX_COLOR_FOG, CARPET_TEXTURE, false);
+        super(RenderPipelines.POSITION_TEX_COLOR_FOG_TRIANGLES, CARPET_TEXTURE, false);
     }
-
-    @Override
-    protected void onStartBatch() {}
 
     @SuppressWarnings("DataFlowIssue")
     @Override
-    protected void addVertices(VertexConsumer buffer, Matrix4f positionMatrix, OverlayRendererBlockData data) {
+    protected void addVertices(float worldX, float worldY, float worldZ, OverlayRendererBlockData data) {
+        TextureSection tex = data.textureSection();
         BlockPos abovePos = data.pos().above();
+        float r = data.r();
+        float g = data.g();
+        float b = data.b();
 
-        buffer.addVertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, 0f).setUv2(0, 0);
-        buffer.addVertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, 1f).setUv2(0, 0);
-        buffer.addVertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, 1f).setUv2(0, 0);
-        buffer.addVertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, 0f).setUv2(0, 0);
+        OverlayVertexHelper.squareFromTriags(
+                buffer,
+                OverlayVertexHelper.FixedAxis.Y, worldY + 1 + CARPET_HEIGHT,
+                worldX, worldZ,
+                1f,
+                r, g, b,
+                tex.uStart(), tex.vStart(),
+                tex.uEnd(), tex.vEnd(),
+                data.textureRotation()
+        );
 
         // West face
         if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.west()), Direction.WEST)) {
-            buffer.addVertex(positionMatrix, 0, 1,                 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, 0f).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 0, 1,                 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, 0f).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, CARPET_HEIGHT_BASE).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, CARPET_HEIGHT_BASE).setUv2(0, 0);
+            OverlayVertexHelper.rectFromTriags(
+                    buffer,
+                    OverlayVertexHelper.FixedAxis.X, worldX,
+                    worldY + 1, worldZ,
+                    worldY + 1 + CARPET_HEIGHT, worldZ + 1,
+                    r, g, b,
+                    tex.uStart(), tex.vStart(),
+                    tex.uEnd(), tex.vEnd(),
+                    data.textureRotation()
+            );
         }
 
         // East face
         if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.east()), Direction.EAST)) {
-            buffer.addVertex(positionMatrix, 1, 1,                 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, 0f).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, CARPET_HEIGHT_BASE).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, CARPET_HEIGHT_BASE).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 1, 1,                 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, 0f).setUv2(0, 0);
+            OverlayVertexHelper.rectFromTriags(
+                    buffer,
+                    OverlayVertexHelper.FixedAxis.X, worldX + 1,
+                    worldY + 1, worldZ + 1,
+                    worldY + 1 + CARPET_HEIGHT, worldZ,
+                    r, g, b,
+                    tex.uStart(), tex.vStart(),
+                    tex.uEnd(), tex.vEnd(),
+                    data.textureRotation()
+            );
         }
 
         // North face
         if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.north()), Direction.NORTH)) {
-            buffer.addVertex(positionMatrix, 0, 1,                 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, 0f).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, CARPET_HEIGHT_BASE).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, CARPET_HEIGHT_BASE).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 1, 1,                 0).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, 0f).setUv2(0, 0);
+            OverlayVertexHelper.rectFromTriags(
+                    buffer,
+                    OverlayVertexHelper.FixedAxis.Z, worldZ,
+                    worldX, worldY + 1,
+                    worldX + 1, worldY + 1 + CARPET_HEIGHT,
+                    r, g, b,
+                    tex.uStart(), tex.vStart(),
+                    tex.uEnd(), tex.vEnd(),
+                    data.textureRotation()
+            );
         }
 
         // South face
         if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.south()), Direction.SOUTH)) {
-            buffer.addVertex(positionMatrix, 0, 1,                 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, 0f).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 1, 1,                 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, 0f).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 1, 1 + CARPET_HEIGHT, 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(1f, CARPET_HEIGHT).setUv2(0, 0);
-            buffer.addVertex(positionMatrix, 0, 1 + CARPET_HEIGHT, 1).setColor(data.r(), data.g(), data.b(), 1f).setUv(0f, CARPET_HEIGHT).setUv2(0, 0);
+            OverlayVertexHelper.rectFromTriags(
+                    buffer,
+                    OverlayVertexHelper.FixedAxis.Z, worldZ + 1,
+                    worldX, worldY + 1 + CARPET_HEIGHT,
+                    worldX + 1, worldY + 1,
+                    r, g, b,
+                    tex.uStart(), tex.vStart(),
+                    tex.uEnd(), tex.vEnd(),
+                    data.textureRotation()
+            );
         }
     }
-
-    @Override
-    protected void onEndBatch() {}
 }

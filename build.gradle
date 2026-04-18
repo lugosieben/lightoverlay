@@ -23,7 +23,6 @@ dependencies {
     implementation "maven.modrinth:overlaylib:${project.overlaylib_version}"
     implementation "maven.modrinth:yacl:${project.yacl_version}"
     implementation "maven.modrinth:modmenu:${project.modmenu_version}"
-	
 }
 
 def replaceProperties = [

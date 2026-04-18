@@ -12,6 +12,7 @@ import net.lugo.overlaylib.Overlay;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.managers.CachedOverlayManager;
 import net.lugo.overlaylib.util.OverlayRendererBlockData;
+import net.lugo.overlaylib.util.OverlayVertexHelper;
 import net.lugo.overlaylib.util.TextureSection;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -19,8 +20,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.LightLayer;
-
-import java.util.Optional;
 
 public class OverlayHandler {
     private static boolean isActive = false;
@@ -52,8 +51,8 @@ public class OverlayHandler {
         int lightLevel = Minecraft.getInstance().level.getBrightness(LightLayer.BLOCK, blockPos.above());
         if (lightLevel >= ModConfig.lightLevelThreshold && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
         float[] colors = ColorHelper.getOverlayColorFloats(lightLevel);
-        if (!activeMode.lightLevelSpecificTextureSection) return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), Optional.empty());
-        return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), Optional.of(new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0)));
+        if (!activeMode.lightLevelSpecificTextureSection) return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset());
+        return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0), OverlayVertexHelper.UVRotation.NONE);
     }));
 
 
@@ -91,13 +90,14 @@ public class OverlayHandler {
         overlayManager.setMaxComputationsPerTick(maxComputationsPerTick);
     }
 
-    public static void clear(BlockPos pos) {
-        overlayManager.clearFromBlockPos(pos);
+    public static void refresh(BlockPos pos) {
+        overlayManager.refresh(pos);
     }
-    public static void clear(SectionPos section) {
-        overlayManager.clear(section);
+    public static void refresh(SectionPos section) {
+        overlayManager.refresh(section);
     }
     public static void clearAll() {
+        LightOverlay.LOGGER.info("Clearing all");
         overlayManager.clearAll();
     }
 }
