@@ -15,7 +15,7 @@
   "text.light-overlay.config.option.hide_green.name": "Esconder puntos válidos/verdes",
   "text.light-overlay.config.option.hide_green.description": "Desactiva el renderizado de puntos que normalmente se rendezarían como verdes.",
   "text.light-overlay.config.option.hide_transparent.name": "Ocultar recubrimiento en bloques transparentes",
-  "text.light-overlay.config.option.hide_transparent.description": "Descativa el renderizado en bloques transparentes. Esto solo incluye bloques transparentes en los que los mobs no pueden aparecer.",
+  "text.light-overlay.config.option.hide_transparent.description": "Desactiva el renderizado en bloques transparentes. Esto solo incluye bloques transparentes en los que los mobs no pueden aparecer.",
   "text.light-overlay.config.option.hide_water.name": "Esconder recubrimiento en el agua",
   "text.light-overlay.config.option.hide_water.description": "Oculta el recubrimiento dentro del agua.",
   "text.light-overlay.config.option.show_special_spawning_condition_blocks.name": "Mostrar recubrimiento en bloques con condiciones de aparición de mobs especiales",
