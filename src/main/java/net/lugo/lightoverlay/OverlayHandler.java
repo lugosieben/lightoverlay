@@ -28,19 +28,17 @@ public class OverlayHandler {
     private static Overlay overlay;
 
     public enum Mode {
-        CROSS(new CrossOverlayRenderer(), false, false),
-        CARPET(new CarpetOverlayRenderer(), false, false),
-        NUMBER(new NumberOverlayRenderer(), true, true),
-        MARKER(new MarkerOverlayRenderer(), false, false);
+        CROSS(new CrossOverlayRenderer(),false),
+        CARPET(new CarpetOverlayRenderer(),false),
+        NUMBER(new NumberOverlayRenderer(),true),
+        MARKER(new MarkerOverlayRenderer(),false);
 
         public final OverlayRenderer renderer;
-        public final boolean rotateWithCamera;
         public final boolean lightLevelSpecific;
         public Overlay overlay;
 
-        Mode(OverlayRenderer renderer, boolean rotateWithCamera, boolean lightLevelSpecific) {
+        Mode(OverlayRenderer renderer, boolean lightLevelSpecific) {
             this.renderer = renderer;
-            this.rotateWithCamera = rotateWithCamera;
             this.lightLevelSpecific = lightLevelSpecific;
         }
     }
