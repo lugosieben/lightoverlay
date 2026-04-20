@@ -5,6 +5,7 @@ import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.util.OverlayRendererBlockData;
 import net.lugo.overlaylib.util.OverlayVertexHelper;
 import net.lugo.overlaylib.util.RenderPipelines;
+import net.lugo.overlaylib.util.UVRotation;
 import net.minecraft.resources.Identifier;
 
 public class MarkerOverlayRenderer extends OverlayRenderer {
@@ -25,7 +26,6 @@ public class MarkerOverlayRenderer extends OverlayRenderer {
         final float r = data.r();
         final float g = data.g();
         final float b = data.b();
-        final OverlayVertexHelper.UVRotation rotation = data.textureRotation();
 
         final float x0 = worldX + minX;
         final float x1 = worldX + maxX;
@@ -34,11 +34,11 @@ public class MarkerOverlayRenderer extends OverlayRenderer {
         final float z0 = worldZ + minZ;
         final float z1 = worldZ + maxZ;
 
-        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Y, y1, x0, z0, x1, z1, r, g, b, 0f, 0f, 1f, 1f, rotation); // Top
-        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Y, y0, x0, z1, x1, z0, r, g, b, 0f, 0f, 1f, 1f, rotation); // Bottom
-        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.X, x0, y0, z0, y1, z1, r, g, b, 0f, 0f, 1f, 1f, rotation); // West
-        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.X, x1, y0, z1, y1, z0, r, g, b, 0f, 0f, 1f, 1f, rotation); // East
-        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Z, z0, x0, y0, x1, y1, r, g, b, 0f, 0f, 1f, 1f, rotation); // North
-        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Z, z1, x0, y1, x1, y0, r, g, b, 0f, 0f, 1f, 1f, rotation); // South
+        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Y, y1, x0, z0, x1, z1, r, g, b, 0f, 0f, 1f, 1f, UVRotation.NONE); // Top
+        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Y, y0, x0, z1, x1, z0, r, g, b, 0f, 0f, 1f, 1f, UVRotation.NONE); // Bottom
+        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.X, x0, y0, z0, y1, z1, r, g, b, 0f, 0f, 1f, 1f, UVRotation.NONE); // West
+        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.X, x1, y0, z1, y1, z0, r, g, b, 0f, 0f, 1f, 1f, UVRotation.NONE); // East
+        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Z, z0, x0, y0, x1, y1, r, g, b, 0f, 0f, 1f, 1f, UVRotation.NONE); // North
+        OverlayVertexHelper.rectFromTriags(buffer, OverlayVertexHelper.FixedAxis.Z, z1, x0, y1, x1, y0, r, g, b, 0f, 0f, 1f, 1f, UVRotation.NONE); // South
     }
 }

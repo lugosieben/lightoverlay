@@ -2,8 +2,10 @@ package net.lugo.lightoverlay.util;
 
 import net.lugo.lightoverlay.config.ModConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -46,24 +48,26 @@ public class OverlayChecker {
 
 
     public static CheckerResult shouldRenderOverlay(BlockPos pos) {
-        if (MC.level == null || MC.player == null) {
+        ClientLevel level = MC.level;
+        Player player = MC.player;
+        if (level == null || player == null) {
             return NO_RENDER_RESULT;
         }
-        BlockState blockState = MC.level.getBlockState(pos);
+        BlockState blockState = level.getBlockState(pos);
         Block block = blockState.getBlock();
         BlockPos above = pos.above();
-        BlockState aboveBlockState = MC.level.getBlockState(above);
+        BlockState aboveBlockState = level.getBlockState(above);
         Block aboveBlock = aboveBlockState.getBlock();
-        boolean isTopSolid = MC.level.loadedAndEntityCanStandOn(pos, MC.player);
+        boolean isTopSolid = level.loadedAndEntityCanStandOn(pos, player);
         boolean isTopSolidException = topSolidExceptions.contains(block);
         if (isTopSolidException) isTopSolid = true;
-        boolean aboveTopSolid = MC.level.loadedAndEntityCanStandOnFace(above, MC.player, Direction.DOWN);
+        boolean aboveTopSolid = level.loadedAndEntityCanStandOnFace(above, player, Direction.DOWN);
         if (!isTopSolid || aboveTopSolid) return NO_RENDER_RESULT;
 
         if (isRedstonePowerComponent(aboveBlock)) return NO_RENDER_RESULT;
 
         boolean isForbiddenBlock = forbiddenBlocks.contains(block);
-        boolean hideBecauseWater = ModConfig.hideWater && MC.level.isWaterAt(above);
+        boolean hideBecauseWater = ModConfig.hideWater && level.isWaterAt(above);
         boolean hideBecauseTransparent = ModConfig.hideTransparent && !blockState.canOcclude();
         if (isTopSolidException) hideBecauseTransparent = false;
         boolean hideBecauseSpecialSpawnCondition = !ModConfig.showSpecialSpawningConditionBlocks &&

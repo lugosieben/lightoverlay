@@ -2,10 +2,7 @@ package net.lugo.lightoverlay.renderers;
 
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.overlaylib.OverlayRenderer;
-import net.lugo.overlaylib.util.OverlayRendererBlockData;
-import net.lugo.overlaylib.util.OverlayVertexHelper;
-import net.lugo.overlaylib.util.RenderPipelines;
-import net.lugo.overlaylib.util.TextureSection;
+import net.lugo.overlaylib.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,7 +38,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
                 r, g, b,
                 tex.uStart(), tex.vStart(),
                 tex.uEnd(), tex.vEnd(),
-                data.textureRotation()
+                UVRotation.NONE
         );
 
         // West face
@@ -54,7 +51,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
                     r, g, b,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
-                    data.textureRotation()
+                    UVRotation.NONE
             );
         }
 
@@ -68,7 +65,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
                     r, g, b,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
-                    data.textureRotation()
+                    UVRotation.NONE
             );
         }
 
@@ -82,7 +79,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
                     r, g, b,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
-                    data.textureRotation()
+                    UVRotation.NONE
             );
         }
 
@@ -96,7 +93,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
                     r, g, b,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
-                    data.textureRotation()
+                    UVRotation.NONE
             );
         }
     }

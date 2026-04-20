@@ -12,7 +12,6 @@ import net.lugo.overlaylib.Overlay;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.managers.CachedOverlayManager;
 import net.lugo.overlaylib.util.OverlayRendererBlockData;
-import net.lugo.overlaylib.util.OverlayVertexHelper;
 import net.lugo.overlaylib.util.TextureSection;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -22,23 +21,27 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.LightLayer;
 
 public class OverlayHandler {
+    private static final Minecraft MC = Minecraft.getInstance();
+
     private static boolean isActive = false;
     private static Mode activeMode;
     private static Overlay overlay;
 
     public enum Mode {
-        CROSS(new CrossOverlayRenderer(), false),
-        CARPET(new CarpetOverlayRenderer(), false),
-        NUMBER(new NumberOverlayRenderer(), true),
-        MARKER(new MarkerOverlayRenderer(), false);
+        CROSS(new CrossOverlayRenderer(), false, false),
+        CARPET(new CarpetOverlayRenderer(), false, false),
+        NUMBER(new NumberOverlayRenderer(), true, true),
+        MARKER(new MarkerOverlayRenderer(), false, false);
 
         public final OverlayRenderer renderer;
-        public final boolean lightLevelSpecificTextureSection;
+        public final boolean rotateWithCamera;
+        public final boolean lightLevelSpecific;
         public Overlay overlay;
 
-        Mode(OverlayRenderer renderer, boolean lightLevelSpecificTextureSection) {
+        Mode(OverlayRenderer renderer, boolean rotateWithCamera, boolean lightLevelSpecific) {
             this.renderer = renderer;
-            this.lightLevelSpecificTextureSection = lightLevelSpecificTextureSection;
+            this.rotateWithCamera = rotateWithCamera;
+            this.lightLevelSpecific = lightLevelSpecific;
         }
     }
 
@@ -48,11 +51,13 @@ public class OverlayHandler {
         OverlayChecker.CheckerResult checkerResult = OverlayChecker.shouldRenderOverlay(blockPos);
         if (!checkerResult.shouldRender()) return OverlayRendererBlockData.NO_RENDER;
         //noinspection DataFlowIssue
-        int lightLevel = Minecraft.getInstance().level.getBrightness(LightLayer.BLOCK, blockPos.above());
+        int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
         if (lightLevel >= ModConfig.lightLevelThreshold && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
         float[] colors = ColorHelper.getOverlayColorFloats(lightLevel);
-        if (!activeMode.lightLevelSpecificTextureSection) return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset());
-        return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0), OverlayVertexHelper.UVRotation.NONE);
+
+        TextureSection textureSection = activeMode.lightLevelSpecific ? new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0) : TextureSection.SINGULAR;
+
+        return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), textureSection);
     }));
 
 
