@@ -9,9 +9,11 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayHandler;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
+import net.minecraft.world.level.Level;
 
 import java.awt.*;
 
@@ -19,6 +21,20 @@ import java.awt.*;
 public class ModConfig {
     @SerialEntry
     public static int lightLevelThreshold = 1;
+    @SerialEntry
+    public static int lightLevelThresholdNether = 12;
+    @SerialEntry
+    public static int lightLevelThresholdEnd = 1;
+
+    public static int lightLevelThresholdForDimension(ClientLevel level) {
+        if (Level.NETHER.equals(level.dimension())) {
+            return lightLevelThresholdNether;
+        }
+        if (Level.END.equals(level.dimension())) {
+            return lightLevelThresholdEnd;
+        }
+        return lightLevelThreshold;
+    }
 
     @SerialEntry
     public static int chunkScanRange = 4;
@@ -56,20 +72,6 @@ public class ModConfig {
                         .group(OptionGroup.createBuilder()
                                 .name(Component.translatable("text.light-overlay.config.group.general"))
                                 .option(Option.<Integer>createBuilder()
-                                        .name(Component.translatable("text.light-overlay.config.option.light_level_threshold.name"))
-                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold.description")))
-                                        .binding(
-                                                1,
-                                                () -> lightLevelThreshold,
-                                                newVal -> {
-                                                    lightLevelThreshold = newVal;
-                                                    OverlayHandler.clearAll();
-                                                })
-                                        .controller(opt -> IntegerSliderControllerBuilder.create(opt)
-                                                .range(1, 15)
-                                                .step(1))
-                                        .build())
-                                .option(Option.<Integer>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.chunk_scan_range.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.chunk_scan_range.description")))
                                         .binding(
@@ -96,6 +98,51 @@ public class ModConfig {
                                         .controller(opt -> EnumControllerBuilder.create(opt)
                                                 .enumClass(OverlayHandler.Mode.class)
                                                 .formatValue(v -> Component.translatable("text.light-overlay.config.option.overlay_mode." + v.name().toLowerCase())))
+                                        .build())
+                                .build())
+                        .group(OptionGroup.createBuilder()
+                                .name(Component.translatable("text.light-overlay.config.group.light_level_thresholds"))
+                                .option(Option.<Integer>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.light_level_threshold.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold.description")))
+                                        .binding(
+                                                1,
+                                                () -> lightLevelThreshold,
+                                                newVal -> {
+                                                    lightLevelThreshold = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
+                                        .controller(opt -> IntegerSliderControllerBuilder.create(opt)
+                                                .range(1, 15)
+                                                .step(1))
+                                        .build())
+                                .option(Option.<Integer>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.light_level_threshold_nether.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold_nether.description")))
+                                        .binding(
+                                                12,
+                                                () -> lightLevelThresholdNether,
+                                                newVal -> {
+                                                    lightLevelThresholdNether = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
+                                        .controller(opt -> IntegerSliderControllerBuilder.create(opt)
+                                                .range(1, 15)
+                                                .step(1))
+                                        .build())
+                                .option(Option.<Integer>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.light_level_threshold_end.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold_end.description")))
+                                        .binding(
+                                                1,
+                                                () -> lightLevelThresholdEnd,
+                                                newVal -> {
+                                                    lightLevelThresholdEnd = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
+                                        .controller(opt -> IntegerSliderControllerBuilder.create(opt)
+                                                .range(1, 15)
+                                                .step(1))
                                         .build())
                                 .build())
                         .group(OptionGroup.createBuilder()

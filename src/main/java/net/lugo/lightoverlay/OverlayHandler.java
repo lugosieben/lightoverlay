@@ -50,8 +50,8 @@ public class OverlayHandler {
         if (!checkerResult.shouldRender()) return OverlayRendererBlockData.NO_RENDER;
         //noinspection DataFlowIssue
         int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
-        if (lightLevel >= ModConfig.lightLevelThreshold && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
-        float[] colors = ColorHelper.getOverlayColorFloats(lightLevel);
+        if (lightLevel >= ModConfig.lightLevelThresholdForDimension(MC.level) && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
+        float[] colors = ColorHelper.getOverlayColorFloats(lightLevel, MC.level);
 
         TextureSection textureSection = activeMode.lightLevelSpecific ? new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0) : TextureSection.SINGULAR;
 
