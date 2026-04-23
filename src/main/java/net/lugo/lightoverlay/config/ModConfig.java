@@ -38,6 +38,11 @@ public class ModConfig {
 
     @SerialEntry
     public static int chunkScanRange = 4;
+    @SerialEntry
+    public static int chunkScanRangeVertical = 25;
+    public static boolean isChunkScanRangeVerticalInfinite(int value) {
+        return value > 24;
+    }
 
     @SerialEntry
     public static OverlayHandler.Mode rendererMode = OverlayHandler.Mode.CROSS;
@@ -84,6 +89,21 @@ public class ModConfig {
                                         .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                                 .range(1, 24)
                                                 .step(1))
+                                        .build())
+                                .option(Option.<Integer>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.scan_range_vertical.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.scan_range_vertical.description")))
+                                        .binding(
+                                                25,
+                                                () -> chunkScanRangeVertical,
+                                                newVal -> {
+                                                    chunkScanRangeVertical = newVal;
+                                                    OverlayHandler.setChunkScanRadiusVertical(newVal);
+                                                })
+                                        .controller(opt -> IntegerSliderControllerBuilder.create(opt)
+                                                .range(1, 25)
+                                                .step(1)
+                                                .formatValue(v -> isChunkScanRangeVerticalInfinite(v) ? Component.translatable("text.light-overlay.config.option.scan_range_vertical.infinite") : Component.literal(v.toString())))
                                         .build())
                                 .option(Option.<OverlayHandler.Mode>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.overlay_mode.name"))

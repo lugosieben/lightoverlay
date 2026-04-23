@@ -52,5 +52,8 @@
   "text.light-overlay.config.option.max_computations_per_tick.name": "Max Chunk Computations per Tick",
   "text.light-overlay.config.option.max_computations_per_tick.description": "The maximum amount of chunks being computed in a single tick. Lower this if experiencing lags.",
   "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris Flicker Fix",
-  "text.light-overlay.config.option.nearby_check_distance.name": "Nearby Check Distance Squared"
+  "text.light-overlay.config.option.nearby_check_distance.name": "Nearby Check Distance Squared",
+  "text.light-overlay.config.option.scan_range_vertical.name": "Vertical Scan Range",
+  "text.light-overlay.config.option.scan_range_vertical.description": "How many Chunk Sections (16 blocks high) to render the Light Level vertically away from you. Higher values increase the scanned area but may decrease performance. Lower the normal Scan Range before this as it has a bigger impact.",
+  "text.light-overlay.config.option.scan_range_vertical.infinite": "Inifinite"
 }

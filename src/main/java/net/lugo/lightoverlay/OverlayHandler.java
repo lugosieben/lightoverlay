@@ -79,7 +79,7 @@ public class OverlayHandler {
             overlay.setActive(false);
         }
         if (mode.overlay == null) {
-            mode.overlay = new Overlay(mode.renderer, ModConfig.chunkScanRange, overlayManager);
+            mode.overlay = new Overlay(mode.renderer, ModConfig.chunkScanRange, ModConfig.chunkScanRangeVertical, overlayManager);
         }
         overlay = mode.overlay;
         overlay.setActive(isActive);
@@ -88,6 +88,9 @@ public class OverlayHandler {
 
     public static void setChunkScanRadius(int radius) {
         overlay.setChunkScanRadius(radius);
+    }
+    public static void setChunkScanRadiusVertical(int radius) {
+        overlay.setChunkScanRadiusVertical(radius);
     }
     public static void setMaxComputationsPerTick(int maxComputationsPerTick) {
         overlayManager.setMaxComputationsPerTick(maxComputationsPerTick);
