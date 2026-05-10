@@ -3,11 +3,9 @@ package net.lugo.lightoverlay.util;
 import net.lugo.lightoverlay.config.ModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Set;
 
@@ -47,34 +45,32 @@ public class OverlayChecker {
     }
 
 
-    public static CheckerResult shouldRenderOverlay(BlockPos pos) {
+    public static CheckerResult shouldRenderOverlay(ReusableBlockData data) {
         ClientLevel level = MC.level;
         Player player = MC.player;
         if (level == null || player == null) {
             return NO_RENDER_RESULT;
         }
-        BlockState blockState = level.getBlockState(pos);
-        Block block = blockState.getBlock();
-        BlockPos above = pos.above();
-        BlockState aboveBlockState = level.getBlockState(above);
-        Block aboveBlock = aboveBlockState.getBlock();
-        boolean isTopSolid = level.loadedAndEntityCanStandOn(pos, player);
-        boolean isTopSolidException = topSolidExceptions.contains(block);
+        boolean isTopSolid = level.loadedAndEntityCanStandOn(data.blockPos(), player);
+        boolean isTopSolidException = topSolidExceptions.contains(data.block());
         if (isTopSolidException) isTopSolid = true;
-        boolean aboveTopSolid = level.loadedAndEntityCanStandOnFace(above, player, Direction.DOWN);
+        boolean aboveTopSolid = level.loadedAndEntityCanStandOnFace(data.above().blockPos(), player, Direction.DOWN);
+        if (ModConfig.showOnFarmland && data.block() instanceof FarmlandBlock) {
+            return new CheckerResult(true, -0.0625f);
+        }
         if (!isTopSolid || aboveTopSolid) return NO_RENDER_RESULT;
 
-        if (isRedstonePowerComponent(aboveBlock)) return NO_RENDER_RESULT;
+        if (isRedstonePowerComponent(data.above().block())) return NO_RENDER_RESULT;
 
-        boolean isForbiddenBlock = forbiddenBlocks.contains(block);
-        boolean hideBecauseWater = ModConfig.hideWater && level.isWaterAt(above);
-        boolean hideBecauseTransparent = ModConfig.hideTransparent && !blockState.canOcclude();
+        boolean isForbiddenBlock = forbiddenBlocks.contains(data.block());
+        boolean hideBecauseWater = ModConfig.hideWater && level.isWaterAt(data.above().blockPos());
+        boolean hideBecauseTransparent = ModConfig.hideTransparent && !data.blockState().canOcclude();
         if (isTopSolidException) hideBecauseTransparent = false;
         boolean hideBecauseSpecialSpawnCondition = !ModConfig.showSpecialSpawningConditionBlocks &&
-                specialSpawnConditionBlocks.contains(aboveBlock);
+                specialSpawnConditionBlocks.contains(data.above().block());
         boolean shouldRender = !(isForbiddenBlock || hideBecauseWater || hideBecauseTransparent || hideBecauseSpecialSpawnCondition);
         float yOffset = 0f;
-        if (shouldRender && aboveBlock instanceof SnowLayerBlock && aboveBlockState.getValue(SnowLayerBlock.LAYERS) == 1) {
+        if (shouldRender && data.above().block() instanceof SnowLayerBlock && data.above().blockState().getValue(SnowLayerBlock.LAYERS) == 1) {
             yOffset = 0.125f;
         }
         return new CheckerResult(shouldRender, yOffset);

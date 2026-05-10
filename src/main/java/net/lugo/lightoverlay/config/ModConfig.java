@@ -25,6 +25,8 @@ public class ModConfig {
     public static int lightLevelThresholdNether = 12;
     @SerialEntry
     public static int lightLevelThresholdEnd = 1;
+    @SerialEntry
+    public static int lightLevelThresholdFarmland = 9;
 
     public static int lightLevelThresholdForDimension(ClientLevel level) {
         if (Level.NETHER.equals(level.dimension())) {
@@ -55,6 +57,8 @@ public class ModConfig {
     public static boolean hideWater = true;
     @SerialEntry
     public static boolean showSpecialSpawningConditionBlocks = false;
+    @SerialEntry
+    public static boolean showOnFarmland = false;
     @SerialEntry
     public static boolean showWhenPaused = true;
     @SerialEntry
@@ -164,6 +168,20 @@ public class ModConfig {
                                                 .range(1, 15)
                                                 .step(1))
                                         .build())
+                                .option(Option.<Integer>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.light_level_threshold_farmland.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold_farmland.description")))
+                                        .binding(
+                                                9,
+                                                () -> lightLevelThresholdFarmland,
+                                                newVal -> {
+                                                    lightLevelThresholdFarmland = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
+                                        .controller(opt -> IntegerSliderControllerBuilder.create(opt)
+                                                .range(1, 15)
+                                                .step(1))
+                                        .build())
                                 .build())
                         .group(OptionGroup.createBuilder()
                                 .name(Component.translatable("text.light-overlay.config.group.overlay_hiding"))
@@ -211,6 +229,18 @@ public class ModConfig {
                                                 () -> showSpecialSpawningConditionBlocks,
                                                 newVal -> {
                                                     showSpecialSpawningConditionBlocks = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
+                                        .controller(TickBoxControllerBuilder::create)
+                                        .build())
+                                .option(Option.<Boolean>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.show_on_farmland.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.show_on_farmland.description")))
+                                        .binding(
+                                                false,
+                                                () -> showOnFarmland,
+                                                newVal -> {
+                                                    showOnFarmland = newVal;
                                                     OverlayHandler.clearAll();
                                                 })
                                         .controller(TickBoxControllerBuilder::create)
