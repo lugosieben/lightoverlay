@@ -8,6 +8,7 @@ import net.lugo.lightoverlay.renderers.NumberOverlayRenderer;
 import net.lugo.lightoverlay.util.ColorHelper;
 import net.lugo.lightoverlay.util.HudMessage;
 import net.lugo.lightoverlay.util.OverlayChecker;
+import net.lugo.lightoverlay.util.ReusableBlockData;
 import net.lugo.overlaylib.Overlay;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.managers.CachedOverlayManager;
@@ -19,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.FarmlandBlock;
 
 public class OverlayHandler {
     private static final Minecraft MC = Minecraft.getInstance();
@@ -46,12 +48,16 @@ public class OverlayHandler {
     private static final TextureSection.TextureSectionData lightLevelSpecificTextureSectionData = new TextureSection.TextureSectionData(16, 1);
 
     private static final CachedOverlayManager overlayManager = new CachedOverlayManager((blockPos -> {
-        OverlayChecker.CheckerResult checkerResult = OverlayChecker.shouldRenderOverlay(blockPos);
+        ReusableBlockData data = new ReusableBlockData(blockPos);
+        OverlayChecker.CheckerResult checkerResult = OverlayChecker.shouldRenderOverlay(data);
         if (!checkerResult.shouldRender()) return OverlayRendererBlockData.NO_RENDER;
         //noinspection DataFlowIssue
         int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
         if (lightLevel >= ModConfig.lightLevelThresholdForDimension(MC.level) && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
         float[] colors = ColorHelper.getOverlayColorFloats(lightLevel, MC.level);
+        if (data.block() instanceof FarmlandBlock) {
+            colors = ColorHelper.getOverlayColorFloats(lightLevel, ModConfig.lightLevelThresholdFarmland);
+        }
 
         TextureSection textureSection = activeMode.lightLevelSpecific ? new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0) : TextureSection.SINGULAR;
 
