@@ -20,13 +20,13 @@ import java.awt.*;
 
 public class ModConfig {
     @SerialEntry
-    public static int lightLevelThreshold = 1;
+    public static int lightLevelThreshold;
     @SerialEntry
-    public static int lightLevelThresholdNether = 12;
+    public static int lightLevelThresholdNether;
     @SerialEntry
-    public static int lightLevelThresholdEnd = 1;
+    public static int lightLevelThresholdEnd;
     @SerialEntry
-    public static int lightLevelThresholdFarmland = 9;
+    public static int lightLevelThresholdFarmland;
 
     public static int lightLevelThresholdForDimension(ClientLevel level) {
         if (Level.NETHER.equals(level.dimension())) {
@@ -39,9 +39,9 @@ public class ModConfig {
     }
 
     @SerialEntry
-    public static int chunkScanRange = 4;
+    public static int chunkScanRange;
     @SerialEntry
-    public static int chunkScanRangeVertical = 25;
+    public static int chunkScanRangeVertical;
     public static boolean isChunkScanRangeVerticalInfinite(int value) {
         return value > 24;
     }
@@ -50,28 +50,28 @@ public class ModConfig {
     public static OverlayHandler.Mode rendererMode = OverlayHandler.Mode.CROSS;
 
     @SerialEntry
-    public static boolean hideGreen = false;
+    public static boolean hideGreen;
     @SerialEntry
-    public static boolean hideTransparent = true;
+    public static boolean hideTransparent;
     @SerialEntry
-    public static boolean hideWater = true;
+    public static boolean hideWater;
     @SerialEntry
-    public static boolean showSpecialSpawningConditionBlocks = false;
+    public static boolean showSpecialSpawningConditionBlocks;
     @SerialEntry
-    public static boolean showOnFarmland = false;
+    public static boolean showOnFarmland;
     @SerialEntry
-    public static boolean showWhenPaused = true;
+    public static boolean showWhenPaused;
     @SerialEntry
-    public static boolean enableIrisFlickerFix = true;
+    public static boolean enableIrisFlickerFix;
     @SerialEntry
-    public static Integer nearbyCheckDistanceSquared = 16 * 16;
+    public static Integer nearbyCheckDistanceSquared;
 
     @SerialEntry
-    public static Color validColor = new Color(0, 255, 0, 255);
+    public static Color validColor;
     @SerialEntry
-    public static Color invalidColor = new Color(255, 0, 0, 255);
+    public static Color invalidColor;
     @SerialEntry
-    public static int maxComputationsPerTick = 32;
+    public static int maxComputationsPerTick;
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
