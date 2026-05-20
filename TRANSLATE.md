@@ -21,7 +21,8 @@ Name the file like the [Minecraft ingame locale codes](https://minecraft.wiki/w/
 
 To edit the file, you can click the pencil icon in GitHub to open the file editor.
 
-If you created a new language file, you can copy the content of the `en_us.json` file into your new file as a starting point.
+If you created a new language file, you can copy the content of the `en_us.json` file into your new file as a starting point.  
+Otherwise, check for lines that are in `en_us.json` but not in the translation file.
 
 **Never** change the keys (the strings before the colons `:`).
 
