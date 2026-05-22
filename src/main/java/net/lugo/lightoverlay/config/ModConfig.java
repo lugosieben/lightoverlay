@@ -20,13 +20,16 @@ import java.awt.*;
 
 public class ModConfig {
     @SerialEntry
-    public static int lightLevelThreshold;
+    public static int lightLevelThreshold = 1;
+
     @SerialEntry
-    public static int lightLevelThresholdNether;
+    public static int lightLevelThresholdNether = 12;
+
     @SerialEntry
-    public static int lightLevelThresholdEnd;
+    public static int lightLevelThresholdEnd = 1;
+
     @SerialEntry
-    public static int lightLevelThresholdFarmland;
+    public static int lightLevelThresholdFarmland = 9;
 
     public static int lightLevelThresholdForDimension(ClientLevel level) {
         if (Level.NETHER.equals(level.dimension())) {
@@ -39,9 +42,10 @@ public class ModConfig {
     }
 
     @SerialEntry
-    public static int chunkScanRange;
+    public static int chunkScanRange = 4;
+
     @SerialEntry
-    public static int chunkScanRangeVertical;
+    public static int chunkScanRangeVertical = 25;
     public static boolean isChunkScanRangeVerticalInfinite(int value) {
         return value > 24;
     }
@@ -50,28 +54,37 @@ public class ModConfig {
     public static OverlayHandler.Mode rendererMode = OverlayHandler.Mode.CROSS;
 
     @SerialEntry
-    public static boolean hideGreen;
-    @SerialEntry
-    public static boolean hideTransparent;
-    @SerialEntry
-    public static boolean hideWater;
-    @SerialEntry
-    public static boolean showSpecialSpawningConditionBlocks;
-    @SerialEntry
-    public static boolean showOnFarmland;
-    @SerialEntry
-    public static boolean showWhenPaused;
-    @SerialEntry
-    public static boolean enableIrisFlickerFix;
-    @SerialEntry
-    public static Integer nearbyCheckDistanceSquared;
+    public static boolean hideGreen = false;
 
     @SerialEntry
-    public static Color validColor;
+    public static boolean hideTransparent = true;
+
     @SerialEntry
-    public static Color invalidColor;
+    public static boolean hideWater = true;
+
     @SerialEntry
-    public static int maxComputationsPerTick;
+    public static boolean showSpecialSpawningConditionBlocks = false;
+
+    @SerialEntry
+    public static boolean showOnFarmland = false;
+
+    @SerialEntry
+    public static boolean showWhenPaused = true;
+
+    @SerialEntry
+    public static boolean enableIrisFlickerFix = true;
+
+    @SerialEntry
+    public static Integer nearbyCheckDistanceSquared = 16 * 16;
+
+    @SerialEntry
+    public static Color validColor = new Color(0, 255, 0, 255);
+
+    @SerialEntry
+    public static Color invalidColor = new Color(255, 0, 0, 255);
+
+    @SerialEntry
+    public static int maxComputationsPerTick = 32;
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
@@ -84,7 +97,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.chunk_scan_range.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.chunk_scan_range.description")))
                                         .binding(
-                                                4,
+                                                chunkScanRange,
                                                 () -> chunkScanRange,
                                                 newVal -> {
                                                     chunkScanRange = newVal;
@@ -98,7 +111,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.scan_range_vertical.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.scan_range_vertical.description")))
                                         .binding(
-                                                25,
+                                                chunkScanRangeVertical,
                                                 () -> chunkScanRangeVertical,
                                                 newVal -> {
                                                     chunkScanRangeVertical = newVal;
@@ -113,7 +126,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.overlay_mode.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.overlay_mode.description")))
                                         .binding(
-                                                OverlayHandler.Mode.CROSS,
+                                                rendererMode,
                                                 () -> rendererMode,
                                                 newVal -> {
                                                     rendererMode = newVal;
@@ -130,7 +143,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.light_level_threshold.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold.description")))
                                         .binding(
-                                                1,
+                                                lightLevelThreshold,
                                                 () -> lightLevelThreshold,
                                                 newVal -> {
                                                     lightLevelThreshold = newVal;
@@ -144,7 +157,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.light_level_threshold_nether.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold_nether.description")))
                                         .binding(
-                                                12,
+                                                lightLevelThresholdNether,
                                                 () -> lightLevelThresholdNether,
                                                 newVal -> {
                                                     lightLevelThresholdNether = newVal;
@@ -158,7 +171,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.light_level_threshold_end.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold_end.description")))
                                         .binding(
-                                                1,
+                                                lightLevelThresholdEnd,
                                                 () -> lightLevelThresholdEnd,
                                                 newVal -> {
                                                     lightLevelThresholdEnd = newVal;
@@ -172,7 +185,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.light_level_threshold_farmland.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.light_level_threshold_farmland.description")))
                                         .binding(
-                                                9,
+                                                lightLevelThresholdFarmland,
                                                 () -> lightLevelThresholdFarmland,
                                                 newVal -> {
                                                     lightLevelThresholdFarmland = newVal;
@@ -189,7 +202,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.hide_green.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.hide_green.description")))
                                         .binding(
-                                                false,
+                                                hideGreen,
                                                 () -> hideGreen,
                                                 newVal -> {
                                                     hideGreen = newVal;
@@ -201,7 +214,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.hide_transparent.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.hide_transparent.description")))
                                         .binding(
-                                                true,
+                                                hideTransparent,
                                                 () -> hideTransparent,
                                                 newVal -> {
                                                     hideTransparent = newVal;
@@ -213,7 +226,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.hide_water.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.hide_water.description")))
                                         .binding(
-                                                true,
+                                                hideWater,
                                                 () -> hideWater,
                                                 newVal -> {
                                                     hideWater = newVal;
@@ -225,7 +238,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.show_special_spawning_condition_blocks.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.show_special_spawning_condition_blocks.description")))
                                         .binding(
-                                                false,
+                                                showSpecialSpawningConditionBlocks,
                                                 () -> showSpecialSpawningConditionBlocks,
                                                 newVal -> {
                                                     showSpecialSpawningConditionBlocks = newVal;
@@ -237,7 +250,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.show_on_farmland.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.show_on_farmland.description")))
                                         .binding(
-                                                false,
+                                                showOnFarmland,
                                                 () -> showOnFarmland,
                                                 newVal -> {
                                                     showOnFarmland = newVal;
@@ -252,7 +265,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.valid_color.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.valid_color.description")))
                                         .binding(
-                                                new Color(0, 255, 0, 255),
+                                                validColor,
                                                 () -> validColor,
                                                 newVal -> {
                                                     validColor = newVal;
@@ -265,7 +278,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.option.invalid_color.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.invalid_color.description")))
                                         .binding(
-                                                new Color(255, 0, 0, 255),
+                                                invalidColor,
                                                 () -> invalidColor,
                                                 newVal -> {
                                                     invalidColor = newVal;
@@ -281,17 +294,17 @@ public class ModConfig {
                         .option(Option.<Boolean>createBuilder()
                                 .name(Component.translatable("text.light-overlay.config.option.show_when_paused.name"))
                                 .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.show_when_paused.description")))
-                                .binding(
-                                        true,
+                                        .binding(
+                                        showWhenPaused,
                                         () -> showWhenPaused,
                                         newVal -> showWhenPaused = newVal)
                                 .controller(TickBoxControllerBuilder::create)
                                 .build())
-                        .option(Option.<Integer>createBuilder()
+                                .option(Option.<Integer>createBuilder()
                                 .name(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.name"))
                                 .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.max_computations_per_tick.description")))
                                 .binding(
-                                        32,
+                                        maxComputationsPerTick,
                                         () -> maxComputationsPerTick,
                                         newVal -> {
                                             maxComputationsPerTick = newVal;
@@ -306,7 +319,7 @@ public class ModConfig {
                                 .option(Option.<Boolean>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.enable_iris_flicker_fix.name"))
                                         .binding(
-                                                true,
+                                                enableIrisFlickerFix,
                                                 () -> enableIrisFlickerFix,
                                                 newVal -> enableIrisFlickerFix = newVal)
                                         .controller(TickBoxControllerBuilder::create)
@@ -314,7 +327,7 @@ public class ModConfig {
                                 .option(Option.<Integer>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.nearby_check_distance.name"))
                                         .binding(
-                                                16 * 16,
+                                                nearbyCheckDistanceSquared,
                                                 () -> nearbyCheckDistanceSquared,
                                                 newVal -> nearbyCheckDistanceSquared = newVal)
                                         .controller(IntegerFieldControllerBuilder::create)
