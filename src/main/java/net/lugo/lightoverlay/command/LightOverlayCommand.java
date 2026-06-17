@@ -15,7 +15,7 @@ public class LightOverlayCommand {
         dispatcher.register(ClientCommands.literal("lightoverlay")
                 .then(ClientCommands.literal("config")
                         .executes(context -> {
-                            MC.schedule(() -> MC.setScreen(ModConfig.makeScreen(MC.screen)));
+                            MC.schedule(() -> MC.setScreenAndShow(ModConfig.makeScreen(MC.gui.screen())));
                             return 1;
                         })
                 )

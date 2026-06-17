@@ -42,7 +42,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         );
 
         // West face
-        if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.west()), Direction.WEST)) {
+        if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.west()), Direction.WEST)) {
             OverlayVertexHelper.rectFromTriags(
                     buffer,
                     OverlayVertexHelper.FixedAxis.X, worldX,
@@ -56,7 +56,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         }
 
         // East face
-        if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.east()), Direction.EAST)) {
+        if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.east()), Direction.EAST)) {
             OverlayVertexHelper.rectFromTriags(
                     buffer,
                     OverlayVertexHelper.FixedAxis.X, worldX + 1,
@@ -70,7 +70,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         }
 
         // North face
-        if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.north()), Direction.NORTH)) {
+        if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.north()), Direction.NORTH)) {
             OverlayVertexHelper.rectFromTriags(
                     buffer,
                     OverlayVertexHelper.FixedAxis.Z, worldZ,
@@ -84,7 +84,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         }
 
         // South face
-        if(Block.shouldRenderFace(Blocks.WHITE_CARPET.defaultBlockState(), MC.level.getBlockState(abovePos.south()), Direction.SOUTH)) {
+        if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.south()), Direction.SOUTH)) {
             OverlayVertexHelper.rectFromTriags(
                     buffer,
                     OverlayVertexHelper.FixedAxis.Z, worldZ + 1,
