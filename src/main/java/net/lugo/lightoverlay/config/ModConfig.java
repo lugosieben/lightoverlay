@@ -292,7 +292,7 @@ public class ModConfig {
                                                     OverlayHandler.clearAll();
                                                 })
                                         .controller(opt -> ColorControllerBuilder.create(opt)
-                                                .allowAlpha(true))
+                                                .allowAlpha(false))
                                         .build())
                                 .option(Option.<Color>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.invalid_color.name"))
@@ -305,7 +305,7 @@ public class ModConfig {
                                                     OverlayHandler.clearAll();
                                                 })
                                         .controller(opt -> ColorControllerBuilder.create(opt)
-                                                .allowAlpha(true))
+                                                .allowAlpha(false))
                                         .build())
                                 .build())
                         .build())
