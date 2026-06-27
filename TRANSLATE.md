@@ -22,9 +22,9 @@ Name the file like the [Minecraft ingame locale codes](https://minecraft.wiki/w/
 To edit the file, you can click the pencil icon in GitHub to open the file editor.
 
 If you created a new language file, you can copy the content of the `en_us.json` file into your new file as a starting point.  
-Otherwise, check for lines that are in `en_us.json` but not in the translation file.
+If you want to update an existing language, you can see the exact missing strings by clicking on the topmost entry from [this table](https://github.com/lugosieben/lightoverlay/actions/workflows/lang-check.yml?query=branch%3Alatest) and looking at the "Missing Translation Strings" entries.
 
-**Never** change the keys (the strings before the colons `:`).
+**Never** change the keys (the strings before the colons `:`). They are the internal identifiers and need to stay the same so that the mod can find the correct translation.
 
 ### Step 5: Commit your changes and create a pull request.
 
@@ -34,4 +34,4 @@ Go back to the main page of your fork (click on lightoverlay in the path), then 
 
 Fill in a title and small description, then click on `Create Pull Request`.
 
-### Thank you for contributing!
+### Thank you for contributing! ♥️
