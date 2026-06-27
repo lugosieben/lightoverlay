@@ -40,7 +40,7 @@ def main():
             summary_lines.append("  | English Name | Internal Name |")
             summary_lines.append("  |---|---|")
             for k in sorted(missing_keys):
-                cleaned = str(master_data[k]).replace('|', '\\|')
+                cleaned = str(master_data[k]).replace('|', '\\|').replace('\n', '<br>').replace('\r', '')
                 summary_lines.append(f"  | {cleaned} | `{k}` |")
             summary_lines.append("</details>\n")
         else:
