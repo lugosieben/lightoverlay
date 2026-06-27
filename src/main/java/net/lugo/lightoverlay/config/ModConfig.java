@@ -108,7 +108,7 @@ public class ModConfig {
 
     public static Screen makeScreen(Screen parent) {
         return YetAnotherConfigLib.createBuilder()
-                .title(Component.translatable("text.light-overlay.config.title"))
+                .title(Component.translatable("text.light-overlay.config.category.main"))
                 .category(ConfigCategory.createBuilder()
                         .name(Component.translatable("text.light-overlay.config.category.main"))
                         .group(OptionGroup.createBuilder()
