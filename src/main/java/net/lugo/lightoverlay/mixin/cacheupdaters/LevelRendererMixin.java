@@ -13,5 +13,8 @@ public class LevelRendererMixin {
     @Inject(method = "blockChanged", at = @At("HEAD"))
     private void onBlockChanged(BlockPos pos, int updateFlags, CallbackInfo ci) {
         OverlayHandler.refresh(pos);
+        if (pos.getY() % 16 == 0) {
+            OverlayHandler.refresh(pos.below());
+        }
     }
 }
