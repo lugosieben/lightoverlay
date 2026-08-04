@@ -30,18 +30,26 @@ public class OverlayHandler {
     private static Overlay overlay;
 
     public enum Mode {
-        CROSS(new CrossOverlayRenderer(),false),
-        CARPET(new CarpetOverlayRenderer(),false),
-        NUMBER(new NumberOverlayRenderer(),true),
-        MARKER(new MarkerOverlayRenderer(),false);
+        CROSS(false),
+        CARPET(false),
+        NUMBER(true),
+        MARKER(false);
 
-        public final OverlayRenderer renderer;
         public final boolean lightLevelSpecific;
+        public OverlayRenderer renderer;
         public Overlay overlay;
 
-        Mode(OverlayRenderer renderer, boolean lightLevelSpecific) {
-            this.renderer = renderer;
+        Mode(boolean lightLevelSpecific) {
             this.lightLevelSpecific = lightLevelSpecific;
+        }
+
+        public OverlayRenderer createRenderer() {
+            return switch (this) {
+                case CROSS -> new CrossOverlayRenderer();
+                case CARPET -> new CarpetOverlayRenderer();
+                case NUMBER -> new NumberOverlayRenderer();
+                case MARKER -> new MarkerOverlayRenderer();
+            };
         }
     }
 
@@ -84,8 +92,12 @@ public class OverlayHandler {
         if (overlay != null) {
             overlay.setActive(false);
         }
+        if (mode.renderer == null) {
+            mode.renderer = mode.createRenderer();
+        }
         if (mode.overlay == null) {
             mode.overlay = new Overlay(mode.renderer, ModConfig.chunkScanRange, ModConfig.chunkScanRangeVertical, overlayManager);
+            mode.overlay.setRenderFilter(() -> ModConfig.showWhenPaused || !MC.isPaused());
         }
         overlay = mode.overlay;
         overlay.setActive(isActive);
@@ -100,6 +112,20 @@ public class OverlayHandler {
     }
     public static void setMaxComputationsPerTick(int maxComputationsPerTick) {
         overlayManager.setMaxComputationsPerTick(maxComputationsPerTick);
+    }
+
+    public static void reconstructRenderers() {
+        LightOverlay.LOGGER.info("Reconstructing renderers");
+        if (overlay != null) {
+            overlay.setActive(false);
+        }
+        overlay = null;
+        for (Mode mode : Mode.values()) {
+            mode.overlay = null;
+            mode.renderer = mode.createRenderer();
+        }
+        overlayManager.clearAll();
+        init();
     }
 
     public static void refresh(BlockPos pos) {

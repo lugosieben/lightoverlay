@@ -1,6 +1,7 @@
 package net.lugo.lightoverlay.renderers;
 
 import net.lugo.lightoverlay.LightOverlay;
+import net.lugo.lightoverlay.config.ModConfig;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.util.OverlayRendererBlockData;
 import net.lugo.overlaylib.util.OverlayVertexHelper;
@@ -12,7 +13,7 @@ public class MarkerOverlayRenderer extends OverlayRenderer {
     private static final Identifier MARKER_TEXTURE = Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "textures/marker.png");
 
     public MarkerOverlayRenderer() {
-        super(RenderPipelines.POSITION_TEX_COLOR_FOG_TRIANGLES, MARKER_TEXTURE, true);
+        super(RenderPipelines.POSITION_TEX_COLOR_FOG_TRIANGLES, MARKER_TEXTURE, true, ModConfig.nearbyCheckDistanceSquared);
     }
 
     @Override

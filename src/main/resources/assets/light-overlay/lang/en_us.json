@@ -49,9 +49,11 @@
   "text.light-overlay.config.option.max_computations_per_tick.name": "Max Chunk Computations per Tick",
   "text.light-overlay.config.option.max_computations_per_tick.description": "The maximum amount of chunks being computed in a single tick. Lower this if experiencing lags.",
   "text.light-overlay.config.group.experimental": "Experimental (Don't change unless you know what you're doing!)",
-  "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris Flicker Fix",
-  "text.light-overlay.config.option.nearby_check_distance.name": "Nearby Check Distance Squared",
+  "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris Flicker Fix (requires reconstruct)",
+  "text.light-overlay.config.option.nearby_check_distance.name": "Nearby Check Distance Squared (requires reconstruct)",
   "text.light-overlay.config.category.report": "Request Features & Report Issues",
   "text.light-overlay.config.button.report": "Report an Issue or request a Feature",
-  "text.light-overlay.config.button.report.description": "Opens the GitHub Issues page of this mod"
+  "text.light-overlay.config.button.report.description": "Opens the GitHub Issues page of this mod",
+  "text.light-overlay.config.button.reconstruct_renderers.name": "Reconstruct Renderers",
+  "text.light-overlay.config.button.reconstruct_renderers.description": "Recreates the overlay renderers. Useful for applying changes without restarting the game."
 }

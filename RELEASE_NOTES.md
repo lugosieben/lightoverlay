@@ -1,1 +1,4 @@
 - add mc-publish workflow
+- make showWhenPaused config actually work using OverlayLib's renderFilter
+- make nearbyBlockDistanceSq configurable via OverlayLib's constructor parameter
+- Add "Reconstruct Renderers"

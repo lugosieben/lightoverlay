@@ -1,6 +1,7 @@
 package net.lugo.lightoverlay.renderers;
 
 import net.lugo.lightoverlay.LightOverlay;
+import net.lugo.lightoverlay.config.ModConfig;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.util.*;
 import net.minecraft.client.Minecraft;
@@ -18,7 +19,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
     private static final Minecraft MC = Minecraft.getInstance();
 
     public CarpetOverlayRenderer() {
-        super(RenderPipelines.POSITION_TEX_COLOR_FOG_TRIANGLES, CARPET_TEXTURE, false);
+        super(RenderPipelines.POSITION_TEX_COLOR_FOG_TRIANGLES, CARPET_TEXTURE, false, ModConfig.nearbyCheckDistanceSquared);
     }
 
     @SuppressWarnings("DataFlowIssue")

@@ -92,7 +92,7 @@ public class ModConfig {
     public static boolean showWhenPaused = Defaults.SHOW_WHEN_PAUSED;
 
     @SerialEntry
-    public static Integer nearbyCheckDistanceSquared = Defaults.NEARBY_CHECK_DISTANCE_SQUARED;
+    public static int nearbyCheckDistanceSquared = Defaults.NEARBY_CHECK_DISTANCE_SQUARED;
 
     @SerialEntry
     public static Color validColor = Defaults.VALID_COLOR;
@@ -351,6 +351,12 @@ public class ModConfig {
                                                 () -> nearbyCheckDistanceSquared,
                                                 newVal -> nearbyCheckDistanceSquared = newVal)
                                         .controller(IntegerFieldControllerBuilder::create)
+                                        .build())
+                                .option(ButtonOption.createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.button.reconstruct_renderers.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.button.reconstruct_renderers.description")))
+                                        .text(Component.literal(""))
+                                        .action((yaclScreen, buttonOption) -> OverlayHandler.reconstructRenderers())
                                         .build())
                                 .build())
                         .build())
