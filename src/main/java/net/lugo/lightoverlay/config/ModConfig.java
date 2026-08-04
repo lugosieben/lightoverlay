@@ -170,7 +170,7 @@ public class ModConfig {
                                                 })
                                         .controller(opt -> EnumControllerBuilder.create(opt)
                                                 .enumClass(OverlayHandler.Mode.class)
-                                                .formatValue(v -> Component.translatable("text.light-overlay.config.option.overlay_mode." + v.name().toLowerCase())))
+                                                .formatValue(OverlayHandler.Mode::getDisplayName))
                                         .build())
                                 .build())
                         .group(OptionGroup.createBuilder()

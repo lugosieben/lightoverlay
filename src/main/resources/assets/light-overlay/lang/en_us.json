@@ -1,9 +1,14 @@
 {
   "key.category.minecraft.light-overlay": "Light Overlay",
   "key.light-overlay.toggle": "Toggle Light Overlay",
+  "key.light-overlay.openConfig": "Open Light Overlay Config",
+  "key.light-overlay.cycleMode": "Cycle Overlay Modes",
 
   "text.light-overlay.message.toggle.on": "Light Overlay toggled on",
   "text.light-overlay.message.toggle.off": "Light Overlay toggled off",
+  "text.light-overlay.message.mode": "Overlay Mode: %s",
+
+  "text.light-overlay.command.mode.invalid": "Unknown Overlay Mode: %s",
 
   "text.light-overlay.config.category.main": "Light Overlay Config",
   "text.light-overlay.config.group.general": "General",

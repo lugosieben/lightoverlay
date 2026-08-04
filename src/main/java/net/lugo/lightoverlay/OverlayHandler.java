@@ -51,6 +51,10 @@ public class OverlayHandler {
                 case MARKER -> new MarkerOverlayRenderer();
             };
         }
+
+        public Component getDisplayName() {
+            return Component.translatable("text.light-overlay.config.option.overlay_mode." + name().toLowerCase());
+        }
     }
 
     private static final TextureSection.TextureSectionData lightLevelSpecificTextureSectionData = new TextureSection.TextureSectionData(16, 1);
@@ -85,6 +89,13 @@ public class OverlayHandler {
         HudMessage.show(Component.translatable("text.light-overlay.message.toggle.off"), ChatFormatting.RED);
     }
 
+    public static void cycleMode() {
+        Mode[] modes = Mode.values();
+        Mode next = modes[(activeMode.ordinal() + 1) % modes.length];
+        switchMode(next);
+        HudMessage.show(Component.translatable("text.light-overlay.message.mode", next.getDisplayName()), ChatFormatting.YELLOW);
+    }
+
     public static boolean isActive() {
         return isActive;
     }
@@ -97,6 +108,7 @@ public class OverlayHandler {
     }
 
     public static void switchMode(Mode mode) {
+        ModConfig.rendererMode = mode;
         activeMode = mode;
         if (overlay != null) {
             overlay.setActive(false);

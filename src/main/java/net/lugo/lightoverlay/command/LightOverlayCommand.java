@@ -19,6 +19,14 @@ public class LightOverlayCommand {
                             return 1;
                         })
                 )
+                .then(ClientCommands.literal("mode")
+                        .then(ClientCommands.argument("mode", ModeArgumentType.mode())
+                                .executes(context -> {
+                                    OverlayHandler.switchMode(ModeArgumentType.getMode(context, "mode"));
+                                    return 1;
+                                })
+                        )
+                )
                 .executes(context -> {
                     OverlayHandler.toggle();
                     return 1;
