@@ -1,0 +1,70 @@
+name: publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: setup jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'microsoft'
+
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: extract version from gradle.properties
+        id: version
+        run: |
+          echo "version=$(grep -m1 '^mod_version=' gradle.properties | cut -d= -f2 | tr -d ' \r')" >> "$GITHUB_OUTPUT"
+
+      - name: check if version already published
+        id: check-version
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Version $TAG already exists (tag found). Skipping publish."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Version $TAG not found. Proceeding with publish."
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: build
+        if: steps.check-version.outputs.exists != 'true'
+        run: ./gradlew build
+
+      - name: publish
+        if: steps.check-version.outputs.exists != 'true'
+        uses: Kira-NT/mc-publish@v3
+        with:
+          modrinth-id: lightoverlay
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          curseforge-id: 1376481
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          github-tag: v${{ steps.version.outputs.version }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          name: Light Overlay ${{ steps.version.outputs.version }}
+          version: ${{ steps.version.outputs.version }}
+          changelog-file: RELEASE_NOTES.md
+
+          files: build/libs/!(*-@(dev|sources|javadoc)).jar
+
+          dependencies: |
+            fabric-api(required){modrinth:P7dR8mSH}{curseforge:306612}
+            overlaylib(required){modrinth:overlaylib}{curseforge:1447526}
+            yet_another_config_lib_v3(required){modrinth:yacl}{curseforge:667299}
+            modmenu(optional){modrinth:modmenu}{curseforge:308702}
