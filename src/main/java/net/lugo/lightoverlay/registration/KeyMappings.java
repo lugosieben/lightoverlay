@@ -14,12 +14,18 @@ public class KeyMappings {
     private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.parse(LightOverlay.MOD_ID));
     private static final String BASE_KEY = "key." + LightOverlay.MOD_ID;
 
+    private static KeyMapping lightOverlayKey;
+
     public static void registerKeyMappings() {
         registerLightOverlayKeyMapping();
     }
 
+    public static KeyMapping getLightOverlayToggleKeyMapping() {
+        return lightOverlayKey;
+    }
+
     private static void registerLightOverlayKeyMapping() {
-        KeyMapping lightOverlayKey = new KeyMapping(BASE_KEY + ".toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F9, CATEGORY);
+        lightOverlayKey = new KeyMapping(BASE_KEY + ".toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F9, CATEGORY);
         KeyMappingHelper.registerKeyMapping(lightOverlayKey);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

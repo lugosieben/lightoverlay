@@ -77,14 +77,23 @@ public class OverlayHandler {
         switchMode(ModConfig.rendererMode);
     }
     public static void toggle() {
-        isActive = !isActive;
-        overlay.setActive(isActive);
-
+        setActive(!isActive);
         if (isActive) {
             HudMessage.show(Component.translatable("text.light-overlay.message.toggle.on"), ChatFormatting.GREEN);
             return;
         }
         HudMessage.show(Component.translatable("text.light-overlay.message.toggle.off"), ChatFormatting.RED);
+    }
+
+    public static boolean isActive() {
+        return isActive;
+    }
+
+    public static void setActive(boolean active) {
+        isActive = active;
+        if (overlay != null) {
+            overlay.setActive(isActive);
+        }
     }
 
     public static void switchMode(Mode mode) {

@@ -7,6 +7,8 @@
 
   "text.light-overlay.config.category.main": "Light Overlay Config",
   "text.light-overlay.config.group.general": "General",
+  "text.light-overlay.config.option.enable_overlay.name": "Enable Overlay (%s)",
+  "text.light-overlay.config.option.enable_overlay.description": "Whether the Light Overlay is enabled.",
   "text.light-overlay.config.option.chunk_scan_range.name": "Scan Range",
   "text.light-overlay.config.option.chunk_scan_range.description": "How many chunks around the player to render the Light Level. Higher values increase the scanned area but may decrease performance.",
   "text.light-overlay.config.option.scan_range_vertical.name": "Vertical Scan Range",

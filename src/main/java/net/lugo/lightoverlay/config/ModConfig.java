@@ -5,15 +5,20 @@ import dev.isxander.yacl3.api.controller.*;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
+import dev.isxander.yacl3.gui.YACLScreen;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayHandler;
+import net.lugo.lightoverlay.registration.KeyMappings;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 
 import java.awt.*;
 
@@ -107,12 +112,23 @@ public class ModConfig {
     public static boolean enableIrisFlickerFix = Defaults.ENABLE_IRIS_FLICKER_FIX;
 
     public static Screen makeScreen(Screen parent) {
-        return YetAnotherConfigLib.createBuilder()
+        Option<Boolean> enableOverlayOption = Option.<Boolean>createBuilder()
+                .name(Component.translatable("text.light-overlay.config.option.enable_overlay.name", KeyMappings.getLightOverlayToggleKeyMapping().getTranslatedKeyMessage()))
+                .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.enable_overlay.description")))
+                .binding(
+                        false,
+                        OverlayHandler::isActive,
+                        OverlayHandler::setActive)
+                .controller(TickBoxControllerBuilder::create)
+                .build();
+
+        YetAnotherConfigLib config = YetAnotherConfigLib.createBuilder()
                 .title(Component.translatable("text.light-overlay.config.category.main"))
                 .category(ConfigCategory.createBuilder()
                         .name(Component.translatable("text.light-overlay.config.category.main"))
                         .group(OptionGroup.createBuilder()
                                 .name(Component.translatable("text.light-overlay.config.group.general"))
+                                .option(enableOverlayOption)
                                 .option(Option.<Integer>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.chunk_scan_range.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.chunk_scan_range.description")))
@@ -376,8 +392,29 @@ public class ModConfig {
                                 .build())
                         .build())
                 .save(HANDLER::save)
-                .build()
-                .generateScreen(parent);
+                .build();
+
+        return new LightOverlayConfigScreen(config, parent, enableOverlayOption);
+    }
+
+    private static final class LightOverlayConfigScreen extends YACLScreen {
+        private final Option<Boolean> enableOverlayOption;
+
+        LightOverlayConfigScreen(YetAnotherConfigLib config, Screen parent, Option<Boolean> enableOverlayOption) {
+            super(config, parent);
+            this.enableOverlayOption = enableOverlayOption;
+        }
+
+        @Override
+        public boolean keyPressed(@NonNull KeyEvent keyEvent) {
+            KeyMapping toggleKey = KeyMappings.getLightOverlayToggleKeyMapping();
+            if (toggleKey.matches(keyEvent) && keyEvent.modifiers() == 0) {
+                OverlayHandler.toggle();
+                enableOverlayOption.requestSet(OverlayHandler.isActive());
+                return true;
+            }
+            return super.keyPressed(keyEvent);
+        }
     }
 
     public static final ConfigClassHandler<ModConfig> HANDLER = ConfigClassHandler.createBuilder(ModConfig.class)
