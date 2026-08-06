@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: setup jdk
         uses: actions/setup-java@v4
@@ -23,17 +21,18 @@ jobs:
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
 
-      - name: extract version from gradle.properties
+      - name: extract versions from gradle.properties
         id: version
         run: |
           echo "version=$(grep -m1 '^mod_version=' gradle.properties | cut -d= -f2 | tr -d ' \r')" >> "$GITHUB_OUTPUT"
+          echo "overlaylib_version=$(grep -m1 '^overlaylib_version=' gradle.properties | cut -d= -f2 | tr -d ' \r')" >> "$GITHUB_OUTPUT"
 
-      - name: check if version already published
+      - name: check if version already released
         id: check-version
         run: |
           TAG="v${{ steps.version.outputs.version }}"
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "Version $TAG already exists (tag found). Skipping publish."
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "Version $TAG already released (tag found). Skipping publish."
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "Version $TAG not found. Proceeding with publish."
@@ -45,6 +44,7 @@ jobs:
         run: ./gradlew build
 
       - name: publish
+        id: publish
         if: steps.check-version.outputs.exists != 'true'
         uses: Kira-NT/mc-publish@v3
         with:
@@ -63,8 +63,12 @@ jobs:
 
           files: build/libs/!(*-@(dev|sources|javadoc)).jar
 
-          dependencies: |
-            fabric-api(required){modrinth:P7dR8mSH}{curseforge:306612}
-            overlaylib(required){modrinth:overlaylib}{curseforge:1447526}
-            yet_another_config_lib_v3(required){modrinth:yacl}{curseforge:667299}
-            modmenu(optional){modrinth:modmenu}{curseforge:308702}
+      - name: pin overlaylib version on Modrinth
+        if: steps.check-version.outputs.exists != 'true' && steps.version.outputs.overlaylib_version != '' && steps.publish.outputs.modrinth-version != ''
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: |
+          python3 -m pip install --quiet --disable-pip-version-check requests packaging
+          python3 .github/scripts/pin_overlaylib.py \
+            --version-id "${{ steps.publish.outputs.modrinth-version }}" \
+            --overlaylib-version "${{ steps.version.outputs.overlaylib_version }}"

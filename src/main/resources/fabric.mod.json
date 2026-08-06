@@ -36,5 +36,15 @@
 	},
 	"suggests": {
 		"modmenu": ">=${modmenu_version}"
+	},
+	"custom": {
+		"mc-publish": {
+			"dependencies": [
+				"fabric-api@>=${fabric_version}(required){modrinth:P7dR8mSH}{curseforge:306612}",
+				"overlaylib@~${overlaylib_version}(required){modrinth:M1B8mLoH}{curseforge:1447526}",
+				"yet_another_config_lib_v3@>=${yacl_version}(required){modrinth:1eAoo2KR}{curseforge:667299}",
+				"modmenu@>=${modmenu_version}(optional){modrinth:mOgUt4GM}{curseforge:308702}"
+			]
+		}
 	}
 }
