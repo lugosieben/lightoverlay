@@ -38,6 +38,5 @@
     "text.light-overlay.config.option.chunk_scan_range.description": "Cuantos chunks al rededor del jugador renderizan el nivel de luz. Valores más altos incrementan el área escaneada pero podrían empeorar el rendimiento.",
     "text.light-overlay.config.option.max_computations_per_tick.name": "Computación máxima del chunk por tick",
     "text.light-overlay.config.option.max_computations_per_tick.description": "La cantidad de chunks máxima que son computados en un solo tick. Reduce esto si estás experimentando lag.",
-    "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Corregir parpadeos en Iris",
-    "text.light-overlay.config.option.nearby_check_distance.name": "Radio de escaneo al cuadrado"
+    "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Corregir parpadeos en Iris"
 }

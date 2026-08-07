@@ -44,7 +44,6 @@
     "text.light-overlay.config.option.max_computations_per_tick.name": "Nombre maximal de calculs de tronçon par tick",
     "text.light-overlay.config.option.max_computations_per_tick.description": "Nombre maximal de tronçons (chunks) calculés par tick. Réduisez cette valeur si vous rencontrez des ralentissements.",
     "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Correction du scintillement d'Iris",
-    "text.light-overlay.config.option.nearby_check_distance.name": "Vérification de la distance au carré (proximité)",
     "text.light-overlay.config.option.scan_range_vertical.name": "Hauteur d'affichage",
     "text.light-overlay.config.option.scan_range_vertical.description": "Définissez le nombre de sections de chunk (d'une hauteur de 16 blocs) à traiter verticalement autour de vous pour le rendu du niveau de luminosité. Des valeurs plus élevées augmentent la zone analysée mais peuvent réduire les performances. Réduisez au préalable la portée d'analyse normale, car ce paramètre a un impact plus important.",
     "text.light-overlay.config.option.scan_range_vertical.infinite": "Infini",

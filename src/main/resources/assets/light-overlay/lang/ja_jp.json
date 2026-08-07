@@ -44,7 +44,6 @@
     "text.light-overlay.config.option.max_computations_per_tick.name": "1ティックあたりの最大チャンク計算数",
     "text.light-overlay.config.option.max_computations_per_tick.description": "1ティックで計算されるチャンクの最大数。ラグが発生する場合はこの値を下げてください。",
     "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris のちらつきを修正",
-    "text.light-overlay.config.option.nearby_check_distance.name": "近距離チェック距離の二乗",
     "text.light-overlay.config.option.scan_range_vertical.name": "上下のスキャン範囲",
     "text.light-overlay.config.option.scan_range_vertical.description": "プレイヤーから上下方向に何チャンクまで明るさレベルを描画するかを指定します。値が大きいほどスキャン範囲が広がりますが、パフォーマンスが低下する可能性があります。先に通常のスキャン範囲を下げてください。影響が大きいためです。",
     "text.light-overlay.config.option.scan_range_vertical.infinite": "無制限",

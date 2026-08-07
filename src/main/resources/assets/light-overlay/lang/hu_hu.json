@@ -44,7 +44,6 @@
     "text.light-overlay.config.option.max_computations_per_tick.name": "Max Chunk számítás Tickenként",
     "text.light-overlay.config.option.max_computations_per_tick.description": "Egyetlen tick alatt kiszámított chunkok maximális száma. Csökkentsd ezt az értéket, ha laggolást tapasztalsz.",
     "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris Villogási javítás",
-    "text.light-overlay.config.option.nearby_check_distance.name": "Közeli ellenőrzési távolság négyzete",
     "text.light-overlay.config.option.scan_range_vertical.name": "Függőleges szkennelési tartomány",
     "text.light-overlay.config.option.scan_range_vertical.description": "Hány Chunk Section (16 blokk magas egység) távolságban jelenjen meg a fényszint függőlegesen a játékostól eltávolodva. A magasabb értékek növelik a beszkennelt területet, de csökkenthetik a teljesítményt. Ezelőtt inkább a vízszintes hatótávot csökkentsd, mivel annak nagyobb a hatása.",
     "text.light-overlay.config.option.scan_range_vertical.infinite": "Végtelen",

@@ -1,4 +1,6 @@
-- add mc-publish workflow
-- make showWhenPaused config actually work using OverlayLib's renderFilter
-- make nearbyBlockDistanceSq configurable via OverlayLib's constructor parameter
-- Add "Reconstruct Renderers"
+- upgrade to OverlayLib 0.11 -> Big performance upgrade
+- bump default MAX_COMPUTATIONS_PER_TICK value
+- "Enable Overlay" toggle in config screen
+- Overlay Mode cycling keybind and command
+- Config screen keybind
+- Pin OverlayLib version automatically in mc-publish workflow

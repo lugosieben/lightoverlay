@@ -1,8 +1,7 @@
 package net.lugo.lightoverlay.renderers;
 
 import net.lugo.lightoverlay.LightOverlay;
-import net.lugo.lightoverlay.config.ModConfig;
-import net.lugo.overlaylib.OverlayRenderer;
+import net.lugo.overlaylib.renderers.CachedMeshOverlayRenderer;
 import net.lugo.overlaylib.util.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -11,7 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
-public class CarpetOverlayRenderer extends OverlayRenderer {
+public class CarpetOverlayRenderer extends CachedMeshOverlayRenderer {
     private static final Identifier CARPET_TEXTURE = Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "textures/wool.png");
     private static final float EPSILON = 1E-3f;
     private static final float CARPET_HEIGHT_BASE = 1f / 16f;
@@ -19,7 +18,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
     private static final Minecraft MC = Minecraft.getInstance();
 
     public CarpetOverlayRenderer() {
-        super(RenderPipelines.POSITION_TEX_COLOR_FOG_TRIANGLES, CARPET_TEXTURE, false, ModConfig.nearbyCheckDistanceSquared);
+        super(RenderPipelines.POSITION_TEX_COLOR_FOG_TRIANGLES, CARPET_TEXTURE, false);
     }
 
     @SuppressWarnings("DataFlowIssue")
@@ -31,7 +30,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
         float g = data.g();
         float b = data.b();
 
-        OverlayVertexHelper.squareFromTriags(
+        OverlayVertexHelper.square(
                 buffer,
                 OverlayVertexHelper.FixedAxis.Y, worldY + 1 + CARPET_HEIGHT,
                 worldX, worldZ,
@@ -44,7 +43,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
 
         // West face
         if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.west()), Direction.WEST)) {
-            OverlayVertexHelper.rectFromTriags(
+            OverlayVertexHelper.rect(
                     buffer,
                     OverlayVertexHelper.FixedAxis.X, worldX,
                     worldY + 1, worldZ,
@@ -58,7 +57,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
 
         // East face
         if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.east()), Direction.EAST)) {
-            OverlayVertexHelper.rectFromTriags(
+            OverlayVertexHelper.rect(
                     buffer,
                     OverlayVertexHelper.FixedAxis.X, worldX + 1,
                     worldY + 1, worldZ + 1,
@@ -72,7 +71,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
 
         // North face
         if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.north()), Direction.NORTH)) {
-            OverlayVertexHelper.rectFromTriags(
+            OverlayVertexHelper.rect(
                     buffer,
                     OverlayVertexHelper.FixedAxis.Z, worldZ,
                     worldX, worldY + 1,
@@ -86,7 +85,7 @@ public class CarpetOverlayRenderer extends OverlayRenderer {
 
         // South face
         if(Block.shouldRenderFace(Blocks.CARPET.white().defaultBlockState(), MC.level.getBlockState(abovePos.south()), Direction.SOUTH)) {
-            OverlayVertexHelper.rectFromTriags(
+            OverlayVertexHelper.rect(
                     buffer,
                     OverlayVertexHelper.FixedAxis.Z, worldZ + 1,
                     worldX, worldY + 1 + CARPET_HEIGHT,

@@ -12,6 +12,7 @@ import net.lugo.lightoverlay.util.ReusableBlockData;
 import net.lugo.overlaylib.Overlay;
 import net.lugo.overlaylib.OverlayRenderer;
 import net.lugo.overlaylib.managers.CachedOverlayManager;
+import net.lugo.overlaylib.util.IrisFlickerFix;
 import net.lugo.overlaylib.util.OverlayRendererBlockData;
 import net.lugo.overlaylib.util.TextureSection;
 import net.minecraft.ChatFormatting;
@@ -79,6 +80,14 @@ public class OverlayHandler {
 
     public static void init() {
         switchMode(ModConfig.rendererMode);
+        applyIrisFlickerConfig();
+    }
+
+    public static void applyIrisFlickerConfig() {
+        IrisFlickerFix flickerFix = IrisFlickerFix.getInstance();
+        flickerFix.setAnchorDistance(ModConfig.irisFlickerAnchorDistance);
+        flickerFix.setAnchorOffset(ModConfig.irisFlickerAnchorOffset);
+        flickerFix.setMaxOffset(ModConfig.irisFlickerMaxOffset);
     }
     public static void toggle() {
         setActive(!isActive);
@@ -143,6 +152,9 @@ public class OverlayHandler {
         overlay = null;
         for (Mode mode : Mode.values()) {
             mode.overlay = null;
+            if (mode.renderer != null) {
+                mode.renderer.close();
+            }
             mode.renderer = mode.createRenderer();
         }
         overlayManager.clearAll();

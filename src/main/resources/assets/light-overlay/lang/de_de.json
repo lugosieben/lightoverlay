@@ -48,7 +48,6 @@
     "text.light-overlay.config.option.max_computations_per_tick.description": "Die maximale Anzahl von Chunks, die in einem einzigen Tick berechnet werden. Verringere diesen Wert, falls Lags auftreten.",
     "text.light-overlay.config.group.experimental": "Experimentell (Ändere nichts, wenn du nicht weißt, was du tust!)",
     "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris-Flicker-Fix",
-    "text.light-overlay.config.option.nearby_check_distance.name": "Nähe-Überprüfungsdistanz (quadriert)",
     "text.light-overlay.config.category.report": "Features wünschen & Probleme melden",
     "text.light-overlay.config.button.report": "Melde ein Problem oder wünsche dir ein Feature",
     "text.light-overlay.config.button.report.description": "Öffnet die GitHub-Issues-Seite dieser Mod"

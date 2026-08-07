@@ -51,7 +51,6 @@
   "text.light-overlay.config.option.max_computations_per_tick.description": "单个游戏刻中最多计算的区块数量。如果遇到卡顿可以降低此值。",
   "text.light-overlay.config.group.experimental": "实验性（不了解请勿更改！）",
   "text.light-overlay.config.option.enable_iris_flicker_fix.name": "Iris 闪烁修复",
-  "text.light-overlay.config.option.nearby_check_distance.name": "附近检查距离（平方）",
   "text.light-overlay.config.category.report": "请求功能与报告问题",
   "text.light-overlay.config.button.report": "报告问题或请求功能",
   "text.light-overlay.config.button.report.description": "打开此模组的GitHub Issues页面"

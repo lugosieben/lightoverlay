@@ -39,10 +39,12 @@ public class ModConfig {
         static final boolean SHOW_ON_FARMLAND = false;
         static final boolean SHOW_WHEN_PAUSED = true;
         static final boolean ENABLE_IRIS_FLICKER_FIX = true;
-        static final int NEARBY_CHECK_DISTANCE_SQUARED = 16 * 16;
+        static final float IRIS_FLICKER_ANCHOR_DISTANCE = 64f;
+        static final float IRIS_FLICKER_ANCHOR_OFFSET = 3E-2f;
+        static final float IRIS_FLICKER_MAX_OFFSET = 2.5E-1f;
         static final Color VALID_COLOR = new Color(0, 255, 0, 255);
         static final Color INVALID_COLOR = new Color(255, 0, 0, 255);
-        static final int MAX_COMPUTATIONS_PER_TICK = 32;
+        static final int MAX_COMPUTATIONS_PER_TICK = 64;
     }
 
     @SerialEntry
@@ -97,9 +99,6 @@ public class ModConfig {
     public static boolean showWhenPaused = Defaults.SHOW_WHEN_PAUSED;
 
     @SerialEntry
-    public static int nearbyCheckDistanceSquared = Defaults.NEARBY_CHECK_DISTANCE_SQUARED;
-
-    @SerialEntry
     public static Color validColor = Defaults.VALID_COLOR;
 
     @SerialEntry
@@ -110,6 +109,15 @@ public class ModConfig {
 
     @SerialEntry
     public static boolean enableIrisFlickerFix = Defaults.ENABLE_IRIS_FLICKER_FIX;
+
+    @SerialEntry
+    public static float irisFlickerAnchorDistance = Defaults.IRIS_FLICKER_ANCHOR_DISTANCE;
+
+    @SerialEntry
+    public static float irisFlickerAnchorOffset = Defaults.IRIS_FLICKER_ANCHOR_OFFSET;
+
+    @SerialEntry
+    public static float irisFlickerMaxOffset = Defaults.IRIS_FLICKER_MAX_OFFSET;
 
     public static Screen makeScreen(Screen parent) {
         Option<Boolean> enableOverlayOption = Option.<Boolean>createBuilder()
@@ -354,19 +362,51 @@ public class ModConfig {
                                 .name(Component.translatable("text.light-overlay.config.group.experimental"))
                                 .option(Option.<Boolean>createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.option.enable_iris_flicker_fix.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.enable_iris_flicker_fix.description")))
                                         .binding(
                                                 Defaults.ENABLE_IRIS_FLICKER_FIX,
                                                 () -> enableIrisFlickerFix,
                                                 newVal -> enableIrisFlickerFix = newVal)
                                         .controller(TickBoxControllerBuilder::create)
                                         .build())
-                                .option(Option.<Integer>createBuilder()
-                                        .name(Component.translatable("text.light-overlay.config.option.nearby_check_distance.name"))
+                                .option(Option.<Float>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.iris_flicker_anchor_distance.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.iris_flicker_anchor_distance.description")))
                                         .binding(
-                                                Defaults.NEARBY_CHECK_DISTANCE_SQUARED,
-                                                () -> nearbyCheckDistanceSquared,
-                                                newVal -> nearbyCheckDistanceSquared = newVal)
-                                        .controller(IntegerFieldControllerBuilder::create)
+                                                Defaults.IRIS_FLICKER_ANCHOR_DISTANCE,
+                                                () -> irisFlickerAnchorDistance,
+                                                newVal -> {
+                                                    irisFlickerAnchorDistance = newVal;
+                                                    OverlayHandler.applyIrisFlickerConfig();
+                                                })
+                                        .controller(opt -> FloatFieldControllerBuilder.create(opt)
+                                                .range(1f, 512f))
+                                        .build())
+                                .option(Option.<Float>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.iris_flicker_anchor_offset.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.iris_flicker_anchor_offset.description")))
+                                        .binding(
+                                                Defaults.IRIS_FLICKER_ANCHOR_OFFSET,
+                                                () -> irisFlickerAnchorOffset,
+                                                newVal -> {
+                                                    irisFlickerAnchorOffset = newVal;
+                                                    OverlayHandler.applyIrisFlickerConfig();
+                                                })
+                                        .controller(opt -> FloatFieldControllerBuilder.create(opt)
+                                                .range(0f, 1f))
+                                        .build())
+                                .option(Option.<Float>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.iris_flicker_max_offset.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.iris_flicker_max_offset.description")))
+                                        .binding(
+                                                Defaults.IRIS_FLICKER_MAX_OFFSET,
+                                                () -> irisFlickerMaxOffset,
+                                                newVal -> {
+                                                    irisFlickerMaxOffset = newVal;
+                                                    OverlayHandler.applyIrisFlickerConfig();
+                                                })
+                                        .controller(opt -> FloatFieldControllerBuilder.create(opt)
+                                                .range(0f, 1f))
                                         .build())
                                 .option(ButtonOption.createBuilder()
                                         .name(Component.translatable("text.light-overlay.config.button.reconstruct_renderers.name"))
