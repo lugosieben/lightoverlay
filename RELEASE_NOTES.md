@@ -1,6 +1,1 @@
-- upgrade to OverlayLib 0.11 -> Big performance upgrade
-- bump default MAX_COMPUTATIONS_PER_TICK value
-- "Enable Overlay" toggle in config screen
-- Overlay Mode cycling keybind and command
-- Config screen keybind
-- Pin OverlayLib version automatically in mc-publish workflow
+- update german translation
