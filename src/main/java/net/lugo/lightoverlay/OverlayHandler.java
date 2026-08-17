@@ -23,6 +23,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.FarmlandBlock;
 
+import java.awt.Color;
+
 public class OverlayHandler {
     private static final Minecraft MC = Minecraft.getInstance();
 
@@ -67,14 +69,14 @@ public class OverlayHandler {
         //noinspection DataFlowIssue
         int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
         if (lightLevel >= ModConfig.lightLevelThresholdForDimension(MC.level) && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
-        float[] colors = ColorHelper.getOverlayColorFloats(lightLevel, MC.level);
+        Color color = ColorHelper.getOverlayColor(lightLevel, MC.level);
         if (data.block() instanceof FarmlandBlock) {
-            colors = ColorHelper.getOverlayColorFloats(lightLevel, ModConfig.lightLevelThresholdFarmland);
+            color = ColorHelper.getOverlayColor(lightLevel, ModConfig.lightLevelThresholdFarmland);
         }
 
         TextureSection textureSection = activeMode.lightLevelSpecific ? new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0) : TextureSection.SINGULAR;
 
-        return new OverlayRendererBlockData(blockPos, colors[0], colors[1], colors[2], checkerResult.yOffset(), textureSection);
+        return new OverlayRendererBlockData(blockPos, color, checkerResult.yOffset(), textureSection);
     }));
 
 

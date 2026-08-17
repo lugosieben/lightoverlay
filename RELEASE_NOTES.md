@@ -1,1 +1,2 @@
-- update german translation
+- allow for transparency in colors
+- update to overlaylib 0.12.0+26.2

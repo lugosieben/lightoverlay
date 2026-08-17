@@ -10,6 +10,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
+import java.awt.Color;
+
 public class CarpetOverlayRenderer extends CachedMeshOverlayRenderer {
     private static final Identifier CARPET_TEXTURE = Identifier.fromNamespaceAndPath(LightOverlay.MOD_ID, "textures/wool.png");
     private static final float EPSILON = 1E-3f;
@@ -26,16 +28,14 @@ public class CarpetOverlayRenderer extends CachedMeshOverlayRenderer {
     protected void addVertices(float worldX, float worldY, float worldZ, OverlayRendererBlockData data) {
         TextureSection tex = data.textureSection();
         BlockPos abovePos = data.pos().above();
-        float r = data.r();
-        float g = data.g();
-        float b = data.b();
+        Color color = data.color();
 
         OverlayVertexHelper.square(
                 buffer,
                 OverlayVertexHelper.FixedAxis.Y, worldY + 1 + CARPET_HEIGHT,
                 worldX, worldZ,
                 1f,
-                r, g, b,
+                color,
                 tex.uStart(), tex.vStart(),
                 tex.uEnd(), tex.vEnd(),
                 UVRotation.NONE
@@ -48,7 +48,7 @@ public class CarpetOverlayRenderer extends CachedMeshOverlayRenderer {
                     OverlayVertexHelper.FixedAxis.X, worldX,
                     worldY + 1, worldZ,
                     worldY + 1 + CARPET_HEIGHT, worldZ + 1,
-                    r, g, b,
+                    color,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
                     UVRotation.NONE
@@ -62,7 +62,7 @@ public class CarpetOverlayRenderer extends CachedMeshOverlayRenderer {
                     OverlayVertexHelper.FixedAxis.X, worldX + 1,
                     worldY + 1, worldZ + 1,
                     worldY + 1 + CARPET_HEIGHT, worldZ,
-                    r, g, b,
+                    color,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
                     UVRotation.NONE
@@ -76,7 +76,7 @@ public class CarpetOverlayRenderer extends CachedMeshOverlayRenderer {
                     OverlayVertexHelper.FixedAxis.Z, worldZ,
                     worldX, worldY + 1,
                     worldX + 1, worldY + 1 + CARPET_HEIGHT,
-                    r, g, b,
+                    color,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
                     UVRotation.NONE
@@ -90,7 +90,7 @@ public class CarpetOverlayRenderer extends CachedMeshOverlayRenderer {
                     OverlayVertexHelper.FixedAxis.Z, worldZ + 1,
                     worldX, worldY + 1 + CARPET_HEIGHT,
                     worldX + 1, worldY + 1,
-                    r, g, b,
+                    color,
                     tex.uStart(), tex.vStart(),
                     tex.uEnd(), tex.vEnd(),
                     UVRotation.NONE
