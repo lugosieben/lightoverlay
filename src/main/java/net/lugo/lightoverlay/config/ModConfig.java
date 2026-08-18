@@ -430,6 +430,12 @@ public class ModConfig {
                                     });
                                 })
                                 .build())
+                        .option(ButtonOption.createBuilder()
+                                .name(Component.translatable("text.light-overlay.config.button.star"))
+                                .description(OptionDescription.of(Component.translatable("text.light-overlay.config.button.star.description")))
+                                .text(Component.literal(""))
+                                .action((yaclScreen, buttonOption) -> Util.getPlatform().openUri("https://github.com/lugosieben/lightoverlay"))
+                                .build())
                         .build())
                 .save(HANDLER::save)
                 .build();

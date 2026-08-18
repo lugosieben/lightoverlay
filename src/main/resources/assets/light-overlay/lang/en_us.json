@@ -67,6 +67,8 @@
   "text.light-overlay.config.category.report": "Request Features & Report Issues",
   "text.light-overlay.config.button.report": "Report an Issue or request a Feature",
   "text.light-overlay.config.button.report.description": "Opens the GitHub Issues page of this mod",
+  "text.light-overlay.config.button.star": "Star on GitHub",
+  "text.light-overlay.config.button.star.description": "If you enjoy this mod, consider starring the repository on GitHub!",
   "text.light-overlay.config.button.reconstruct_renderers.name": "Reconstruct Renderers",
   "text.light-overlay.config.button.reconstruct_renderers.description": "Recreates the overlay renderers. Useful for applying changes without restarting the game."
 }

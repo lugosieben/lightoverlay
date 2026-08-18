@@ -1,5 +1,8 @@
 # Translate Light Overlay to your language!
 
+[![Star on GitHub](https://img.shields.io/github/stars/lugosieben/lightoverlay?style=social)](https://github.com/lugosieben/lightoverlay)
+
+
 We welcome contributions to translate Light Overlay into different languages!
 If you'd like to help, you can follow these steps:
 
