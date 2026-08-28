@@ -8,7 +8,7 @@ If you'd like to help, you can follow these steps:
 
 ### Step 1: Fork the repository on GitHub.
 
-You can [click this link](https://github.com/lugosieben/lightoverlay/fork), leave the default settings, and click "Create fork".
+Go to the [main page of this repository](https://github.com/lugosieben/lightoverlay) and click on Fork next to the Star button (which you can also press ♥️), leave the default settings, and click "Create fork".
 
 ### Step 2: Check the language files.
 
