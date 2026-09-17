@@ -6,6 +6,7 @@ import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import dev.isxander.yacl3.gui.YACLScreen;
+import com.mojang.blaze3d.Blaze3D;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lugo.lightoverlay.LightOverlay;
 import net.lugo.lightoverlay.OverlayHandler;
@@ -16,11 +17,11 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 import java.awt.*;
+import java.net.URI;
 
 
 public class ModConfig {
@@ -412,7 +413,7 @@ public class ModConfig {
                                         .name(Component.translatable("text.light-overlay.config.button.reconstruct_renderers.name"))
                                         .description(OptionDescription.of(Component.translatable("text.light-overlay.config.button.reconstruct_renderers.description")))
                                         .text(Component.literal(""))
-                                        .action((yaclScreen, buttonOption) -> OverlayHandler.reconstructRenderers())
+                                        .action((_, _) -> OverlayHandler.reconstructRenderers())
                                         .build())
                                 .build())
                         .build())
@@ -422,11 +423,11 @@ public class ModConfig {
                                 .name(Component.translatable("text.light-overlay.config.button.report"))
                                 .description(OptionDescription.of(Component.translatable("text.light-overlay.config.button.report.description")))
                                 .text(Component.literal(""))
-                                .action((yaclScreen, buttonOption) -> {
+                                .action((_, _) -> {
                                     var modContainerOpt = FabricLoader.getInstance().getModContainer(LightOverlay.MOD_ID);
                                     modContainerOpt.ifPresent(modContainer -> {
                                         var issuesUrlOpt = modContainer.getMetadata().getContact().get("issues");
-                                        issuesUrlOpt.ifPresent(url -> Util.getPlatform().openUri(url));
+                                        issuesUrlOpt.ifPresent(url -> Blaze3D.openUri(URI.create(url)));
                                     });
                                 })
                                 .build())
@@ -434,7 +435,7 @@ public class ModConfig {
                                 .name(Component.translatable("text.light-overlay.config.button.star"))
                                 .description(OptionDescription.of(Component.translatable("text.light-overlay.config.button.star.description")))
                                 .text(Component.literal(""))
-                                .action((yaclScreen, buttonOption) -> Util.getPlatform().openUri("https://github.com/lugosieben/lightoverlay"))
+                                .action((_, _) -> Blaze3D.openUri(URI.create("https://github.com/lugosieben/lightoverlay")))
                                 .build())
                         .build())
                 .save(HANDLER::save)

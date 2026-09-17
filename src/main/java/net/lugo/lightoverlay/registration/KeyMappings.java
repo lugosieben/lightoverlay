@@ -8,7 +8,6 @@ import net.lugo.lightoverlay.OverlayHandler;
 import net.lugo.lightoverlay.config.ModConfig;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 public class KeyMappings {
 
@@ -30,10 +29,10 @@ public class KeyMappings {
     }
 
     private static void registerLightOverlayKeyMapping() {
-        lightOverlayKey = new KeyMapping(BASE_KEY + ".toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F9, CATEGORY);
+        lightOverlayKey = new KeyMapping(BASE_KEY + ".toggle", InputConstants.Type.KEYBOARD, InputConstants.KEY_F9, CATEGORY);
         KeyMappingHelper.registerKeyMapping(lightOverlayKey);
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+        ClientTickEvents.END_CLIENT_TICK.register(_ -> {
             if (lightOverlayKey.consumeClick() && lightOverlayKey.isDown()) {
                 OverlayHandler.toggle();
             }
@@ -41,7 +40,7 @@ public class KeyMappings {
     }
 
     private static void registerOpenConfigKeyMapping() {
-        openConfigKey = new KeyMapping(BASE_KEY + ".openConfig", InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), CATEGORY);
+        openConfigKey = new KeyMapping(BASE_KEY + ".openConfig", InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), CATEGORY);
         KeyMappingHelper.registerKeyMapping(openConfigKey);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -52,10 +51,10 @@ public class KeyMappings {
     }
 
     private static void registerCycleModeKeyMapping() {
-        cycleModeKey = new KeyMapping(BASE_KEY + ".cycleMode", InputConstants.Type.KEYSYM, InputConstants.UNKNOWN.getValue(), CATEGORY);
+        cycleModeKey = new KeyMapping(BASE_KEY + ".cycleMode", InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), CATEGORY);
         KeyMappingHelper.registerKeyMapping(cycleModeKey);
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+        ClientTickEvents.END_CLIENT_TICK.register(_ -> {
             if (cycleModeKey.consumeClick() && cycleModeKey.isDown()) {
                 OverlayHandler.cycleMode();
             }

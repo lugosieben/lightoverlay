@@ -1,2 +1,2 @@
-- allow for transparency in colors
-- update to overlaylib 0.12.0+26.2
+- update to 26.3
+- update to overlaylib 0.12.0+26.3
