@@ -81,6 +81,11 @@ public class OverlayHandler {
 
 
     public static void init() {
+        if (ModConfig.rendererMode == null) {
+            LightOverlay.LOGGER.warn("rendererMode in config is null, resetting");
+            ModConfig.rendererMode = ModConfig.Defaults.RENDERER_MODE;
+            ModConfig.HANDLER.save();
+        }
         switchMode(ModConfig.rendererMode);
         applyIrisFlickerConfig();
     }

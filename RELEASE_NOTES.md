@@ -1,2 +1,3 @@
-- update to 26.3
-- update to overlaylib 0.12.0+26.3
+- update to overlaylib 0.12.1+26.3
+- add Number Size config
+- fix NPE with invalid config renderer mode

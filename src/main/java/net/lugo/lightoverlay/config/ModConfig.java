@@ -25,27 +25,28 @@ import java.net.URI;
 
 
 public class ModConfig {
-    private static final class Defaults {
-        static final int LIGHT_LEVEL_THRESHOLD = 1;
-        static final int LIGHT_LEVEL_THRESHOLD_NETHER = 12;
-        static final int LIGHT_LEVEL_THRESHOLD_END = 1;
-        static final int LIGHT_LEVEL_THRESHOLD_FARMLAND = 9;
-        static final int CHUNK_SCAN_RANGE = 4;
-        static final int CHUNK_SCAN_RANGE_VERTICAL = 25;
-        static final OverlayHandler.Mode RENDERER_MODE = OverlayHandler.Mode.CROSS;
-        static final boolean HIDE_GREEN = false;
-        static final boolean HIDE_TRANSPARENT = true;
-        static final boolean HIDE_WATER = true;
-        static final boolean SHOW_SPECIAL_SPAWNING_CONDITION_BLOCKS = false;
-        static final boolean SHOW_ON_FARMLAND = false;
-        static final boolean SHOW_WHEN_PAUSED = true;
-        static final boolean ENABLE_IRIS_FLICKER_FIX = true;
-        static final float IRIS_FLICKER_ANCHOR_DISTANCE = 64f;
-        static final float IRIS_FLICKER_ANCHOR_OFFSET = 3E-2f;
-        static final float IRIS_FLICKER_MAX_OFFSET = 2.5E-1f;
-        static final Color VALID_COLOR = new Color(0, 255, 0, 255);
-        static final Color INVALID_COLOR = new Color(255, 0, 0, 255);
-        static final int MAX_COMPUTATIONS_PER_TICK = 64;
+    public static final class Defaults {
+        public static final int LIGHT_LEVEL_THRESHOLD = 1;
+        public static final int LIGHT_LEVEL_THRESHOLD_NETHER = 12;
+        public static final int LIGHT_LEVEL_THRESHOLD_END = 1;
+        public static final int LIGHT_LEVEL_THRESHOLD_FARMLAND = 9;
+        public static final int CHUNK_SCAN_RANGE = 4;
+        public static final int CHUNK_SCAN_RANGE_VERTICAL = 25;
+        public static final OverlayHandler.Mode RENDERER_MODE = OverlayHandler.Mode.CROSS;
+        public static final boolean HIDE_GREEN = false;
+        public static final boolean HIDE_TRANSPARENT = true;
+        public static final boolean HIDE_WATER = true;
+        public static final boolean SHOW_SPECIAL_SPAWNING_CONDITION_BLOCKS = false;
+        public static final boolean SHOW_ON_FARMLAND = false;
+        public static final boolean SHOW_WHEN_PAUSED = true;
+        public static final boolean ENABLE_IRIS_FLICKER_FIX = true;
+        public static final float IRIS_FLICKER_ANCHOR_DISTANCE = 64f;
+        public static final float IRIS_FLICKER_ANCHOR_OFFSET = 3E-2f;
+        public static final float IRIS_FLICKER_MAX_OFFSET = 2.5E-1f;
+        public static final Color VALID_COLOR = new Color(0, 255, 0, 255);
+        public static final Color INVALID_COLOR = new Color(255, 0, 0, 255);
+        public static final float NUMBER_SCALE = 1.0f;
+        public static final int MAX_COMPUTATIONS_PER_TICK = 64;
     }
 
     @SerialEntry
@@ -104,6 +105,9 @@ public class ModConfig {
 
     @SerialEntry
     public static Color invalidColor = Defaults.INVALID_COLOR;
+
+    @SerialEntry
+    public static float numberScale = Defaults.NUMBER_SCALE;
 
     @SerialEntry
     public static int maxComputationsPerTick = Defaults.MAX_COMPUTATIONS_PER_TICK;
@@ -358,6 +362,21 @@ public class ModConfig {
                                 .controller(opt -> IntegerSliderControllerBuilder.create(opt)
                                         .range(1, 128)
                                         .step(1))
+                                .build())
+                        .option(Option.<Integer>createBuilder()
+                                .name(Component.translatable("text.light-overlay.config.option.number_scale.name"))
+                                .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.number_scale.description")))
+                                .binding(
+                                        Math.round(Defaults.NUMBER_SCALE * 100f),
+                                        () -> Math.round(numberScale * 100f),
+                                        newVal -> {
+                                            numberScale = newVal / 100f;
+                                            OverlayHandler.clearAll();
+                                        })
+                                .controller(opt -> IntegerSliderControllerBuilder.create(opt)
+                                        .range(10, 100)
+                                        .step(5)
+                                        .formatValue(v -> Component.literal(v + "%")))
                                 .build())
                         .group(OptionGroup.createBuilder()
                                 .name(Component.translatable("text.light-overlay.config.group.experimental"))
