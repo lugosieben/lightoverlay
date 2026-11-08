@@ -1,4 +1,2 @@
-- update to overlaylib 0.12.1+26.3
-- add Number Size config
-- fix NPE with invalid config renderer mode
-- italian translation by [@heytittino](https://github.com/heytittino)
+- add Russian localization by @WinxInter
+- add Spanish (Argentina) localization by @Texaliuz
