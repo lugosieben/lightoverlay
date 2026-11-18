@@ -46,9 +46,9 @@
   "text.light-overlay.config.option.show_on_farmland.name": "Pokaż na grządce",
   "text.light-overlay.config.option.show_on_farmland.description": "Włącza wyświetlanie na grządce. Moby nigdy nie mogą się tu pojawiać, ale uprawy potrzebują określonego poziomu światła bloku w nocy, gdy nie są wystawione na działanie nieba.",
   "text.light-overlay.config.group.customize": "Personalizacja",
-  "text.light-overlay.config.option.valid_color.name": "Kolor poprawny",
+  "text.light-overlay.config.option.valid_color.name": "Kolor prawidłowy",
   "text.light-overlay.config.option.valid_color.description": "Kolor nakładki, gdy poziom światła jest równy progowi lub wyższy. Domyślnie zielony",
-  "text.light-overlay.config.option.invalid_color.name": "Kolor niepoprawny",
+  "text.light-overlay.config.option.invalid_color.name": "Kolor nieprawidłowy",
   "text.light-overlay.config.option.invalid_color.description": "Kolor nakładki, gdy poziom światła jest niższy od progu. Domyślnie czerwony",
   "text.light-overlay.config.option.number_scale.name": "Rozmiar liczb",
   "text.light-overlay.config.option.number_scale.description": "Rozmiar liczb w trybie liczb. 100% to normalny rozmiar, niższe wartości zmniejszają liczbę w stronę środka bloku.",
@@ -72,5 +72,5 @@
   "text.light-overlay.config.button.star": "Daj gwiazdkę na GitHubie",
   "text.light-overlay.config.button.star.description": "Jeśli podoba ci się ten mod, rozważ dodanie gwiazdki repozytorium na GitHubie!",
   "text.light-overlay.config.button.reconstruct_renderers.name": "Uruchom ponownie renderery",
-  "text.light-overlay.config.button.reconstruct_renderers.description": "Tworzy nakładkę rendererów od nowa. Przydatne do zastosowania zmian bez ponownego uruchamiania gry."
+  "text.light-overlay.config.button.reconstruct_renderers.description": "Tworzy renderery nakładki od nowa. Przydatne do zastosowania zmian bez ponownego uruchamiania gry."
 }
