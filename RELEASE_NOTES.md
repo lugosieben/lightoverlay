@@ -1,2 +1,3 @@
-- add Russian localization by @WinxInter
-- add Spanish (Argentina) localization by @Texaliuz
+- Add "show night-only spawns" option
+- add Polish localization by @0x00ACAB
+- add Ukrainian localization by @Gambian-Mapper
