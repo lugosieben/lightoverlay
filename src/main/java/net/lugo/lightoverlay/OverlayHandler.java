@@ -20,6 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.FarmlandBlock;
 
@@ -67,14 +68,16 @@ public class OverlayHandler {
         OverlayChecker.CheckerResult checkerResult = OverlayChecker.shouldRenderOverlay(data);
         if (!checkerResult.shouldRender()) return OverlayRendererBlockData.NO_RENDER;
         //noinspection DataFlowIssue
-        int lightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
-        if (lightLevel >= ModConfig.lightLevelThresholdForDimension(MC.level) && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
-        Color color = ColorHelper.getOverlayColor(lightLevel, MC.level);
-        if (data.block() instanceof FarmlandBlock) {
-            color = ColorHelper.getOverlayColor(lightLevel, ModConfig.lightLevelThresholdFarmland);
-        }
+        int blockLightLevel = MC.level.getBrightness(LightLayer.BLOCK, blockPos.above());
+        int threshold = data.block() instanceof FarmlandBlock
+                ? ModConfig.lightLevelThresholdFarmland
+                : ModConfig.lightLevelThresholdForDimension(MC.level);
+        if (blockLightLevel >= threshold && ModConfig.hideGreen) return OverlayRendererBlockData.NO_RENDER;
+        Color color = ModConfig.nightOnlySpawnsYellow && MC.level.dimension().equals(Level.OVERWORLD)
+                ? ColorHelper.getOverlayColorWithWarning(blockLightLevel, MC.level.getBrightness(LightLayer.SKY, blockPos.above()), threshold)
+                : ColorHelper.getOverlayColor(blockLightLevel, threshold);
 
-        TextureSection textureSection = activeMode.lightLevelSpecific ? new TextureSection(lightLevelSpecificTextureSectionData, lightLevel, 0) : TextureSection.SINGULAR;
+        TextureSection textureSection = activeMode.lightLevelSpecific ? new TextureSection(lightLevelSpecificTextureSectionData, blockLightLevel, 0) : TextureSection.SINGULAR;
 
         return new OverlayRendererBlockData(blockPos, color, checkerResult.yOffset(), textureSection);
     }));

@@ -33,6 +33,7 @@ public class ModConfig {
         public static final int CHUNK_SCAN_RANGE = 4;
         public static final int CHUNK_SCAN_RANGE_VERTICAL = 25;
         public static final OverlayHandler.Mode RENDERER_MODE = OverlayHandler.Mode.CROSS;
+        public static final boolean NIGHT_ONLY_SPAWNS_YELLOW = false;
         public static final boolean HIDE_GREEN = false;
         public static final boolean HIDE_TRANSPARENT = true;
         public static final boolean HIDE_WATER = true;
@@ -45,6 +46,7 @@ public class ModConfig {
         public static final float IRIS_FLICKER_MAX_OFFSET = 2.5E-1f;
         public static final Color VALID_COLOR = new Color(0, 255, 0, 255);
         public static final Color INVALID_COLOR = new Color(255, 0, 0, 255);
+        public static final Color WARNING_COLOR = new Color(255, 255, 0, 255);
         public static final float NUMBER_SCALE = 1.0f;
         public static final int MAX_COMPUTATIONS_PER_TICK = 64;
     }
@@ -83,6 +85,9 @@ public class ModConfig {
     public static OverlayHandler.Mode rendererMode = Defaults.RENDERER_MODE;
 
     @SerialEntry
+    public static boolean nightOnlySpawnsYellow = Defaults.NIGHT_ONLY_SPAWNS_YELLOW;
+
+    @SerialEntry
     public static boolean hideGreen = Defaults.HIDE_GREEN;
 
     @SerialEntry
@@ -105,6 +110,9 @@ public class ModConfig {
 
     @SerialEntry
     public static Color invalidColor = Defaults.INVALID_COLOR;
+
+    @SerialEntry
+    public static Color warningColor = Defaults.WARNING_COLOR;
 
     @SerialEntry
     public static float numberScale = Defaults.NUMBER_SCALE;
@@ -184,6 +192,18 @@ public class ModConfig {
                                         .controller(opt -> EnumControllerBuilder.create(opt)
                                                 .enumClass(OverlayHandler.Mode.class)
                                                 .formatValue(OverlayHandler.Mode::getDisplayName))
+                                        .build())
+                                .option(Option.<Boolean>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.night_only_spawns_yellow.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.night_only_spawns_yellow.description")))
+                                        .binding(
+                                                Defaults.NIGHT_ONLY_SPAWNS_YELLOW,
+                                                () -> nightOnlySpawnsYellow,
+                                                newVal -> {
+                                                    nightOnlySpawnsYellow = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
+                                        .controller(TickBoxControllerBuilder::create)
                                         .build())
                                 .build())
                         .group(OptionGroup.createBuilder()
@@ -331,6 +351,19 @@ public class ModConfig {
                                                 () -> invalidColor,
                                                 newVal -> {
                                                     invalidColor = newVal;
+                                                    OverlayHandler.clearAll();
+                                                })
+                                        .controller(opt -> ColorControllerBuilder.create(opt)
+                                                .allowAlpha(true))
+                                        .build())
+                                .option(Option.<Color>createBuilder()
+                                        .name(Component.translatable("text.light-overlay.config.option.warning_color.name"))
+                                        .description(OptionDescription.of(Component.translatable("text.light-overlay.config.option.warning_color.description")))
+                                        .binding(
+                                                Defaults.WARNING_COLOR,
+                                                () -> warningColor,
+                                                newVal -> {
+                                                    warningColor = newVal;
                                                     OverlayHandler.clearAll();
                                                 })
                                         .controller(opt -> ColorControllerBuilder.create(opt)

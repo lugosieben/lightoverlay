@@ -50,6 +50,8 @@
   "text.light-overlay.config.option.valid_color.description": "The Overlay Color when the Light Level is equal or higher than the Threshold. Defaults to green",
   "text.light-overlay.config.option.invalid_color.name": "Invalid Color",
   "text.light-overlay.config.option.invalid_color.description": "The Overlay Color when the Light Level is less than the Threshold. Defaults to red",
+  "text.light-overlay.config.option.warning_color.name": "Warning Color",
+  "text.light-overlay.config.option.warning_color.description": "The Overlay Color when \"Show night-only spawns as yellow/warning\" is enabled and the light level is less than the threshold but the block is exposed to the sky",
   "text.light-overlay.config.option.number_scale.name": "Number Size",
   "text.light-overlay.config.option.number_scale.description": "The size of the numbers in Number Mode. 100% is the normal size, lower values shrink the number towards the center of the block.",
   "text.light-overlay.config.category.misc": "Miscellaneous",
@@ -72,5 +74,7 @@
   "text.light-overlay.config.button.star": "Star on GitHub",
   "text.light-overlay.config.button.star.description": "If you enjoy this mod, consider starring the repository on GitHub!",
   "text.light-overlay.config.button.reconstruct_renderers.name": "Reconstruct Renderers",
-  "text.light-overlay.config.button.reconstruct_renderers.description": "Recreates the overlay renderers. Useful for applying changes without restarting the game."
+  "text.light-overlay.config.button.reconstruct_renderers.description": "Recreates the overlay renderers. Useful for applying changes without restarting the game.",
+  "text.light-overlay.config.option.night_only_spawns_yellow.name": "Show night-only spawns (yellow/warning)",
+  "text.light-overlay.config.option.night_only_spawns_yellow.description": "Changes red/invalid spots to yellow/warning if the sky level (daylight) is preventing spawns at day, but the block level is not. This means at night mobs will still spawn here."
 }
